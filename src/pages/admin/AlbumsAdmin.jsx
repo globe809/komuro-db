@@ -19,6 +19,7 @@ const EMPTY_FORM = {
   month: '',
   day: '',
   albumType: 'studio',
+  producer: '',
   tracks: [],
   imageUrl: '',
   imagePath: '',
@@ -214,6 +215,14 @@ export default function AlbumsAdmin() {
                     value={form.day}
                     onChange={(e) => setField('day', e.target.value)}
                   />
+                </div>
+              </div>
+
+              {/* 專輯類型 + 製作人 */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="form-label">製作人</label>
+                  <input className="form-input" value={form.producer} onChange={e => setField('producer', e.target.value)} placeholder="製作人" />
                 </div>
               </div>
 

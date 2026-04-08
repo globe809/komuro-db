@@ -97,6 +97,7 @@ export default function AlbumDetail() {
           <p className="text-gray-500 mb-5">{album.artistName}</p>
 
           <InfoRow label="發行日期" value={formatReleaseDate(album.year, album.month, album.day)} />
+          <InfoRow label="製作人" value={album.producer} />
           {album.notes && (
             <div className="mt-3 p-3 bg-gray-50 rounded-lg text-sm text-gray-600 leading-relaxed">
               {album.notes}

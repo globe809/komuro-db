@@ -1,11 +1,17 @@
 import { useState, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Music } from 'lucide-react'
+import { Music, ArrowUpDown } from 'lucide-react'
 import { useCollection } from '../hooks/useFirestore'
 import FilterPanel from '../components/FilterPanel'
 import SingleCard from '../components/SingleCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { SINGLE_TYPES } from '../utils/constants'
+import { toSortableDate } from '../utils/formatDate'
+
+const SORT_OPTIONS = [
+  { value: 'date_desc', label: '發行日期：新→舊' },
+  { value: 'date_asc', label: '發行日期：舊→新' },
+]
 
 export default function Singles() {
   const [searchParams] = useSearchParams()
@@ -13,24 +19,22 @@ export default function Singles() {
   const [selectedArtist, setSelectedArtist] = useState('')
   const [selectedYear, setSelectedYear] = useState('')
   const [selectedType, setSelectedType] = useState('')
+  const [sortBy, setSortBy] = useState('date_desc')
 
   const { data: singles, loading } = useCollection('singles', 'year', 'desc')
 
-  // 取得藝人清單
   const artists = useMemo(() => {
     const names = [...new Set(singles.map((s) => s.artistName).filter(Boolean))]
     return names.sort().map((n) => ({ value: n, label: n }))
   }, [singles])
 
-  // 取得年份清單
   const years = useMemo(() => {
     const ys = [...new Set(singles.map((s) => s.year).filter(Boolean))]
     return ys.sort((a, b) => b - a)
   }, [singles])
 
-  // 篩選邏輯
   const filtered = useMemo(() => {
-    return singles.filter((s) => {
+    let result = singles.filter((s) => {
       const kw = keyword.toLowerCase()
       const matchKeyword =
         !keyword ||
@@ -43,7 +47,15 @@ export default function Singles() {
       const matchType = !selectedType || s.type === selectedType
       return matchKeyword && matchArtist && matchYear && matchType
     })
-  }, [singles, keyword, selectedArtist, selectedYear, selectedType])
+
+    result = [...result].sort((a, b) => {
+      const da = toSortableDate(a.year, a.month, a.day)
+      const db = toSortableDate(b.year, b.month, b.day)
+      return sortBy === 'date_asc' ? da - db : db - da
+    })
+
+    return result
+  }, [singles, keyword, selectedArtist, selectedYear, selectedType, sortBy])
 
   const resetFilters = () => {
     setKeyword('')
@@ -62,6 +74,19 @@ export default function Singles() {
             共 {filtered.length} 筆{filtered.length !== singles.length && ` / ${singles.length} 筆`}
           </span>
         )}
+        {/* 排序 */}
+        <div className="ml-auto flex items-center gap-2">
+          <ArrowUpDown size={14} className="text-gray-400" />
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="form-select text-xs py-1.5 w-40"
+          >
+            {SORT_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="mb-6">

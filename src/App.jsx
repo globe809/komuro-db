@@ -3,6 +3,8 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
 import Home from './pages/Home'
+import Artists from './pages/Artists'
+import ArtistDetail from './pages/ArtistDetail'
 import Singles from './pages/Singles'
 import SingleDetail from './pages/SingleDetail'
 import Albums from './pages/Albums'
@@ -36,6 +38,8 @@ export default function App() {
       {/* 前台公開頁面 */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/artists" element={<Artists />} />
+        <Route path="/artists/:name" element={<ArtistDetail />} />
         <Route path="/singles" element={<Singles />} />
         <Route path="/singles/:id" element={<SingleDetail />} />
         <Route path="/albums" element={<Albums />} />

@@ -16,6 +16,7 @@ import ArtistsAdmin from './pages/admin/ArtistsAdmin'
 import SinglesAdmin from './pages/admin/SinglesAdmin'
 import AlbumsAdmin from './pages/admin/AlbumsAdmin'
 import VideoWorksAdmin from './pages/admin/VideoWorksAdmin'
+import ImportAdmin from './pages/admin/ImportAdmin'
 
 function PublicLayout() {
   return (
@@ -50,6 +51,7 @@ export default function App() {
         <Route path="singles" element={<SinglesAdmin />} />
         <Route path="albums" element={<AlbumsAdmin />} />
         <Route path="video-works" element={<VideoWorksAdmin />} />
+        <Route path="import" element={<ImportAdmin />} />
       </Route>
     </Routes>
   )

@@ -37,6 +37,12 @@ export default function SinglesAdmin() {
   const closeForm = () => { setShowForm(false); setEditId(null); setForm(EMPTY_FORM) }
   const setField = (field, value) => setForm(f => ({ ...f, [field]: value }))
 
+  const handleTitleChange = (value) => {
+    const updates = { title: value }
+    if (value.includes('配信限定')) updates.type = 'digital'
+    setForm(f => ({ ...f, ...updates }))
+  }
+
   const handleSave = async (e) => {
     e.preventDefault()
     if (!form.title.trim()) return
@@ -102,7 +108,10 @@ export default function SinglesAdmin() {
               {/* 歌名 */}
               <div>
                 <label className="form-label">歌名 *</label>
-                <input className="form-input" required value={form.title} onChange={e => setField('title', e.target.value)} placeholder="單曲名稱" />
+                <input className="form-input" required value={form.title} onChange={e => handleTitleChange(e.target.value)} placeholder="單曲名稱" />
+                {form.title.includes('配信限定') && (
+                  <p className="text-xs text-green-600 mt-1">✓ 偵測到「配信限定」，已自動設定為數位單曲</p>
+                )}
               </div>
 
               {/* 藝人 */}

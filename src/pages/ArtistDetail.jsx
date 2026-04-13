@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore'
+import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../firebase'
 import { ArrowLeft, Music, Disc3, Video, Mic2, Users } from 'lucide-react'
 import SingleCard from '../components/SingleCard'
@@ -26,16 +26,29 @@ function Section({ icon: Icon, title, count, children, color }) {
   )
 }
 
-const sortByDate = (docs) =>
-  docs.map(d => ({ id: d.id, ...d.data() }))
-    .sort((a, b) => {
-      const ay = a.year ?? 0, by = b.year ?? 0
-      const am = a.month ?? 0, bm = b.month ?? 0
-      const ad = a.day ?? 0, bd = b.day ?? 0
-      if (ay !== by) return by - ay
-      if (am !== bm) return bm - am
-      return bd - ad
-    })
+const sortByDate = (items) =>
+  [...items].sort((a, b) => {
+    const ay = a.year ?? 0, by = b.year ?? 0
+    const am = a.month ?? 0, bm = b.month ?? 0
+    const ad = a.day ?? 0, bd = b.day ?? 0
+    if (ay !== by) return by - ay
+    if (am !== bm) return bm - am
+    return bd - ad
+  })
+
+// Query a collection by artistName, covering all case variants (e.g. TRF / trf)
+// to avoid Firestore case-sensitive mismatch
+async function fetchByArtist(colName, artistName) {
+  const variants = [...new Set([artistName, artistName.toLowerCase(), artistName.toUpperCase()])]
+  const snaps = await Promise.all(
+    variants.map(v => getDocs(query(collection(db, colName), where('artistName', '==', v))))
+  )
+  const seen = new Set()
+  return snaps
+    .flatMap(snap => snap.docs)
+    .filter(d => { if (seen.has(d.id)) return false; seen.add(d.id); return true })
+    .map(d => ({ id: d.id, ...d.data() }))
+}
 
 export default function ArtistDetail() {
   const { name } = useParams()
@@ -53,22 +66,24 @@ export default function ArtistDetail() {
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        // Fetch artist info (bio, visualArtUrl, members) + works in parallel
-        const [artistSnap, s, a, v, p] = await Promise.all([
-          getDocs(query(collection(db, 'artists'), where('name', '==', artistName))),
-          getDocs(query(collection(db, 'singles'), where('artistName', '==', artistName))),
-          getDocs(query(collection(db, 'albums'), where('artistName', '==', artistName))),
-          getDocs(query(collection(db, 'videoWorks'), where('artistName', '==', artistName))),
-          getDocs(query(collection(db, 'providedSongs'), where('artistName', '==', artistName))),
-        ])
-
+        // Fetch artist info separately (artists collection uses 'name' field)
+        const artistSnap = await getDocs(query(collection(db, 'artists'), where('name', '==', artistName)))
         if (!artistSnap.empty) {
           setArtistInfo({ id: artistSnap.docs[0].id, ...artistSnap.docs[0].data() })
         }
-        setSingles(sortByDate(s.docs))
-        setAlbums(sortByDate(a.docs))
-        setVideoWorks(sortByDate(v.docs))
-        setProvidedSongs(sortByDate(p.docs))
+
+        // Fetch works — cover all case variants so TRF/trf both match
+        const [s, a, v, p] = await Promise.all([
+          fetchByArtist('singles', artistName),
+          fetchByArtist('albums', artistName),
+          fetchByArtist('videoWorks', artistName),
+          fetchByArtist('providedSongs', artistName),
+        ])
+
+        setSingles(sortByDate(s))
+        setAlbums(sortByDate(a))
+        setVideoWorks(sortByDate(v))
+        setProvidedSongs(sortByDate(p))
       } catch (err) {
         console.error('ArtistDetail fetch error:', err)
       } finally {

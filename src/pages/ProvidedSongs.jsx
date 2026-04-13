@@ -1,5 +1,5 @@
 import { useMemo, useState, useRef } from 'react'
-import { Mic2, Search, X, ChevronRight, User } from 'lucide-react'
+import { Mic2, Search, X, ChevronRight, User, Disc3 } from 'lucide-react'
 import { useCollection } from '../hooks/useFirestore'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { formatReleaseDate } from '../utils/formatDate'
@@ -188,7 +188,13 @@ export default function ProvidedSongs() {
           ) : (
             filtered.map((song, i) => (
               <div key={song.id || i} className="px-4 py-3 flex items-start gap-3 hover:bg-gray-50">
-                <span className="text-gray-300 text-xs font-mono w-7 shrink-0 text-right pt-0.5">{i + 1}</span>
+                {/* 封面縮圖 */}
+                <div className="w-10 h-10 rounded overflow-hidden bg-rose-50 shrink-0 mt-0.5">
+                  {song.imageUrl
+                    ? <img src={song.imageUrl} alt={song.title} className="w-full h-full object-cover" />
+                    : <div className="w-full h-full flex items-center justify-center"><Mic2 size={14} className="text-rose-300" /></div>
+                  }
+                </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-0.5">
                     <span className="text-sm font-semibold text-gray-900">{song.title}</span>
@@ -204,6 +210,15 @@ export default function ProvidedSongs() {
                       {song.artistName}
                       <ChevronRight size={11} />
                     </button>
+                  )}
+                  {/* 收錄資訊 */}
+                  {song.sourceTitle && (
+                    <div className="text-xs text-gray-500 mb-1 flex items-center gap-1.5">
+                      <Disc3 size={11} className="text-gray-400" />
+                      {song.sourceTitle}
+                      {song.discNo && <span className="text-gray-400">· Disc {song.discNo}</span>}
+                      {song.trackNo && <span className="text-gray-400">· #{song.trackNo}</span>}
+                    </div>
                   )}
                   <div className="text-xs text-gray-400 flex flex-wrap gap-x-4">
                     {song.lyrics && <span>作詞：{song.lyrics}</span>}

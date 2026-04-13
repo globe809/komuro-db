@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Mic2, Plus, Trash2, Edit2, X, Search } from 'lucide-react'
+import { Mic2, Plus, Trash2, Edit2, X, Search, Image } from 'lucide-react'
 import { useCollection, addDocument, updateDocument, deleteDocument } from '../../hooks/useFirestore'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import { MONTHS } from '../../utils/constants'
@@ -22,6 +22,10 @@ const EMPTY_FORM = {
   lyrics: '',
   composition: '',
   arrangement: '',
+  sourceTitle: '',
+  discNo: '',
+  trackNo: '',
+  imageUrl: '',
   notes: '',
 }
 
@@ -58,6 +62,8 @@ export default function ProvidedSongsAdmin() {
         year: form.year ? Number(form.year) : null,
         month: form.month ? Number(form.month) : null,
         day: form.day ? Number(form.day) : null,
+        discNo: form.discNo ? Number(form.discNo) : null,
+        trackNo: form.trackNo ? Number(form.trackNo) : null,
       }
       if (editId) await updateDocument('providedSongs', editId, data)
       else await addDocument('providedSongs', data)
@@ -105,6 +111,7 @@ export default function ProvidedSongsAdmin() {
               <button onClick={closeForm} className="p-1 rounded hover:bg-gray-100"><X size={18} /></button>
             </div>
             <form onSubmit={handleSave} className="px-6 py-5 space-y-4">
+
               {/* 歌名 */}
               <div>
                 <label className="form-label">歌名 *</label>
@@ -157,6 +164,38 @@ export default function ProvidedSongsAdmin() {
                 </div>
               </div>
 
+              {/* 收錄資訊 */}
+              <div className="border border-gray-200 rounded-xl p-4 space-y-3 bg-gray-50">
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">收錄資訊</p>
+                <div>
+                  <label className="form-label">收錄單曲／專輯名稱</label>
+                  <input className="form-input" value={form.sourceTitle} onChange={e => setField('sourceTitle', e.target.value)} placeholder="例：SPEED 4（收錄於哪張作品）" />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="form-label">Disc No.</label>
+                    <input type="number" className="form-input" placeholder="1" min="1" value={form.discNo} onChange={e => setField('discNo', e.target.value)} />
+                  </div>
+                  <div>
+                    <label className="form-label">第幾首</label>
+                    <input type="number" className="form-input" placeholder="1" min="1" value={form.trackNo} onChange={e => setField('trackNo', e.target.value)} />
+                  </div>
+                </div>
+              </div>
+
+              {/* 圖片 URL */}
+              <div>
+                <label className="form-label flex items-center gap-1.5">
+                  <Image size={13} />封面圖片 URL
+                </label>
+                <input className="form-input" value={form.imageUrl} onChange={e => setField('imageUrl', e.target.value)} placeholder="https://..." />
+                {form.imageUrl && (
+                  <div className="mt-2 w-20 h-20 rounded-lg overflow-hidden bg-gray-100">
+                    <img src={form.imageUrl} alt="preview" className="w-full h-full object-cover" />
+                  </div>
+                )}
+              </div>
+
               {/* 備註 */}
               <div>
                 <label className="form-label">備註</label>
@@ -182,6 +221,13 @@ export default function ProvidedSongsAdmin() {
           <div className="divide-y divide-gray-50">
             {filtered.map(s => (
               <div key={s.id} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
+                {/* 封面縮圖 */}
+                <div className="w-10 h-10 rounded bg-rose-50 overflow-hidden shrink-0">
+                  {s.imageUrl
+                    ? <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover" />
+                    : <div className="w-full h-full flex items-center justify-center"><Mic2 size={14} className="text-rose-300" /></div>
+                  }
+                </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-gray-900 truncate">{s.title}</span>
@@ -189,9 +235,12 @@ export default function ProvidedSongsAdmin() {
                       {KIND_LABEL[s.kind] || s.kind}
                     </span>
                   </div>
-                  <div className="text-xs text-gray-400 mt-0.5">
-                    {s.artistName} · {formatReleaseDate(s.year, s.month, s.day)}
-                    {s.composition && ` · 作曲：${s.composition}`}
+                  <div className="text-xs text-gray-400 mt-0.5 flex gap-2 flex-wrap">
+                    <span>{s.artistName}</span>
+                    {s.sourceTitle && <span>· {s.sourceTitle}</span>}
+                    {s.discNo && <span>· D{s.discNo}</span>}
+                    {s.trackNo && <span>#{s.trackNo}</span>}
+                    <span>· {formatReleaseDate(s.year, s.month, s.day)}</span>
                   </div>
                 </div>
                 <div className="flex gap-1 shrink-0">

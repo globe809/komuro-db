@@ -20,17 +20,49 @@ export default function Artists() {
     return stats
   }, [singles, albums, videoWorks])
 
+  // Deduplicate artists by lowercase name (e.g. keep TRF, remove trf)
+  const deduped = useMemo(() => {
+    const seen = new Map()
+    for (const a of artists) {
+      const key = a.name?.toLowerCase()
+      if (!key) continue
+      if (!seen.has(key)) {
+        seen.set(key, a)
+      } else {
+        // Keep the uppercase/canonical version (prefer ALL-CAPS or mixed case over all-lowercase)
+        const existing = seen.get(key)
+        const existingIsLower = existing.name === existing.name.toLowerCase()
+        const currentIsLower = a.name === a.name.toLowerCase()
+        if (existingIsLower && !currentIsLower) seen.set(key, a)
+      }
+    }
+    return [...seen.values()]
+  }, [artists])
+
   const filtered = useMemo(() => {
-    if (!keyword) return artists
-    return artists.filter(a => a.name?.toLowerCase().includes(keyword.toLowerCase()))
-  }, [artists, keyword])
+    if (!keyword) return deduped
+    return deduped.filter(a => a.name?.toLowerCase().includes(keyword.toLowerCase()))
+  }, [deduped, keyword])
+
+  // Merge stats for case variants (TRF + trf → same bucket)
+  const mergedStats = useMemo(() => {
+    const merged = {}
+    Object.entries(artistStats).forEach(([name, stat]) => {
+      const key = name.toLowerCase()
+      if (!merged[key]) merged[key] = { singles: 0, albums: 0, videoWorks: 0 }
+      merged[key].singles += stat.singles || 0
+      merged[key].albums += stat.albums || 0
+      merged[key].videoWorks += stat.videoWorks || 0
+    })
+    return merged
+  }, [artistStats])
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center gap-2 mb-6">
         <Users size={22} className="text-teal-700" />
         <h1 className="text-2xl font-bold text-gray-900">藝人</h1>
-        {!la && <span className="text-sm text-gray-400 ml-2">共 {filtered.length} 位</span>}
+        {!la && <span className="text-sm text-gray-400 ml-2">共 {deduped.length} 位</span>}
       </div>
 
       <div className="relative mb-6">
@@ -46,7 +78,7 @@ export default function Artists() {
       {la ? <LoadingSpinner /> : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {filtered.map(artist => {
-            const stats = artistStats[artist.name] || {}
+            const stats = mergedStats[artist.name?.toLowerCase()] || {}
             const total = (stats.singles || 0) + (stats.albums || 0) + (stats.videoWorks || 0)
             return (
               <Link

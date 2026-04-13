@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
-import { Disc3, ArrowLeft, Edit, Music, Youtube } from 'lucide-react'
+import { Disc3, ArrowLeft, Edit, Youtube } from 'lucide-react'
 import { formatReleaseDate } from '../utils/formatDate'
 import { getAlbumTypeLabel } from '../utils/constants'
 import LoadingSpinner from '../components/LoadingSpinner'
@@ -12,6 +12,9 @@ const typeColors = {
   remix: 'badge-purple',
   best: 'badge-amber',
   project: 'badge-green',
+  soundtrack: 'badge-teal',
+  live: 'badge-orange',
+  instrumental: 'badge-indigo',
   box: 'badge-red',
   other: 'badge-gray',
 }
@@ -20,7 +23,7 @@ function InfoRow({ label, value }) {
   if (!value) return null
   return (
     <div className="flex gap-3 py-2 border-b border-gray-100 last:border-0">
-      <span className="text-sm text-gray-500 w-20 shrink-0">{label}</span>
+      <span className="text-sm text-gray-500 w-24 shrink-0">{label}</span>
       <span className="text-sm text-gray-800 font-medium">{value}</span>
     </div>
   )
@@ -50,6 +53,16 @@ export default function AlbumDetail() {
     )
 
   const tracks = album.tracks || []
+
+  // Group tracks by discNo
+  const discs = tracks.reduce((acc, track) => {
+    const disc = track.discNo || 1
+    if (!acc[disc]) acc[disc] = []
+    acc[disc].push(track)
+    return acc
+  }, {})
+  const discNumbers = Object.keys(discs).map(Number).sort((a, b) => a - b)
+  const hasMultipleDiscs = discNumbers.length > 1
 
   const getYoutubeEmbedUrl = (url) => {
     if (!url) return null
@@ -105,6 +118,8 @@ export default function AlbumDetail() {
 
           <InfoRow label="發行日期" value={formatReleaseDate(album.year, album.month, album.day)} />
           <InfoRow label="製作人" value={album.producer} />
+          <InfoRow label="其他製作人" value={album.otherProducers} />
+
           {album.notes && (
             <div className="mt-3 p-3 bg-gray-50 rounded-lg text-sm text-gray-600 leading-relaxed">
               {album.notes}
@@ -139,23 +154,35 @@ export default function AlbumDetail() {
             <h2 className="px-6 py-4 font-semibold text-gray-700 text-sm">
               曲目列表（{tracks.length} 首）
             </h2>
-            <div className="divide-y divide-gray-50">
-              {tracks.map((track, i) => (
-                <div key={i} className="px-6 py-3 flex gap-4 hover:bg-gray-50">
-                  <span className="text-gray-400 text-sm font-mono w-6 shrink-0 text-right">
-                    {i + 1}
-                  </span>
-                  <div className="flex-1">
-                    <div className="text-sm font-medium text-gray-800">{track.title}</div>
-                    <div className="text-xs text-gray-400 mt-0.5 flex flex-wrap gap-x-3">
-                      {track.lyrics && <span>作詞：{track.lyrics}</span>}
-                      {track.composition && <span>作曲：{track.composition}</span>}
-                      {track.arrangement && <span>編曲：{track.arrangement}</span>}
-                    </div>
+
+            {discNumbers.map(disc => (
+              <div key={disc}>
+                {hasMultipleDiscs && (
+                  <div className="px-6 py-2 bg-indigo-50 border-y border-indigo-100">
+                    <span className="text-xs font-bold text-indigo-600 uppercase tracking-wide flex items-center gap-1.5">
+                      <Disc3 size={12} /> Disc {disc}
+                    </span>
                   </div>
+                )}
+                <div className="divide-y divide-gray-50">
+                  {discs[disc].map((track, i) => (
+                    <div key={i} className="px-6 py-3 flex gap-4 hover:bg-gray-50">
+                      <span className="text-gray-400 text-sm font-mono w-6 shrink-0 text-right">
+                        {i + 1}
+                      </span>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium text-gray-800">{track.title}</div>
+                        <div className="text-xs text-gray-400 mt-0.5 flex flex-wrap gap-x-3">
+                          {track.lyrics && <span>作詞：{track.lyrics}</span>}
+                          {track.composition && <span>作曲：{track.composition}</span>}
+                          {track.arrangement && <span>編曲：{track.arrangement}</span>}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

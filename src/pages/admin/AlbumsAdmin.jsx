@@ -20,6 +20,7 @@ const EMPTY_FORM = {
   day: '',
   albumType: 'studio',
   producer: '',
+  otherProducers: '',
   tracks: [],
   imageUrl: '',
   imagePath: '',
@@ -219,14 +220,6 @@ export default function AlbumsAdmin() {
                 </div>
               </div>
 
-              {/* 專輯類型 + 製作人 */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="form-label">製作人</label>
-                  <input className="form-input" value={form.producer} onChange={e => setField('producer', e.target.value)} placeholder="製作人" />
-                </div>
-              </div>
-
               {/* 專輯類型 */}
               <div>
                 <label className="form-label">專輯類型</label>
@@ -239,6 +232,18 @@ export default function AlbumsAdmin() {
                     <option key={t.value} value={t.value}>{t.label}</option>
                   ))}
                 </select>
+              </div>
+
+              {/* 製作人 */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="form-label">製作人（主）</label>
+                  <input className="form-input" value={form.producer} onChange={e => setField('producer', e.target.value)} placeholder="主要製作人" />
+                </div>
+                <div>
+                  <label className="form-label">其他製作人</label>
+                  <input className="form-input" value={form.otherProducers} onChange={e => setField('otherProducers', e.target.value)} placeholder="多人以逗號分隔" />
+                </div>
               </div>
 
               {/* YouTube MV */}

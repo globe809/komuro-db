@@ -4,6 +4,9 @@ export const ALBUM_TYPES = [
   { value: 'remix', label: '混音專輯' },
   { value: 'best', label: '精選輯' },
   { value: 'project', label: '企劃專輯' },
+  { value: 'soundtrack', label: '原聲帶 (OST)' },
+  { value: 'live', label: '演唱會專輯' },
+  { value: 'instrumental', label: '純音樂專輯' },
   { value: 'box', label: 'BOX' },
   { value: 'other', label: '其他' },
 ]

@@ -1,11 +1,12 @@
 import { Link, NavLink } from 'react-router-dom'
-import { Music, Disc3, Video, Settings, Users } from 'lucide-react'
+import { Music, Disc3, Video, Settings, Users, Mic2 } from 'lucide-react'
 
 const navLinks = [
   { to: '/artists', label: '藝人', icon: Users },
   { to: '/singles', label: '單曲', icon: Music },
   { to: '/albums', label: '專輯', icon: Disc3 },
   { to: '/video-works', label: '影像作品', icon: Video },
+  { to: '/provided-songs', label: '提供樂曲', icon: Mic2 },
 ]
 
 export default function Navbar() {
@@ -45,7 +46,7 @@ export default function Navbar() {
           {/* Admin link */}
           <Link
             to="/admin"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-blue-300 hover:text-white hover:bg-blue-800 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-blue-300 hover:text-white hover:bg-blue-800 transition-colors shrink-0"
           >
             <Settings size={14} />
             後台管理

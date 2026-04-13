@@ -11,6 +11,7 @@ import Albums from './pages/Albums'
 import AlbumDetail from './pages/AlbumDetail'
 import VideoWorks from './pages/VideoWorks'
 import VideoWorkDetail from './pages/VideoWorkDetail'
+import ProvidedSongs from './pages/ProvidedSongs'
 
 import AdminLayout from './pages/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
@@ -18,6 +19,7 @@ import ArtistsAdmin from './pages/admin/ArtistsAdmin'
 import SinglesAdmin from './pages/admin/SinglesAdmin'
 import AlbumsAdmin from './pages/admin/AlbumsAdmin'
 import VideoWorksAdmin from './pages/admin/VideoWorksAdmin'
+import ProvidedSongsAdmin from './pages/admin/ProvidedSongsAdmin'
 import ImportAdmin from './pages/admin/ImportAdmin'
 
 function PublicLayout() {
@@ -46,6 +48,7 @@ export default function App() {
         <Route path="/albums/:id" element={<AlbumDetail />} />
         <Route path="/video-works" element={<VideoWorks />} />
         <Route path="/video-works/:id" element={<VideoWorkDetail />} />
+        <Route path="/provided-songs" element={<ProvidedSongs />} />
       </Route>
 
       {/* 後台管理頁面 */}
@@ -55,6 +58,7 @@ export default function App() {
         <Route path="singles" element={<SinglesAdmin />} />
         <Route path="albums" element={<AlbumsAdmin />} />
         <Route path="video-works" element={<VideoWorksAdmin />} />
+        <Route path="provided-songs" element={<ProvidedSongsAdmin />} />
         <Route path="import" element={<ImportAdmin />} />
       </Route>
     </Routes>

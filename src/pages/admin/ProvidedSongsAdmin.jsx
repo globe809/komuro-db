@@ -1,24 +1,32 @@
 import { useState, useMemo } from 'react'
-import { Music, Plus, Trash2, Edit2, X, Search } from 'lucide-react'
+import { Mic2, Plus, Trash2, Edit2, X, Search } from 'lucide-react'
 import { useCollection, addDocument, updateDocument, deleteDocument } from '../../hooks/useFirestore'
-import ImageUpload from '../../components/ImageUpload'
-import TrackListEditor from '../../components/TrackListEditor'
 import LoadingSpinner from '../../components/LoadingSpinner'
-import { SINGLE_TYPES, MONTHS } from '../../utils/constants'
+import { MONTHS } from '../../utils/constants'
 import { formatReleaseDate } from '../../utils/formatDate'
 
+const KIND_OPTIONS = [
+  { value: 'single', label: '單曲 (s)' },
+  { value: 'album', label: '專輯曲 (a)' },
+  { value: 'coupling', label: 'C/W (c)' },
+  { value: 'other', label: '其他 (-)' },
+]
+
+const KIND_LABEL = { album: '專輯曲', single: '單曲', coupling: 'C/W', other: '其他' }
+
 const EMPTY_FORM = {
-  title: '', artistName: '', year: '', month: '', day: '',
-  type: 'physical', producer: '',
-  lyrics: '', composition: '', arrangement: '',
-  tieUp: '', oriconPeak: '',
-  tracks: [],
-  imageUrl: '', imagePath: '', youtubeUrl: '', notes: '',
+  year: '', month: '', day: '',
+  artistName: '',
+  title: '',
+  kind: 'single',
+  lyrics: '',
+  composition: '',
+  arrangement: '',
+  notes: '',
 }
 
-export default function SinglesAdmin() {
-  const { data: singles, loading } = useCollection('singles', 'year', 'desc')
-  const { data: artists } = useCollection('artists', 'name', 'asc')
+export default function ProvidedSongsAdmin() {
+  const { data: songs, loading } = useCollection('providedSongs', 'year', 'asc')
 
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState(EMPTY_FORM)
@@ -27,13 +35,16 @@ export default function SinglesAdmin() {
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    if (!search) return singles
+    if (!search) return songs
     const kw = search.toLowerCase()
-    return singles.filter(s => s.title?.toLowerCase().includes(kw) || s.artistName?.toLowerCase().includes(kw))
-  }, [singles, search])
+    return songs.filter(s =>
+      s.title?.toLowerCase().includes(kw) ||
+      s.artistName?.toLowerCase().includes(kw)
+    )
+  }, [songs, search])
 
   const openNew = () => { setForm(EMPTY_FORM); setEditId(null); setShowForm(true) }
-  const openEdit = (s) => { setForm({ ...EMPTY_FORM, ...s, tracks: s.tracks || [] }); setEditId(s.id); setShowForm(true) }
+  const openEdit = (s) => { setForm({ ...EMPTY_FORM, ...s }); setEditId(s.id); setShowForm(true) }
   const closeForm = () => { setShowForm(false); setEditId(null); setForm(EMPTY_FORM) }
   const setField = (field, value) => setForm(f => ({ ...f, [field]: value }))
 
@@ -47,71 +58,63 @@ export default function SinglesAdmin() {
         year: form.year ? Number(form.year) : null,
         month: form.month ? Number(form.month) : null,
         day: form.day ? Number(form.day) : null,
-        oriconPeak: form.oriconPeak ? Number(form.oriconPeak) : null,
-        tracks: form.tracks.filter(t => t.title?.trim()),
       }
-      if (editId) await updateDocument('singles', editId, data)
-      else await addDocument('singles', data)
+      if (editId) await updateDocument('providedSongs', editId, data)
+      else await addDocument('providedSongs', data)
       closeForm()
     } finally { setSaving(false) }
   }
 
   const handleDelete = async (id) => {
-    if (!window.confirm('確定要刪除此單曲嗎？')) return
-    await deleteDocument('singles', id)
+    if (!window.confirm('確定要刪除此筆資料嗎？')) return
+    await deleteDocument('providedSongs', id)
   }
 
   const currentYear = new Date().getFullYear()
-  const years = Array.from({ length: currentYear - 1979 }, (_, i) => currentYear - i)
+  const years = Array.from({ length: currentYear - 1979 + 1 }, (_, i) => currentYear - i)
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <Music size={20} className="text-blue-800" />
-          <h1 className="text-xl font-bold text-gray-900">單曲管理</h1>
-          <span className="text-sm text-gray-400">（{singles.length}）</span>
+          <Mic2 size={20} className="text-rose-600" />
+          <h1 className="text-xl font-bold text-gray-900">提供樂曲管理</h1>
+          <span className="text-sm text-gray-400">（{songs.length}）</span>
         </div>
         <button onClick={openNew} className="btn-primary flex items-center gap-1.5">
-          <Plus size={15} />新增單曲
+          <Plus size={15} />新增
         </button>
       </div>
 
       <div className="relative mb-4">
         <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-        <input className="form-input pl-9" placeholder="搜尋單曲名稱或藝人..." value={search} onChange={e => setSearch(e.target.value)} />
+        <input
+          className="form-input pl-9"
+          placeholder="搜尋歌名或藝人..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
       </div>
 
       {/* 表單 Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-8 px-4 pb-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mb-8">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl mb-8">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 sticky top-0 bg-white rounded-t-2xl z-10">
-              <h2 className="text-base font-semibold">{editId ? '編輯單曲' : '新增單曲'}</h2>
+              <h2 className="text-base font-semibold">{editId ? '編輯提供樂曲' : '新增提供樂曲'}</h2>
               <button onClick={closeForm} className="p-1 rounded hover:bg-gray-100"><X size={18} /></button>
             </div>
             <form onSubmit={handleSave} className="px-6 py-5 space-y-4">
-              {/* 封面 */}
-              <div>
-                <label className="form-label">封面圖片</label>
-                <ImageUpload folder="singles" currentUrl={form.imageUrl}
-                  onUpload={({ url, path }) => { setField('imageUrl', url); setField('imagePath', path) }}
-                  onRemove={() => { setField('imageUrl', ''); setField('imagePath', '') }} />
-              </div>
-
               {/* 歌名 */}
               <div>
                 <label className="form-label">歌名 *</label>
-                <input className="form-input" required value={form.title} onChange={e => setField('title', e.target.value)} placeholder="單曲名稱" />
+                <input className="form-input" required value={form.title} onChange={e => setField('title', e.target.value)} placeholder="歌曲名稱" />
               </div>
 
               {/* 藝人 */}
               <div>
                 <label className="form-label">藝人</label>
-                <select className="form-select" value={form.artistName} onChange={e => setField('artistName', e.target.value)}>
-                  <option value="">請選擇藝人</option>
-                  {artists.map(a => <option key={a.id} value={a.name}>{a.name}</option>)}
-                </select>
+                <input className="form-input" value={form.artistName} onChange={e => setField('artistName', e.target.value)} placeholder="演唱藝人" />
               </div>
 
               {/* 發行日期 */}
@@ -130,18 +133,12 @@ export default function SinglesAdmin() {
                 </div>
               </div>
 
-              {/* 類型 + 製作人 */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="form-label">類型</label>
-                  <select className="form-select" value={form.type} onChange={e => setField('type', e.target.value)}>
-                    {SINGLE_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="form-label">製作人</label>
-                  <input className="form-input" value={form.producer} onChange={e => setField('producer', e.target.value)} placeholder="製作人" />
-                </div>
+              {/* 種別 */}
+              <div>
+                <label className="form-label">種別</label>
+                <select className="form-select" value={form.kind} onChange={e => setField('kind', e.target.value)}>
+                  {KIND_OPTIONS.map(k => <option key={k.value} value={k.value}>{k.label}</option>)}
+                </select>
               </div>
 
               {/* 作詞/作曲/編曲 */}
@@ -160,34 +157,10 @@ export default function SinglesAdmin() {
                 </div>
               </div>
 
-              {/* Tie Up + Oricon */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="form-label">Tie Up</label>
-                  <input className="form-input" value={form.tieUp} onChange={e => setField('tieUp', e.target.value)} placeholder="電視劇、廣告等" />
-                </div>
-                <div>
-                  <label className="form-label">Oricon 最高位</label>
-                  <input type="number" className="form-input" value={form.oriconPeak} onChange={e => setField('oriconPeak', e.target.value)} placeholder="例：1" min="1" />
-                </div>
-              </div>
-
-              {/* YouTube MV */}
-              <div>
-                <label className="form-label">YouTube MV 連結</label>
-                <input className="form-input" value={form.youtubeUrl} onChange={e => setField('youtubeUrl', e.target.value)} placeholder="https://www.youtube.com/watch?v=..." />
-              </div>
-
-              {/* 收錄曲目 */}
-              <div>
-                <label className="form-label">收錄曲目</label>
-                <TrackListEditor tracks={form.tracks} onChange={tracks => setField('tracks', tracks)} />
-              </div>
-
               {/* 備註 */}
               <div>
                 <label className="form-label">備註</label>
-                <textarea className="form-input h-20 resize-none" value={form.notes} onChange={e => setField('notes', e.target.value)} placeholder="其他說明..." />
+                <textarea className="form-input h-16 resize-none" value={form.notes} onChange={e => setField('notes', e.target.value)} placeholder="其他說明..." />
               </div>
 
               <div className="flex justify-end gap-3 pt-2">
@@ -209,16 +182,16 @@ export default function SinglesAdmin() {
           <div className="divide-y divide-gray-50">
             {filtered.map(s => (
               <div key={s.id} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
-                <div className="w-10 h-10 rounded bg-blue-100 overflow-hidden shrink-0">
-                  {s.imageUrl
-                    ? <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover" />
-                    : <div className="w-full h-full flex items-center justify-center"><Music size={16} className="text-blue-400" /></div>}
-                </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium text-gray-900 truncate">{s.title}</div>
-                  <div className="text-xs text-gray-400">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-900 truncate">{s.title}</span>
+                    <span className="text-xs bg-rose-50 text-rose-600 px-1.5 py-0.5 rounded shrink-0">
+                      {KIND_LABEL[s.kind] || s.kind}
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-400 mt-0.5">
                     {s.artistName} · {formatReleaseDate(s.year, s.month, s.day)}
-                    {s.oriconPeak && ` · Oricon #${s.oriconPeak}`}
+                    {s.composition && ` · 作曲：${s.composition}`}
                   </div>
                 </div>
                 <div className="flex gap-1 shrink-0">

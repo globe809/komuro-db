@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
-import { Music, ArrowLeft, Edit } from 'lucide-react'
+import { Music, ArrowLeft, Edit, Youtube } from 'lucide-react'
 import { formatReleaseDate } from '../utils/formatDate'
 import { getSingleTypeLabel } from '../utils/constants'
 import LoadingSpinner from '../components/LoadingSpinner'
@@ -39,6 +39,14 @@ export default function SingleDetail() {
     )
 
   const tracks = single.tracks || []
+
+  // Convert YouTube URL to embed URL
+  const getYoutubeEmbedUrl = (url) => {
+    if (!url) return null
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/)
+    return match ? `https://www.youtube.com/embed/${match[1]}` : null
+  }
+  const embedUrl = getYoutubeEmbedUrl(single.youtubeUrl)
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
@@ -88,6 +96,27 @@ export default function SingleDetail() {
             </div>
           )}
         </div>
+
+        {/* YouTube MV */}
+        {embedUrl && (
+          <div className="border-t border-gray-100">
+            <div className="px-6 py-4">
+              <h2 className="font-semibold text-gray-700 text-sm flex items-center gap-2 mb-3">
+                <Youtube size={16} className="text-red-500" />
+                Music Video
+              </h2>
+              <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+                <iframe
+                  className="absolute inset-0 w-full h-full rounded-lg"
+                  src={embedUrl}
+                  title="YouTube MV"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* 曲目列表 */}
         {tracks.length > 0 && (

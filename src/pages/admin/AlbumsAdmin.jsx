@@ -23,6 +23,7 @@ const EMPTY_FORM = {
   tracks: [],
   imageUrl: '',
   imagePath: '',
+  youtubeUrl: '',
   notes: '',
 }
 
@@ -238,6 +239,17 @@ export default function AlbumsAdmin() {
                     <option key={t.value} value={t.value}>{t.label}</option>
                   ))}
                 </select>
+              </div>
+
+              {/* YouTube MV */}
+              <div>
+                <label className="form-label">YouTube MV 連結</label>
+                <input
+                  className="form-input"
+                  value={form.youtubeUrl}
+                  onChange={(e) => setField('youtubeUrl', e.target.value)}
+                  placeholder="https://www.youtube.com/watch?v=..."
+                />
               </div>
 
               {/* 曲目列表 */}

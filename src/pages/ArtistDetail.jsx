@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../firebase'
@@ -8,9 +8,7 @@ import AlbumCard from '../components/AlbumCard'
 import VideoWorkCard from '../components/VideoWorkCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { formatReleaseDate } from '../utils/formatDate'
-
-const KIND_LABEL = { album: '專輯曲', single: '單曲', coupling: 'C/W', other: '其他' }
-const KIND_COLOR = { album: 'badge-blue', single: 'badge-green', coupling: 'badge-gray', other: 'badge-gray' }
+import { getProvidedSongKindLabel } from '../utils/constants'
 
 function Section({ icon: Icon, title, count, children, color }) {
   if (count === 0) return null
@@ -37,7 +35,6 @@ const sortByDate = (items) =>
   })
 
 // Query a collection by artistName, covering all case variants (e.g. TRF / trf)
-// to avoid Firestore case-sensitive mismatch
 async function fetchByArtist(colName, artistName) {
   const variants = [...new Set([artistName, artistName.toLowerCase(), artistName.toUpperCase()])]
   const snaps = await Promise.all(
@@ -52,7 +49,6 @@ async function fetchByArtist(colName, artistName) {
 
 export default function ArtistDetail() {
   const { name } = useParams()
-  // Normalize known case variants (e.g. trf → TRF)
   const rawName = decodeURIComponent(name)
   const artistName = rawName.toLowerCase() === 'trf' ? 'TRF' : rawName
 
@@ -66,13 +62,11 @@ export default function ArtistDetail() {
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        // Fetch artist info separately (artists collection uses 'name' field)
         const artistSnap = await getDocs(query(collection(db, 'artists'), where('name', '==', artistName)))
         if (!artistSnap.empty) {
           setArtistInfo({ id: artistSnap.docs[0].id, ...artistSnap.docs[0].data() })
         }
 
-        // Fetch works — cover all case variants so TRF/trf both match
         const [s, a, v, p] = await Promise.all([
           fetchByArtist('singles', artistName),
           fetchByArtist('albums', artistName),
@@ -93,18 +87,36 @@ export default function ArtistDetail() {
     fetchAll()
   }, [artistName])
 
+  // Group provided songs by sourceTitle
+  const providedGroups = useMemo(() => {
+    const groupMap = new Map()
+    providedSongs.forEach(song => {
+      const key = song.sourceTitle || ''
+      if (!groupMap.has(key)) {
+        groupMap.set(key, { sourceTitle: song.sourceTitle || '', imageUrl: '', songs: [] })
+      }
+      const group = groupMap.get(key)
+      if (!group.imageUrl && song.imageUrl) group.imageUrl = song.imageUrl
+      group.songs.push(song)
+    })
+    return [...groupMap.values()]
+  }, [providedSongs])
+
   const totalWorks = singles.length + albums.length + videoWorks.length
 
   return (
     <div>
       {/* ── Visual Art Header ── */}
-      <div className={`relative w-full ${artistInfo?.visualArtUrl ? 'h-56 sm:h-72' : 'h-32 bg-gradient-to-br from-blue-900 to-indigo-950'}`}>
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ height: 'clamp(160px, 32vh, 400px)' }}
+      >
         {artistInfo?.visualArtUrl ? (
           <>
             <img
               src={artistInfo.visualArtUrl}
               alt={artistName}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-center"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           </>
@@ -187,7 +199,7 @@ export default function ArtistDetail() {
               </div>
             </Section>
 
-            {/* ── Provided Songs ── */}
+            {/* ── Provided Songs (grouped by sourceTitle) ── */}
             {providedSongs.length > 0 && (
               <section className="mb-10">
                 <h2 className="flex items-center gap-2 text-lg font-bold mb-4 text-rose-700">
@@ -195,23 +207,58 @@ export default function ArtistDetail() {
                   提供樂曲
                   <span className="text-sm font-normal text-gray-400 ml-1">（{providedSongs.length}）</span>
                 </h2>
-                <div className="bg-white rounded-xl border border-gray-200 shadow-sm divide-y divide-gray-50">
-                  {providedSongs.map((song, i) => (
-                    <div key={song.id || i} className="px-4 py-3 flex items-center gap-3 hover:bg-gray-50">
-                      <span className="text-gray-300 text-xs font-mono w-6 shrink-0 text-right">{i + 1}</span>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-gray-800 truncate">{song.title}</div>
-                        <div className="text-xs text-gray-400 mt-0.5 flex flex-wrap gap-x-3">
-                          {song.lyrics && <span>作詞：{song.lyrics}</span>}
-                          {song.composition && <span>作曲：{song.composition}</span>}
-                          {song.arrangement && <span>編曲：{song.arrangement}</span>}
+
+                <div className="space-y-4">
+                  {providedGroups.map((group, gi) => (
+                    <div key={gi} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                      {/* Group header */}
+                      {group.sourceTitle && (
+                        <div className="flex items-center gap-3 px-4 py-3 bg-rose-50 border-b border-rose-100">
+                          {group.imageUrl && (
+                            <div className="w-10 h-10 rounded overflow-hidden shrink-0">
+                              <img src={group.imageUrl} alt={group.sourceTitle} className="w-full h-full object-cover" />
+                            </div>
+                          )}
+                          <div>
+                            <div className="text-xs text-rose-400 font-medium">收錄作品</div>
+                            <div className="text-sm font-semibold text-rose-800">{group.sourceTitle}</div>
+                          </div>
+                          <span className="ml-auto text-xs text-rose-400">{group.songs.length} 首</span>
                         </div>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        {song.year && <span className="text-xs text-gray-400">{formatReleaseDate(song.year, song.month, song.day)}</span>}
-                        <span className={`badge text-xs ${KIND_COLOR[song.kind] || 'badge-gray'}`}>
-                          {KIND_LABEL[song.kind] || song.kind}
-                        </span>
+                      )}
+
+                      {/* Songs in group */}
+                      <div className="divide-y divide-gray-50">
+                        {group.songs.map((song, si) => (
+                          <div key={song.id || si} className="px-4 py-3 flex items-start gap-3 hover:bg-gray-50">
+                            {/* Show image if no group header (songs without sourceTitle) */}
+                            {!group.sourceTitle && song.imageUrl && (
+                              <div className="w-8 h-8 rounded overflow-hidden shrink-0 mt-0.5">
+                                <img src={song.imageUrl} alt={song.title} className="w-full h-full object-cover" />
+                              </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-sm font-medium text-gray-800">{song.title}</span>
+                                {song.kind && (
+                                  <span className="text-xs bg-rose-50 text-rose-500 px-1.5 py-0.5 rounded">
+                                    {getProvidedSongKindLabel(song.kind)}
+                                  </span>
+                                )}
+                                {song.discNo && <span className="text-xs text-gray-400">D{song.discNo}</span>}
+                                {song.trackNo && <span className="text-xs text-gray-400">#{song.trackNo}</span>}
+                              </div>
+                              <div className="text-xs text-gray-400 mt-0.5 flex flex-wrap gap-x-3">
+                                {song.lyrics && <span>作詞：{song.lyrics}</span>}
+                                {song.composition && <span>作曲：{song.composition}</span>}
+                                {song.arrangement && <span>編曲：{song.arrangement}</span>}
+                              </div>
+                            </div>
+                            <div className="text-xs text-gray-400 shrink-0 pt-0.5">
+                              {formatReleaseDate(song.year, song.month, song.day)}
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   ))}

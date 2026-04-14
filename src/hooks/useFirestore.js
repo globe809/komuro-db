@@ -8,6 +8,8 @@ import {
   updateDoc,
   deleteDoc,
   doc,
+  getDoc,
+  setDoc,
   serverTimestamp,
   getDocs,
 } from 'firebase/firestore'
@@ -76,4 +78,30 @@ export async function updateDocument(collectionName, id, data) {
  */
 export async function deleteDocument(collectionName, id) {
   return deleteDoc(doc(db, collectionName, id))
+}
+
+/**
+ * 監聽單一 Firestore 文件
+ */
+export function useDocument(collectionName, id) {
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!id) { setLoading(false); return }
+    const unsub = onSnapshot(doc(db, collectionName, id), (snap) => {
+      setData(snap.exists() ? { id: snap.id, ...snap.data() } : null)
+      setLoading(false)
+    })
+    return () => unsub()
+  }, [collectionName, id])
+
+  return { data, loading }
+}
+
+/**
+ * 設定（新建或覆蓋）單一文件
+ */
+export async function setDocument(collectionName, id, data) {
+  return setDoc(doc(db, collectionName, id), { ...data, updatedAt: serverTimestamp() }, { merge: true })
 }

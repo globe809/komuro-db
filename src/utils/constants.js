@@ -17,6 +17,15 @@ export const SINGLE_TYPES = [
   { value: 'digital', label: '數位單曲' },
 ]
 
+// 提供樂曲種別
+export const PROVIDED_SONG_KINDS = [
+  { value: 'single', label: '實體單曲' },
+  { value: 'digital', label: '數位單曲' },
+  { value: 'album', label: '專輯曲' },
+  { value: 'coupling', label: 'C/W（偶合曲）' },
+  { value: 'other', label: '其他' },
+]
+
 // 影像作品格式
 export const VIDEO_FORMATS = [
   { value: 'DVD', label: 'DVD' },
@@ -49,3 +58,6 @@ export const getSingleTypeLabel = (value) =>
 
 export const getVideoFormatLabel = (value) =>
   VIDEO_FORMATS.find((f) => f.value === value)?.label ?? value
+
+export const getProvidedSongKindLabel = (value) =>
+  PROVIDED_SONG_KINDS.find((k) => k.value === value)?.label ?? value

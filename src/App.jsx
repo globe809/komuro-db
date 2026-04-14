@@ -21,6 +21,7 @@ import AlbumsAdmin from './pages/admin/AlbumsAdmin'
 import VideoWorksAdmin from './pages/admin/VideoWorksAdmin'
 import ProvidedSongsAdmin from './pages/admin/ProvidedSongsAdmin'
 import ImportAdmin from './pages/admin/ImportAdmin'
+import SiteConfigAdmin from './pages/admin/SiteConfigAdmin'
 
 function PublicLayout() {
   return (
@@ -60,6 +61,7 @@ export default function App() {
         <Route path="video-works" element={<VideoWorksAdmin />} />
         <Route path="provided-songs" element={<ProvidedSongsAdmin />} />
         <Route path="import" element={<ImportAdmin />} />
+        <Route path="site-config" element={<SiteConfigAdmin />} />
       </Route>
     </Routes>
   )

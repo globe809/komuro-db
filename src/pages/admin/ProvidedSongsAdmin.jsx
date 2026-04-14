@@ -2,17 +2,8 @@ import { useState, useMemo } from 'react'
 import { Mic2, Plus, Trash2, Edit2, X, Search, Image } from 'lucide-react'
 import { useCollection, addDocument, updateDocument, deleteDocument } from '../../hooks/useFirestore'
 import LoadingSpinner from '../../components/LoadingSpinner'
-import { MONTHS } from '../../utils/constants'
+import { MONTHS, PROVIDED_SONG_KINDS, getProvidedSongKindLabel } from '../../utils/constants'
 import { formatReleaseDate } from '../../utils/formatDate'
-
-const KIND_OPTIONS = [
-  { value: 'single', label: '單曲 (s)' },
-  { value: 'album', label: '專輯曲 (a)' },
-  { value: 'coupling', label: 'C/W (c)' },
-  { value: 'other', label: '其他 (-)' },
-]
-
-const KIND_LABEL = { album: '專輯曲', single: '單曲', coupling: 'C/W', other: '其他' }
 
 const EMPTY_FORM = {
   year: '', month: '', day: '',
@@ -144,7 +135,7 @@ export default function ProvidedSongsAdmin() {
               <div>
                 <label className="form-label">種別</label>
                 <select className="form-select" value={form.kind} onChange={e => setField('kind', e.target.value)}>
-                  {KIND_OPTIONS.map(k => <option key={k.value} value={k.value}>{k.label}</option>)}
+                  {PROVIDED_SONG_KINDS.map(k => <option key={k.value} value={k.value}>{k.label}</option>)}
                 </select>
               </div>
 
@@ -232,7 +223,7 @@ export default function ProvidedSongsAdmin() {
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-gray-900 truncate">{s.title}</span>
                     <span className="text-xs bg-rose-50 text-rose-600 px-1.5 py-0.5 rounded shrink-0">
-                      {KIND_LABEL[s.kind] || s.kind}
+                      {getProvidedSongKindLabel(s.kind)}
                     </span>
                   </div>
                   <div className="text-xs text-gray-400 mt-0.5 flex gap-2 flex-wrap">

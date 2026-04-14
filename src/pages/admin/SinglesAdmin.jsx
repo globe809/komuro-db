@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Music, Plus, Trash2, Edit2, X, Search } from 'lucide-react'
 import { useCollection, addDocument, updateDocument, deleteDocument } from '../../hooks/useFirestore'
-import ImageUpload from '../../components/ImageUpload'
 import TrackListEditor from '../../components/TrackListEditor'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import { SINGLE_TYPES, MONTHS } from '../../utils/constants'
@@ -99,10 +98,19 @@ export default function SinglesAdmin() {
             <form onSubmit={handleSave} className="px-6 py-5 space-y-4">
               {/* 封面 */}
               <div>
-                <label className="form-label">封面圖片</label>
-                <ImageUpload folder="singles" currentUrl={form.imageUrl}
-                  onUpload={({ url, path }) => { setField('imageUrl', url); setField('imagePath', path) }}
-                  onRemove={() => { setField('imageUrl', ''); setField('imagePath', '') }} />
+                <label className="form-label">封面圖片 URL</label>
+                <input
+                  className="form-input"
+                  value={form.imageUrl}
+                  onChange={e => setField('imageUrl', e.target.value)}
+                  placeholder="https://..."
+                />
+                {form.imageUrl && (
+                  <div className="mt-2 w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
+                    <img src={form.imageUrl} alt="preview" className="w-full h-full object-cover"
+                      onError={e => e.target.style.display='none'} />
+                  </div>
+                )}
               </div>
 
               {/* 歌名 */}

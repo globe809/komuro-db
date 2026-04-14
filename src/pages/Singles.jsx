@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Music, ArrowUpDown } from 'lucide-react'
 import { useCollection } from '../hooks/useFirestore'
@@ -14,12 +14,21 @@ const SORT_OPTIONS = [
 ]
 
 export default function Singles() {
-  const [searchParams] = useSearchParams()
-  const [keyword, setKeyword] = useState(searchParams.get('q') || '')
-  const [selectedArtist, setSelectedArtist] = useState('')
-  const [selectedYear, setSelectedYear] = useState('')
-  const [selectedType, setSelectedType] = useState('')
-  const [sortBy, setSortBy] = useState('date_desc')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const keyword = searchParams.get('q') || ''
+  const selectedArtist = searchParams.get('artist') || ''
+  const selectedYear = searchParams.get('year') || ''
+  const selectedType = searchParams.get('type') || ''
+  const sortBy = searchParams.get('sort') || 'date_desc'
+
+  const setParam = (key, value) => {
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev)
+      if (value) next.set(key, value)
+      else next.delete(key)
+      return next
+    }, { replace: true })
+  }
 
   const { data: singles, loading } = useCollection('singles', 'year', 'desc')
 
@@ -57,12 +66,7 @@ export default function Singles() {
     return result
   }, [singles, keyword, selectedArtist, selectedYear, selectedType, sortBy])
 
-  const resetFilters = () => {
-    setKeyword('')
-    setSelectedArtist('')
-    setSelectedYear('')
-    setSelectedType('')
-  }
+  const resetFilters = () => setSearchParams({}, { replace: true })
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
@@ -79,7 +83,7 @@ export default function Singles() {
           <ArrowUpDown size={14} className="text-gray-400" />
           <select
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
+            onChange={(e) => setParam('sort', e.target.value)}
             className="form-select text-xs py-1.5 w-40"
           >
             {SORT_OPTIONS.map((o) => (
@@ -92,13 +96,13 @@ export default function Singles() {
       <div className="mb-6">
         <FilterPanel
           keyword={keyword}
-          onKeywordChange={setKeyword}
+          onKeywordChange={(v) => setParam('q', v)}
           selectedArtist={selectedArtist}
-          onArtistChange={setSelectedArtist}
+          onArtistChange={(v) => setParam('artist', v)}
           selectedYear={selectedYear}
-          onYearChange={setSelectedYear}
+          onYearChange={(v) => setParam('year', v)}
           selectedType={selectedType}
-          onTypeChange={setSelectedType}
+          onTypeChange={(v) => setParam('type', v)}
           artists={artists}
           years={years}
           types={SINGLE_TYPES}

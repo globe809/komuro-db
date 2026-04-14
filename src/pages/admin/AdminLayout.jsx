@@ -1,5 +1,5 @@
 import { NavLink, Outlet, Link } from 'react-router-dom'
-import { LayoutDashboard, Music, Disc3, Video, Users, ArrowLeft, Upload, Mic2 } from 'lucide-react'
+import { LayoutDashboard, Music, Disc3, Video, Users, ArrowLeft, Upload, Mic2, Settings } from 'lucide-react'
 
 const sideLinks = [
   { to: '/admin', label: '總覽', icon: LayoutDashboard, end: true },
@@ -9,6 +9,7 @@ const sideLinks = [
   { to: '/admin/video-works', label: '影像作品', icon: Video },
   { to: '/admin/provided-songs', label: '提供樂曲', icon: Mic2 },
   { to: '/admin/import', label: '資料匯入', icon: Upload },
+  { to: '/admin/site-config', label: '網站設定', icon: Settings },
 ]
 
 export default function AdminLayout() {

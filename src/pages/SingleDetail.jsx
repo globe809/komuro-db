@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
-import { Music, ArrowLeft, Edit, Youtube } from 'lucide-react'
+import { Music, ArrowLeft, Edit, Youtube, ExternalLink } from 'lucide-react'
 import { formatReleaseDate } from '../utils/formatDate'
 import { getSingleTypeLabel } from '../utils/constants'
 import LoadingSpinner from '../components/LoadingSpinner'
@@ -17,10 +17,18 @@ function InfoRow({ label, value }) {
   )
 }
 
+// Convert YouTube URL to embed URL
+function getYoutubeEmbedUrl(url) {
+  if (!url) return null
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/)
+  return match ? `https://www.youtube.com/embed/${match[1]}` : null
+}
+
 export default function SingleDetail() {
   const { id } = useParams()
   const [single, setSingle] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [expandedMv, setExpandedMv] = useState(null)
 
   useEffect(() => {
     getDoc(doc(db, 'singles', id)).then((snap) => {
@@ -40,13 +48,15 @@ export default function SingleDetail() {
 
   const tracks = single.tracks || []
 
-  // Convert YouTube URL to embed URL
-  const getYoutubeEmbedUrl = (url) => {
-    if (!url) return null
-    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/)
-    return match ? `https://www.youtube.com/embed/${match[1]}` : null
-  }
-  const embedUrl = getYoutubeEmbedUrl(single.youtubeUrl)
+  // Group tracks by discNo
+  const discs = tracks.reduce((acc, track) => {
+    const disc = track.discNo || 1
+    if (!acc[disc]) acc[disc] = []
+    acc[disc].push(track)
+    return acc
+  }, {})
+  const discNumbers = Object.keys(discs).map(Number).sort((a, b) => a - b)
+  const hasMultipleDiscs = discNumbers.length > 1
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
@@ -97,49 +107,71 @@ export default function SingleDetail() {
           )}
         </div>
 
-        {/* YouTube MV */}
-        {embedUrl && (
-          <div className="border-t border-gray-100">
-            <div className="px-6 py-4">
-              <h2 className="font-semibold text-gray-700 text-sm flex items-center gap-2 mb-3">
-                <Youtube size={16} className="text-red-500" />
-                Music Video
-              </h2>
-              <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
-                <iframe
-                  className="absolute inset-0 w-full h-full rounded-lg"
-                  src={embedUrl}
-                  title="YouTube MV"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* 曲目列表 */}
         {tracks.length > 0 && (
           <div className="border-t border-gray-100">
             <h2 className="px-6 py-4 font-semibold text-gray-700 text-sm">
               收錄曲目（{tracks.length} 首）
             </h2>
-            <div className="divide-y divide-gray-50">
-              {tracks.map((track, i) => (
-                <div key={i} className="px-6 py-3 flex gap-4 hover:bg-gray-50">
-                  <span className="text-gray-400 text-sm font-mono w-6 shrink-0 text-right">{i + 1}</span>
-                  <div className="flex-1">
-                    <div className="text-sm font-medium text-gray-800">{track.title}</div>
-                    <div className="text-xs text-gray-400 mt-0.5 flex flex-wrap gap-x-3">
-                      {track.lyrics && <span>作詞：{track.lyrics}</span>}
-                      {track.composition && <span>作曲：{track.composition}</span>}
-                      {track.arrangement && <span>編曲：{track.arrangement}</span>}
-                      {track.tieUp && <span className="text-amber-600">Tie Up：{track.tieUp}</span>}
-                    </div>
+
+            {discNumbers.map(disc => (
+              <div key={disc}>
+                {hasMultipleDiscs && (
+                  <div className="px-6 py-2 bg-blue-50 border-y border-blue-100">
+                    <span className="text-xs font-bold text-blue-600 uppercase tracking-wide flex items-center gap-1.5">
+                      <Music size={12} /> Disc {disc}
+                    </span>
                   </div>
+                )}
+                <div className="divide-y divide-gray-50">
+                  {discs[disc].map((track, i) => {
+                    const embedUrl = getYoutubeEmbedUrl(track.youtubeUrl)
+                    const isOpen = expandedMv === `${disc}-${i}`
+                    return (
+                      <div key={i}>
+                        <div className="px-6 py-3 flex gap-4 hover:bg-gray-50">
+                          <span className="text-gray-400 text-sm font-mono w-6 shrink-0 text-right mt-0.5">{i + 1}</span>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium text-gray-800">{track.title}</span>
+                              {track.youtubeUrl && (
+                                <button
+                                  type="button"
+                                  onClick={() => setExpandedMv(isOpen ? null : `${disc}-${i}`)}
+                                  className="text-red-400 hover:text-red-600 transition-colors"
+                                  title="YouTube MV"
+                                >
+                                  <Youtube size={14} />
+                                </button>
+                              )}
+                            </div>
+                            <div className="text-xs text-gray-400 mt-0.5 flex flex-wrap gap-x-3">
+                              {track.lyrics && <span>作詞：{track.lyrics}</span>}
+                              {track.composition && <span>作曲：{track.composition}</span>}
+                              {track.arrangement && <span>編曲：{track.arrangement}</span>}
+                            </div>
+                          </div>
+                        </div>
+                        {/* 展開 YouTube 播放器 */}
+                        {isOpen && embedUrl && (
+                          <div className="px-6 pb-4">
+                            <div className="relative w-full rounded-lg overflow-hidden" style={{ paddingTop: '56.25%' }}>
+                              <iframe
+                                className="absolute inset-0 w-full h-full"
+                                src={embedUrl}
+                                title={`${track.title} MV`}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

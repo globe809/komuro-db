@@ -6,7 +6,6 @@ import {
   updateDocument,
   deleteDocument,
 } from '../../hooks/useFirestore'
-import ImageUpload from '../../components/ImageUpload'
 import TrackListEditor from '../../components/TrackListEditor'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import { ALBUM_TYPES, MONTHS, getAlbumTypeLabel } from '../../utils/constants'
@@ -20,7 +19,8 @@ const EMPTY_FORM = {
   day: '',
   albumType: 'studio',
   producer: '',
-  otherProducers: '',
+  executiveProducer: '',
+  oriconPeak: '',
   tracks: [],
   imageUrl: '',
   imagePath: '',
@@ -140,19 +140,19 @@ export default function AlbumsAdmin() {
             <form onSubmit={handleSave} className="px-6 py-5 space-y-5">
               {/* 封面圖 */}
               <div>
-                <label className="form-label">封面圖片</label>
-                <ImageUpload
-                  folder="albums"
-                  currentUrl={form.imageUrl}
-                  onUpload={({ url, path }) => {
-                    setField('imageUrl', url)
-                    setField('imagePath', path)
-                  }}
-                  onRemove={() => {
-                    setField('imageUrl', '')
-                    setField('imagePath', '')
-                  }}
+                <label className="form-label">封面圖片 URL</label>
+                <input
+                  className="form-input"
+                  value={form.imageUrl}
+                  onChange={e => setField('imageUrl', e.target.value)}
+                  placeholder="https://..."
                 />
+                {form.imageUrl && (
+                  <div className="mt-2 w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
+                    <img src={form.imageUrl} alt="preview" className="w-full h-full object-cover"
+                      onError={e => e.target.style.display='none'} />
+                  </div>
+                )}
               </div>
 
               {/* 專輯名稱 */}
@@ -241,8 +241,16 @@ export default function AlbumsAdmin() {
                   <input className="form-input" value={form.producer} onChange={e => setField('producer', e.target.value)} placeholder="主要製作人" />
                 </div>
                 <div>
-                  <label className="form-label">其他製作人</label>
-                  <input className="form-input" value={form.otherProducers} onChange={e => setField('otherProducers', e.target.value)} placeholder="多人以逗號分隔" />
+                  <label className="form-label">執行製作人</label>
+                  <input className="form-input" value={form.executiveProducer} onChange={e => setField('executiveProducer', e.target.value)} placeholder="多人以逗號分隔" />
+                </div>
+              </div>
+
+              {/* Oricon */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="form-label">Oricon 最高位</label>
+                  <input type="number" className="form-input" value={form.oriconPeak} onChange={e => setField('oriconPeak', e.target.value)} placeholder="例：1" min="1" />
                 </div>
               </div>
 

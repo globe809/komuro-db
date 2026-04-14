@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../firebase'
-import { ArrowLeft, Music, Disc3, Video, Mic2, Users } from 'lucide-react'
+import { ArrowLeft, Music, Disc3, Video, Mic2, Users, Youtube } from 'lucide-react'
 import SingleCard from '../components/SingleCard'
 import AlbumCard from '../components/AlbumCard'
 import VideoWorkCard from '../components/VideoWorkCard'
@@ -87,7 +87,7 @@ export default function ArtistDetail() {
     fetchAll()
   }, [artistName])
 
-  // Group provided songs by sourceTitle
+  // Group provided songs by sourceTitle, then sort within by discNo → trackNo
   const providedGroups = useMemo(() => {
     const groupMap = new Map()
     providedSongs.forEach(song => {
@@ -99,7 +99,16 @@ export default function ArtistDetail() {
       if (!group.imageUrl && song.imageUrl) group.imageUrl = song.imageUrl
       group.songs.push(song)
     })
-    return [...groupMap.values()]
+    const groups = [...groupMap.values()]
+    groups.forEach(group => {
+      group.songs.sort((a, b) => {
+        const da = a.discNo ?? 1, db = b.discNo ?? 1
+        if (da !== db) return da - db
+        const ta = a.trackNo ?? 999, tb = b.trackNo ?? 999
+        return ta - tb
+      })
+    })
+    return groups
   }, [providedSongs])
 
   const totalWorks = singles.length + albums.length + videoWorks.length
@@ -213,17 +222,21 @@ export default function ArtistDetail() {
                     <div key={gi} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                       {/* Group header */}
                       {group.sourceTitle && (
-                        <div className="flex items-center gap-3 px-4 py-3 bg-rose-50 border-b border-rose-100">
-                          {group.imageUrl && (
-                            <div className="w-10 h-10 rounded overflow-hidden shrink-0">
+                        <div className="flex items-center gap-4 px-4 py-3 bg-rose-50 border-b border-rose-100">
+                          {group.imageUrl ? (
+                            <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 shadow-sm">
                               <img src={group.imageUrl} alt={group.sourceTitle} className="w-full h-full object-cover" />
                             </div>
+                          ) : (
+                            <div className="w-16 h-16 rounded-lg bg-rose-100 flex items-center justify-center shrink-0">
+                              <Disc3 size={24} className="text-rose-400" />
+                            </div>
                           )}
-                          <div>
-                            <div className="text-xs text-rose-400 font-medium">收錄作品</div>
-                            <div className="text-sm font-semibold text-rose-800">{group.sourceTitle}</div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs text-rose-400 mb-0.5">收錄作品</div>
+                            <div className="text-base font-bold text-rose-800 truncate leading-snug">{group.sourceTitle}</div>
+                            <div className="text-xs text-rose-400 mt-1">{group.songs.length} 首</div>
                           </div>
-                          <span className="ml-auto text-xs text-rose-400">{group.songs.length} 首</span>
                         </div>
                       )}
 
@@ -247,6 +260,12 @@ export default function ArtistDetail() {
                                 )}
                                 {song.discNo && <span className="text-xs text-gray-400">D{song.discNo}</span>}
                                 {song.trackNo && <span className="text-xs text-gray-400">#{song.trackNo}</span>}
+                                {song.youtubeUrl && (
+                                  <a href={song.youtubeUrl} target="_blank" rel="noopener noreferrer"
+                                    className="text-red-400 hover:text-red-600 transition-colors" title="YouTube MV">
+                                    <Youtube size={14} />
+                                  </a>
+                                )}
                               </div>
                               <div className="text-xs text-gray-400 mt-0.5 flex flex-wrap gap-x-3">
                                 {song.lyrics && <span>作詞：{song.lyrics}</span>}

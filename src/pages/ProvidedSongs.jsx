@@ -1,5 +1,5 @@
 import { useMemo, useState, useRef } from 'react'
-import { Mic2, Search, X, ChevronRight, Disc3 } from 'lucide-react'
+import { Mic2, Search, X, ChevronRight, Disc3, Youtube } from 'lucide-react'
 import { useCollection } from '../hooks/useFirestore'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { formatReleaseDate } from '../utils/formatDate'
@@ -77,7 +77,7 @@ export default function ProvidedSongs() {
     return list
   }, [songs, search, filterKind, filterArtist, sortOrder])
 
-  // Group filtered songs by sourceTitle
+  // Group filtered songs by sourceTitle, then sort within group by discNo → trackNo
   const groupedFiltered = useMemo(() => {
     const groups = []
     const groupMap = new Map()
@@ -91,6 +91,15 @@ export default function ProvidedSongs() {
       const group = groupMap.get(key)
       if (!group.imageUrl && song.imageUrl) group.imageUrl = song.imageUrl
       group.songs.push(song)
+    })
+    // Sort songs within each group by discNo → trackNo
+    groups.forEach(group => {
+      group.songs.sort((a, b) => {
+        const da = a.discNo ?? 1, db = b.discNo ?? 1
+        if (da !== db) return da - db
+        const ta = a.trackNo ?? 999, tb = b.trackNo ?? 999
+        return ta - tb
+      })
     })
     return groups
   }, [filtered])
@@ -230,29 +239,29 @@ export default function ProvidedSongs() {
               <div key={gi} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                 {/* Group header: source title */}
                 {group.sourceTitle ? (
-                  <div className="flex items-center gap-3 px-4 py-3 bg-rose-50 border-b border-rose-100">
+                  <div className="flex items-center gap-4 px-4 py-3 bg-rose-50 border-b border-rose-100">
                     {group.imageUrl ? (
-                      <div className="w-10 h-10 rounded overflow-hidden shrink-0">
+                      <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 shadow-sm">
                         <img src={group.imageUrl} alt={group.sourceTitle} className="w-full h-full object-cover" />
                       </div>
                     ) : (
-                      <div className="w-10 h-10 rounded bg-rose-100 flex items-center justify-center shrink-0">
-                        <Disc3 size={16} className="text-rose-400" />
+                      <div className="w-16 h-16 rounded-lg bg-rose-100 flex items-center justify-center shrink-0">
+                        <Disc3 size={24} className="text-rose-400" />
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs text-rose-400">收錄作品</div>
-                      <div className="text-sm font-semibold text-rose-800 truncate">{group.sourceTitle}</div>
+                      <div className="text-xs text-rose-400 mb-0.5">收錄作品</div>
+                      <div className="text-base font-bold text-rose-800 truncate leading-snug">{group.sourceTitle}</div>
                       {!filterArtist && group.artistName && (
                         <button
                           onClick={() => handleArtistClick(group.artistName)}
-                          className="text-xs text-rose-500 hover:text-rose-700 flex items-center gap-0.5 mt-0.5"
+                          className="text-xs text-rose-500 hover:text-rose-700 flex items-center gap-0.5 mt-1"
                         >
                           {group.artistName} <ChevronRight size={10} />
                         </button>
                       )}
+                      <div className="text-xs text-rose-400 mt-1">{group.songs.length} 首</div>
                     </div>
-                    <span className="text-xs text-rose-400 shrink-0">{group.songs.length} 首</span>
                   </div>
                 ) : (
                   /* Songs without sourceTitle: minimal header */
@@ -281,6 +290,12 @@ export default function ProvidedSongs() {
                           )}
                           {song.discNo && <span className="text-xs text-gray-400">D{song.discNo}</span>}
                           {song.trackNo && <span className="text-xs text-gray-400">#{song.trackNo}</span>}
+                          {song.youtubeUrl && (
+                            <a href={song.youtubeUrl} target="_blank" rel="noopener noreferrer"
+                              className="text-red-400 hover:text-red-600 transition-colors" title="YouTube MV">
+                              <Youtube size={14} />
+                            </a>
+                          )}
                         </div>
                         {!filterArtist && (
                           <button

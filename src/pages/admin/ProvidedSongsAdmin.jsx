@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Mic2, Plus, Trash2, Edit2, X, Search, Image } from 'lucide-react'
+import { Mic2, Plus, Trash2, Edit2, X, Search, Image, Youtube } from 'lucide-react'
 import { useCollection, addDocument, updateDocument, deleteDocument } from '../../hooks/useFirestore'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import { MONTHS, PROVIDED_SONG_KINDS, getProvidedSongKindLabel } from '../../utils/constants'
@@ -17,6 +17,7 @@ const EMPTY_FORM = {
   discNo: '',
   trackNo: '',
   imageUrl: '',
+  youtubeUrl: '',
   notes: '',
 }
 
@@ -185,6 +186,19 @@ export default function ProvidedSongsAdmin() {
                     <img src={form.imageUrl} alt="preview" className="w-full h-full object-cover" />
                   </div>
                 )}
+              </div>
+
+              {/* YouTube MV */}
+              <div>
+                <label className="form-label flex items-center gap-1.5">
+                  <Youtube size={13} className="text-red-500" />YouTube MV 連結
+                </label>
+                <input
+                  className="form-input"
+                  value={form.youtubeUrl}
+                  onChange={e => setField('youtubeUrl', e.target.value)}
+                  placeholder="https://www.youtube.com/watch?v=..."
+                />
               </div>
 
               {/* 備註 */}

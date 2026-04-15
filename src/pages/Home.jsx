@@ -123,7 +123,7 @@ export default function Home() {
               onChange={e => setKeyword(e.target.value)}
               onKeyDown={e => {
                 if (e.key === 'Enter' && keyword.trim())
-                  window.location.href = `#/singles?q=${encodeURIComponent(keyword)}`
+                  window.location.href = `#/search?q=${encodeURIComponent(keyword)}`
               }}
               className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 shadow-lg bg-white"
             />

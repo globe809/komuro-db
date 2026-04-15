@@ -292,8 +292,8 @@ export default function ProvidedSongs() {
                           {song.trackNo && <span className="text-xs text-gray-400">#{song.trackNo}</span>}
                           {song.youtubeUrl && (
                             <a href={song.youtubeUrl} target="_blank" rel="noopener noreferrer"
-                              className="text-red-400 hover:text-red-600 transition-colors" title="YouTube MV">
-                              <Youtube size={14} />
+                              className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-xs font-medium hover:bg-red-200 transition-colors">
+                              <Youtube size={11} /> MV
                             </a>
                           )}
                         </div>

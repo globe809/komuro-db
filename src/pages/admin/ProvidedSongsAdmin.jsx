@@ -201,10 +201,10 @@ export default function ProvidedSongsAdmin() {
                 />
               </div>
 
-              {/* 備註 */}
+              {/* Credit */}
               <div>
-                <label className="form-label">備註</label>
-                <textarea className="form-input h-16 resize-none" value={form.notes} onChange={e => setField('notes', e.target.value)} placeholder="其他說明..." />
+                <label className="form-label">Credit（製作人員）</label>
+                <textarea className="form-input h-20 resize-y" value={form.notes} onChange={e => setField('notes', e.target.value)} placeholder="製作人員名單、版權資訊等..." />
               </div>
 
               <div className="flex justify-end gap-3 pt-2">

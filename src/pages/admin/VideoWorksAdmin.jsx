@@ -6,7 +6,6 @@ import {
   updateDocument,
   deleteDocument,
 } from '../../hooks/useFirestore'
-import ImageUpload from '../../components/ImageUpload'
 import ContentListEditor from '../../components/ContentListEditor'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import { VIDEO_FORMATS, MONTHS } from '../../utils/constants'
@@ -18,7 +17,7 @@ const EMPTY_FORM = {
   year: '',
   month: '',
   day: '',
-  format: 'DVD',
+  formats: [],      // array of format values
   contents: [],
   imageUrl: '',
   imagePath: '',
@@ -52,7 +51,13 @@ export default function VideoWorksAdmin() {
   }
 
   const openEdit = (work) => {
-    setForm({ ...EMPTY_FORM, ...work, contents: work.contents || [] })
+    // Backward-compat: old data may have format (string) instead of formats (array)
+    const formats = Array.isArray(work.formats)
+      ? work.formats
+      : work.format
+      ? [work.format]
+      : []
+    setForm({ ...EMPTY_FORM, ...work, formats, contents: work.contents || [] })
     setEditId(work.id)
     setShowForm(true)
   }
@@ -64,6 +69,13 @@ export default function VideoWorksAdmin() {
   }
 
   const setField = (field, value) => setForm((f) => ({ ...f, [field]: value }))
+
+  const toggleFormat = (value) => {
+    setForm(f => {
+      const cur = f.formats || []
+      return { ...f, formats: cur.includes(value) ? cur.filter(v => v !== value) : [...cur, value] }
+    })
+  }
 
   const handleSave = async (e) => {
     e.preventDefault()
@@ -95,6 +107,12 @@ export default function VideoWorksAdmin() {
 
   const currentYear = new Date().getFullYear()
   const years = Array.from({ length: currentYear - 1979 }, (_, i) => currentYear - i)
+
+  // Display label for format(s)
+  const formatLabel = (work) => {
+    const fmts = Array.isArray(work.formats) ? work.formats : work.format ? [work.format] : []
+    return fmts.join(' / ') || '-'
+  }
 
   return (
     <div>
@@ -135,21 +153,21 @@ export default function VideoWorksAdmin() {
             </div>
 
             <form onSubmit={handleSave} className="px-6 py-5 space-y-5">
-              {/* 封面圖 */}
+              {/* 封面圖 URL */}
               <div>
-                <label className="form-label">封面圖片</label>
-                <ImageUpload
-                  folder="video-works"
-                  currentUrl={form.imageUrl}
-                  onUpload={({ url, path }) => {
-                    setField('imageUrl', url)
-                    setField('imagePath', path)
-                  }}
-                  onRemove={() => {
-                    setField('imageUrl', '')
-                    setField('imagePath', '')
-                  }}
+                <label className="form-label">封面圖片 URL</label>
+                <input
+                  className="form-input"
+                  value={form.imageUrl}
+                  onChange={e => setField('imageUrl', e.target.value)}
+                  placeholder="https://..."
                 />
+                {form.imageUrl && (
+                  <div className="mt-2 w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
+                    <img src={form.imageUrl} alt="preview" className="w-full h-full object-cover"
+                      onError={e => e.target.style.display='none'} />
+                  </div>
+                )}
               </div>
 
               {/* 名稱 */}
@@ -174,9 +192,7 @@ export default function VideoWorksAdmin() {
                 >
                   <option value="">請選擇藝人</option>
                   {artists.map((a) => (
-                    <option key={a.id} value={a.name}>
-                      {a.name}
-                    </option>
+                    <option key={a.id} value={a.name}>{a.name}</option>
                   ))}
                 </select>
               </div>
@@ -185,50 +201,44 @@ export default function VideoWorksAdmin() {
               <div>
                 <label className="form-label">發行日期</label>
                 <div className="grid grid-cols-3 gap-2">
-                  <select
-                    className="form-select"
-                    value={form.year}
-                    onChange={(e) => setField('year', e.target.value)}
-                  >
+                  <select className="form-select" value={form.year} onChange={(e) => setField('year', e.target.value)}>
                     <option value="">年份</option>
-                    {years.map((y) => (
-                      <option key={y} value={y}>{y}</option>
-                    ))}
+                    {years.map((y) => <option key={y} value={y}>{y}</option>)}
                   </select>
-                  <select
-                    className="form-select"
-                    value={form.month}
-                    onChange={(e) => setField('month', e.target.value)}
-                  >
+                  <select className="form-select" value={form.month} onChange={(e) => setField('month', e.target.value)}>
                     <option value="">月份</option>
-                    {MONTHS.map((m) => (
-                      <option key={m.value} value={m.value}>{m.label}</option>
-                    ))}
+                    {MONTHS.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
                   </select>
-                  <input
-                    type="number"
-                    className="form-input"
-                    placeholder="日"
-                    min="1"
-                    max="31"
-                    value={form.day}
-                    onChange={(e) => setField('day', e.target.value)}
-                  />
+                  <input type="number" className="form-input" placeholder="日" min="1" max="31"
+                    value={form.day} onChange={(e) => setField('day', e.target.value)} />
                 </div>
               </div>
 
-              {/* 格式 */}
+              {/* 格式（複選） */}
               <div>
-                <label className="form-label">格式</label>
-                <select
-                  className="form-select"
-                  value={form.format}
-                  onChange={(e) => setField('format', e.target.value)}
-                >
-                  {VIDEO_FORMATS.map((f) => (
-                    <option key={f.value} value={f.value}>{f.label}</option>
-                  ))}
-                </select>
+                <label className="form-label">格式（可複選）</label>
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {VIDEO_FORMATS.map((f) => {
+                    const checked = (form.formats || []).includes(f.value)
+                    return (
+                      <button
+                        key={f.value}
+                        type="button"
+                        onClick={() => toggleFormat(f.value)}
+                        className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${
+                          checked
+                            ? 'bg-blue-800 border-blue-800 text-white'
+                            : 'bg-white border-gray-300 text-gray-600 hover:border-blue-400 hover:text-blue-700'
+                        }`}
+                      >
+                        {f.label}
+                      </button>
+                    )
+                  })}
+                </div>
+                {(form.formats || []).length === 0 && (
+                  <p className="text-xs text-gray-400 mt-1">請至少選擇一種格式</p>
+                )}
               </div>
 
               {/* 內容列表 */}
@@ -240,21 +250,19 @@ export default function VideoWorksAdmin() {
                 />
               </div>
 
-              {/* 備註 */}
+              {/* Credit */}
               <div>
-                <label className="form-label">備註</label>
+                <label className="form-label">Credit（製作人員）</label>
                 <textarea
-                  className="form-input h-20 resize-none"
+                  className="form-input h-24 resize-y"
                   value={form.notes}
                   onChange={(e) => setField('notes', e.target.value)}
-                  placeholder="其他說明..."
+                  placeholder="製作人員名單、版權資訊等..."
                 />
               </div>
 
               <div className="flex justify-end gap-3 pt-2">
-                <button type="button" onClick={closeForm} className="btn-secondary">
-                  取消
-                </button>
+                <button type="button" onClick={closeForm} className="btn-secondary">取消</button>
                 <button type="submit" disabled={saving} className="btn-primary disabled:opacity-50">
                   {saving ? '儲存中...' : editId ? '更新' : '新增'}
                 </button>
@@ -286,20 +294,14 @@ export default function VideoWorksAdmin() {
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium text-gray-900 truncate">{w.title}</div>
                   <div className="text-xs text-gray-400">
-                    {w.artistName} · {formatReleaseDate(w.year, w.month, w.day)} · {w.format}
+                    {w.artistName} · {formatReleaseDate(w.year, w.month, w.day)} · {formatLabel(w)}
                   </div>
                 </div>
                 <div className="flex gap-1 shrink-0">
-                  <button
-                    onClick={() => openEdit(w)}
-                    className="p-1.5 text-gray-400 hover:text-blue-700 hover:bg-blue-50 rounded"
-                  >
+                  <button onClick={() => openEdit(w)} className="p-1.5 text-gray-400 hover:text-blue-700 hover:bg-blue-50 rounded">
                     <Edit2 size={15} />
                   </button>
-                  <button
-                    onClick={() => handleDelete(w.id)}
-                    className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"
-                  >
+                  <button onClick={() => handleDelete(w.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded">
                     <Trash2 size={15} />
                   </button>
                 </div>

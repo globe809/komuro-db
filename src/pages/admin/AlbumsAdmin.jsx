@@ -21,6 +21,7 @@ const EMPTY_FORM = {
   producer: '',
   executiveProducer: '',
   oriconPeak: '',
+  salesRecord: '',
   tracks: [],
   imageUrl: '',
   imagePath: '',
@@ -246,11 +247,15 @@ export default function AlbumsAdmin() {
                 </div>
               </div>
 
-              {/* Oricon */}
+              {/* Oricon + 銷量 */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="form-label">Oricon 最高位</label>
                   <input type="number" className="form-input" value={form.oriconPeak} onChange={e => setField('oriconPeak', e.target.value)} placeholder="例：1" min="1" />
+                </div>
+                <div>
+                  <label className="form-label">銷量紀錄</label>
+                  <input className="form-input" value={form.salesRecord} onChange={e => setField('salesRecord', e.target.value)} placeholder="例：100.5万枚" />
                 </div>
               </div>
 
@@ -274,14 +279,14 @@ export default function AlbumsAdmin() {
                 />
               </div>
 
-              {/* 備註 */}
+              {/* Credit */}
               <div>
-                <label className="form-label">備註</label>
+                <label className="form-label">Credit（製作人員）</label>
                 <textarea
-                  className="form-input h-20 resize-none"
+                  className="form-input h-24 resize-y"
                   value={form.notes}
                   onChange={(e) => setField('notes', e.target.value)}
-                  placeholder="其他說明..."
+                  placeholder="製作人員名單、版權資訊等..."
                 />
               </div>
 

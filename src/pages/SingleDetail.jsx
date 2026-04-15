@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
-import { Music, ArrowLeft, Edit, Youtube, ExternalLink } from 'lucide-react'
+import { Music, ArrowLeft, Edit, Youtube } from 'lucide-react'
 import { formatReleaseDate } from '../utils/formatDate'
 import { getSingleTypeLabel } from '../utils/constants'
 import LoadingSpinner from '../components/LoadingSpinner'
@@ -17,7 +17,6 @@ function InfoRow({ label, value }) {
   )
 }
 
-// Convert YouTube URL to embed URL
 function getYoutubeEmbedUrl(url) {
   if (!url) return null
   const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/)
@@ -48,7 +47,6 @@ export default function SingleDetail() {
 
   const tracks = single.tracks || []
 
-  // Group tracks by discNo
   const discs = tracks.reduce((acc, track) => {
     const disc = track.discNo || 1
     if (!acc[disc]) acc[disc] = []
@@ -99,12 +97,7 @@ export default function SingleDetail() {
           <InfoRow label="製作人" value={single.producer} />
           <InfoRow label="Tie Up" value={single.tieUp} />
           <InfoRow label="Oricon 最高位" value={single.oriconPeak ? `第 ${single.oriconPeak} 位` : null} />
-
-          {single.notes && (
-            <div className="mt-4 p-3 bg-gray-50 rounded-lg text-sm text-gray-600 leading-relaxed">
-              {single.notes}
-            </div>
-          )}
+          <InfoRow label="銷量紀錄" value={single.salesRecord} />
         </div>
 
         {/* 曲目列表 */}
@@ -130,18 +123,17 @@ export default function SingleDetail() {
                     return (
                       <div key={i}>
                         <div className="px-6 py-3 flex gap-4 hover:bg-gray-50">
-                          <span className="text-gray-400 text-sm font-mono w-6 shrink-0 text-right mt-0.5">{i + 1}</span>
+                          <span className="text-gray-400 text-sm font-mono w-6 shrink-0 text-right mt-1">{i + 1}</span>
                           <div className="flex-1">
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 flex-wrap">
                               <span className="text-sm font-medium text-gray-800">{track.title}</span>
                               {track.youtubeUrl && (
                                 <button
                                   type="button"
                                   onClick={() => setExpandedMv(isOpen ? null : `${disc}-${i}`)}
-                                  className="text-red-400 hover:text-red-600 transition-colors"
-                                  title="YouTube MV"
+                                  className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-xs font-medium hover:bg-red-200 transition-colors"
                                 >
-                                  <Youtube size={14} />
+                                  <Youtube size={11} /> MV
                                 </button>
                               )}
                             </div>
@@ -152,7 +144,6 @@ export default function SingleDetail() {
                             </div>
                           </div>
                         </div>
-                        {/* 展開 YouTube 播放器 */}
                         {isOpen && embedUrl && (
                           <div className="px-6 pb-4">
                             <div className="relative w-full rounded-lg overflow-hidden" style={{ paddingTop: '56.25%' }}>
@@ -172,6 +163,14 @@ export default function SingleDetail() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Credit */}
+        {single.notes && (
+          <div className="border-t border-gray-100 px-6 py-5">
+            <h2 className="text-sm font-semibold text-gray-700 mb-3">Credit</h2>
+            <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">{single.notes}</p>
           </div>
         )}
       </div>

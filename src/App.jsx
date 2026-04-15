@@ -12,6 +12,7 @@ import AlbumDetail from './pages/AlbumDetail'
 import VideoWorks from './pages/VideoWorks'
 import VideoWorkDetail from './pages/VideoWorkDetail'
 import ProvidedSongs from './pages/ProvidedSongs'
+import SearchPage from './pages/Search'
 
 import AdminLayout from './pages/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
@@ -50,6 +51,7 @@ export default function App() {
         <Route path="/video-works" element={<VideoWorks />} />
         <Route path="/video-works/:id" element={<VideoWorkDetail />} />
         <Route path="/provided-songs" element={<ProvidedSongs />} />
+        <Route path="/search" element={<SearchPage />} />
       </Route>
 
       {/* 後台管理頁面 */}

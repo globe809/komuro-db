@@ -1,11 +1,17 @@
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Disc3 } from 'lucide-react'
+import { Disc3, ArrowUpDown } from 'lucide-react'
 import { useCollection } from '../hooks/useFirestore'
 import FilterPanel from '../components/FilterPanel'
 import AlbumCard from '../components/AlbumCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { ALBUM_TYPES } from '../utils/constants'
+import { toSortableDate } from '../utils/formatDate'
+
+const SORT_OPTIONS = [
+  { value: 'date_desc', label: '發行日期：新→舊' },
+  { value: 'date_asc', label: '發行日期：舊→新' },
+]
 
 export default function Albums() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -13,6 +19,7 @@ export default function Albums() {
   const selectedArtist = searchParams.get('artist') || ''
   const selectedYear = searchParams.get('year') || ''
   const selectedType = searchParams.get('type') || ''
+  const sortBy = searchParams.get('sort') || 'date_desc'
 
   const setParam = (key, value) => {
     setSearchParams(prev => {
@@ -36,7 +43,7 @@ export default function Albums() {
   }, [albums])
 
   const filtered = useMemo(() => {
-    return albums.filter((a) => {
+    const list = albums.filter((a) => {
       const kw = keyword.toLowerCase()
       const matchKeyword =
         !keyword ||
@@ -47,7 +54,12 @@ export default function Albums() {
       const matchType = !selectedType || a.albumType === selectedType
       return matchKeyword && matchArtist && matchYear && matchType
     })
-  }, [albums, keyword, selectedArtist, selectedYear, selectedType])
+    return [...list].sort((a, b) => {
+      const da = toSortableDate(a.year, a.month, a.day)
+      const db = toSortableDate(b.year, b.month, b.day)
+      return sortBy === 'date_asc' ? da - db : db - da
+    })
+  }, [albums, keyword, selectedArtist, selectedYear, selectedType, sortBy])
 
   const resetFilters = () => setSearchParams({}, { replace: true })
 
@@ -55,12 +67,22 @@ export default function Albums() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center gap-2 mb-6">
         <Disc3 size={22} className="text-indigo-700" />
-        <h1 className="text-2xl font-bold text-gray-900">專輯</h1>
+        <h1 className="text-2xl font-bold text-[#1d1d1f]">專輯</h1>
         {!loading && (
-          <span className="text-sm text-gray-400 ml-2">
+          <span className="text-sm text-[#6e6e73] ml-2">
             共 {filtered.length} 筆{filtered.length !== albums.length && ` / ${albums.length} 筆`}
           </span>
         )}
+        <div className="ml-auto flex items-center gap-2">
+          <ArrowUpDown size={15} className="text-[#6e6e73]" />
+          <select
+            value={sortBy}
+            onChange={e => setParam('sort', e.target.value)}
+            className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-blue-900 text-[#1d1d1f]"
+          >
+            {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+        </div>
       </div>
 
       <div className="mb-6">
@@ -83,7 +105,7 @@ export default function Albums() {
       {loading ? (
         <LoadingSpinner />
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16 text-gray-400">
+        <div className="text-center py-16 text-[#6e6e73]">
           <Disc3 size={48} className="mx-auto mb-3 opacity-30" />
           <p>沒有符合條件的專輯</p>
         </div>

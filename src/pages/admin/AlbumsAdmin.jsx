@@ -79,6 +79,8 @@ export default function AlbumsAdmin() {
         year: form.year ? Number(form.year) : null,
         month: form.month ? Number(form.month) : null,
         day: form.day ? Number(form.day) : null,
+        oriconPeak: form.oriconPeak ? Number(form.oriconPeak) : null,
+        salesRecord: form.salesRecord !== '' ? Number(form.salesRecord) : null,
         tracks: form.tracks.filter((t) => t.title?.trim()),
       }
       if (editId) {
@@ -254,8 +256,11 @@ export default function AlbumsAdmin() {
                   <input type="number" className="form-input" value={form.oriconPeak} onChange={e => setField('oriconPeak', e.target.value)} placeholder="例：1" min="1" />
                 </div>
                 <div>
-                  <label className="form-label">銷量紀錄</label>
-                  <input className="form-input" value={form.salesRecord} onChange={e => setField('salesRecord', e.target.value)} placeholder="例：100.5万枚" />
+                  <label className="form-label">銷量紀錄（萬枚）</label>
+                  <div className="flex items-center gap-2">
+                    <input type="number" step="0.1" min="0" className="form-input" value={form.salesRecord} onChange={e => setField('salesRecord', e.target.value)} placeholder="例：100.5" />
+                    <span className="text-sm text-gray-500 shrink-0">萬枚</span>
+                  </div>
                 </div>
               </div>
 

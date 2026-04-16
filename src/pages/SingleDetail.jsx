@@ -97,7 +97,7 @@ export default function SingleDetail() {
           <InfoRow label="製作人" value={single.producer} />
           <InfoRow label="Tie Up" value={single.tieUp} />
           <InfoRow label="Oricon 最高位" value={single.oriconPeak ? `第 ${single.oriconPeak} 位` : null} />
-          <InfoRow label="銷量紀錄" value={single.salesRecord} />
+          <InfoRow label="銷量紀錄" value={single.salesRecord != null && single.salesRecord !== '' ? `${single.salesRecord} 萬枚` : null} />
         </div>
 
         {/* 曲目列表 */}

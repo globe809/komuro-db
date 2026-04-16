@@ -110,7 +110,7 @@ export default function AlbumDetail() {
           <InfoRow label="製作人" value={album.producer} />
           <InfoRow label="執行製作人" value={album.executiveProducer} />
           <InfoRow label="Oricon 最高位" value={album.oriconPeak ? `第 ${album.oriconPeak} 位` : null} />
-          <InfoRow label="銷量紀錄" value={album.salesRecord} />
+          <InfoRow label="銷量紀錄" value={album.salesRecord != null && album.salesRecord !== '' ? `${album.salesRecord} 萬枚` : null} />
         </div>
 
         {/* 曲目列表 */}

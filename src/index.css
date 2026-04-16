@@ -4,7 +4,10 @@
 
 @layer base {
   body {
-    @apply bg-gray-50 text-gray-800 antialiased;
+    background-color: #f5f5f7;
+    color: #1d1d1f;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -30,8 +33,14 @@
   .form-label {
     @apply block text-sm font-medium text-gray-700 mb-1;
   }
+  /* Apple Music-style card: no border, rounded-2xl, layered shadow */
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow;
+    @apply bg-white rounded-2xl overflow-hidden transition-all duration-200;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  }
+  .card:hover {
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
   }
   .badge {
     @apply inline-block px-2 py-0.5 rounded-full text-xs font-medium;
@@ -53,5 +62,14 @@
   }
   .badge-gray {
     @apply badge bg-gray-100 text-gray-700;
+  }
+  .badge-teal {
+    @apply badge bg-teal-100 text-teal-800;
+  }
+  .badge-orange {
+    @apply badge bg-orange-100 text-orange-800;
+  }
+  .badge-indigo {
+    @apply badge bg-indigo-100 text-indigo-800;
   }
 }

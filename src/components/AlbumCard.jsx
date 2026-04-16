@@ -30,7 +30,6 @@ export default function AlbumCard({ album }) {
             <Disc3 size={40} className="text-indigo-700" />
           </div>
         )}
-        {/* 類型標籤 */}
         {albumType && (
           <div className="absolute top-2 right-2">
             <span className={`badge ${typeColors[albumType] || 'badge-gray'}`}>
@@ -42,11 +41,11 @@ export default function AlbumCard({ album }) {
 
       {/* 資訊 */}
       <div className="p-3">
-        <h3 className="font-semibold text-gray-900 text-sm leading-snug group-hover:text-blue-800 line-clamp-2">
+        <h3 className="font-semibold text-[#1d1d1f] text-sm leading-snug group-hover:text-blue-800 line-clamp-2">
           {title}
         </h3>
-        <p className="text-xs text-gray-500 mt-1">{artistName}</p>
-        <p className="text-xs text-gray-400 mt-0.5">
+        <p className="text-xs text-[#6e6e73] mt-1">{artistName}</p>
+        <p className="text-xs text-[#6e6e73]/70 mt-0.5">
           {formatReleaseDate(year, month, day)}
         </p>
       </div>

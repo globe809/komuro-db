@@ -10,7 +10,9 @@ const formatColors = {
 }
 
 export default function VideoWorkCard({ work }) {
-  const { id, title, artistName, year, month, day, format, imageUrl } = work
+  const { id, title, artistName, year, month, day, imageUrl } = work
+  // Backward-compat: support both formats[] array and legacy format string
+  const formats = Array.isArray(work.formats) ? work.formats : work.format ? [work.format] : []
 
   return (
     <Link to={`/video-works/${id}`} className="card group block">
@@ -27,22 +29,22 @@ export default function VideoWorkCard({ work }) {
             <Video size={40} className="text-gray-600" />
           </div>
         )}
-        {format && (
-          <div className="absolute top-2 right-2">
-            <span className={`badge ${formatColors[format] || 'badge-gray'}`}>
-              {format}
-            </span>
+        {formats.length > 0 && (
+          <div className="absolute top-2 right-2 flex flex-col gap-1 items-end">
+            {formats.map(f => (
+              <span key={f} className={`badge ${formatColors[f] || 'badge-gray'}`}>{f}</span>
+            ))}
           </div>
         )}
       </div>
 
       {/* 資訊 */}
       <div className="p-3">
-        <h3 className="font-semibold text-gray-900 text-sm leading-snug group-hover:text-blue-800 line-clamp-2">
+        <h3 className="font-semibold text-[#1d1d1f] text-sm leading-snug group-hover:text-blue-800 line-clamp-2">
           {title}
         </h3>
-        <p className="text-xs text-gray-500 mt-1">{artistName}</p>
-        <p className="text-xs text-gray-400 mt-0.5">
+        <p className="text-xs text-[#6e6e73] mt-1">{artistName}</p>
+        <p className="text-xs text-[#6e6e73]/70 mt-0.5">
           {formatReleaseDate(year, month, day)}
         </p>
       </div>

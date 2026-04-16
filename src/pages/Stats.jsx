@@ -1,7 +1,16 @@
 import { useMemo } from 'react'
 import { Music, Disc3, TrendingUp, Users, BarChart2 } from 'lucide-react'
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+} from 'recharts'
 import { useCollection } from '../hooks/useFirestore'
 import LoadingSpinner from '../components/LoadingSpinner'
+
+// 10 distinct colors for top-artist lines
+const ARTIST_COLORS = [
+  '#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444',
+  '#06b6d4', '#ec4899', '#84cc16', '#f97316', '#6366f1',
+]
 
 function StatBigCard({ icon: Icon, label, value, color, sub }) {
   return (
@@ -16,6 +25,30 @@ function StatBigCard({ icon: Icon, label, value, color, sub }) {
   )
 }
 
+function formatSales(v) {
+  if (!v) return '—'
+  return `${v % 1 === 0 ? v : v.toFixed(1)} 萬枚`
+}
+
+function ChartTooltip({ active, payload, label }) {
+  if (!active || !payload?.length) return null
+  return (
+    <div className="bg-white/95 backdrop-blur rounded-xl shadow-lg border border-gray-100 px-4 py-3 text-xs min-w-[120px]">
+      <p className="font-bold text-[#1d1d1f] mb-2">{label} 年</p>
+      {payload
+        .filter(p => p.value > 0)
+        .sort((a, b) => b.value - a.value)
+        .map(p => (
+          <div key={p.dataKey} className="flex justify-between gap-4 mb-0.5">
+            <span style={{ color: p.color }} className="truncate max-w-[100px]">{p.name}</span>
+            <span className="font-medium text-[#1d1d1f] shrink-0">{formatSales(p.value)}</span>
+          </div>
+        ))
+      }
+    </div>
+  )
+}
+
 export default function Stats() {
   const { data: singles, loading: ls } = useCollection('singles', 'year', 'desc')
   const { data: albums, loading: la } = useCollection('albums', 'year', 'desc')
@@ -23,32 +56,28 @@ export default function Stats() {
 
   const loading = ls || la || lar
 
-  // Total sales
+  // ── Totals ───────────────────────────────────────────────────
   const totalSingleSales = useMemo(() =>
-    singles.reduce((sum, s) => sum + (Number(s.salesRecord) || 0), 0),
-    [singles]
-  )
+    singles.reduce((sum, s) => sum + (Number(s.salesRecord) || 0), 0), [singles])
   const totalAlbumSales = useMemo(() =>
-    albums.reduce((sum, a) => sum + (Number(a.salesRecord) || 0), 0),
-    [albums]
-  )
+    albums.reduce((sum, a) => sum + (Number(a.salesRecord) || 0), 0), [albums])
 
-  // Singles with sales data
-  const singlesWithSales = useMemo(() => singles.filter(s => s.salesRecord != null && s.salesRecord !== '').length, [singles])
-  const albumsWithSales = useMemo(() => albums.filter(a => a.salesRecord != null && a.salesRecord !== '').length, [albums])
+  const singlesWithSales = useMemo(() =>
+    singles.filter(s => s.salesRecord != null && s.salesRecord !== '').length, [singles])
+  const albumsWithSales = useMemo(() =>
+    albums.filter(a => a.salesRecord != null && a.salesRecord !== '').length, [albums])
 
-  // Deduplicate artists by lowercase name
+  // ── Dedup artists ─────────────────────────────────────────────
   const dedupedArtists = useMemo(() => {
     const seen = new Map()
     for (const a of artists) {
       const key = a.name?.toLowerCase()
-      if (!key) continue
-      if (!seen.has(key)) seen.set(key, a)
+      if (key && !seen.has(key)) seen.set(key, a)
     }
     return [...seen.values()]
   }, [artists])
 
-  // Per-artist stats (case-insensitive)
+  // ── Per-artist stats (case-insensitive) ───────────────────────
   const artistStatsMap = useMemo(() => {
     const stats = {}
     singles.forEach(s => {
@@ -68,7 +97,6 @@ export default function Stats() {
     return stats
   }, [singles, albums])
 
-  // Merge with canonical names from dedupedArtists, sort by total sales desc
   const artistRanking = useMemo(() => {
     return dedupedArtists
       .map(a => {
@@ -89,10 +117,51 @@ export default function Stats() {
       .sort((a, b) => b.totalSales - a.totalSales || b.totalWorks - a.totalWorks)
   }, [dedupedArtists, artistStatsMap])
 
-  const formatSales = (v) => {
-    if (!v) return '—'
-    return `${v % 1 === 0 ? v : v.toFixed(1)} 萬枚`
-  }
+  // ── Top-10 artists (by total sales) for chart ─────────────────
+  const top10Artists = useMemo(() => artistRanking.slice(0, 10), [artistRanking])
+
+  // ── Yearly chart data ─────────────────────────────────────────
+  // Build { year → { total, [artistLower]: sales } }
+  const chartData = useMemo(() => {
+    const byYear = {}
+
+    const ensure = (y) => {
+      if (!byYear[y]) byYear[y] = { year: y, 合計: 0 }
+    }
+
+    singles.forEach(s => {
+      if (!s.year || !s.salesRecord) return
+      const sales = Number(s.salesRecord) || 0
+      ensure(s.year)
+      byYear[s.year]['合計'] += sales
+      // per top-10 artist
+      const k = s.artistName?.toLowerCase()
+      if (k) {
+        const artist = top10Artists.find(a => a.name.toLowerCase() === k)
+        if (artist) {
+          byYear[s.year][artist.name] = (byYear[s.year][artist.name] || 0) + sales
+        }
+      }
+    })
+
+    albums.forEach(a => {
+      if (!a.year || !a.salesRecord) return
+      const sales = Number(a.salesRecord) || 0
+      ensure(a.year)
+      byYear[a.year]['合計'] += sales
+      const k = a.artistName?.toLowerCase()
+      if (k) {
+        const artist = top10Artists.find(x => x.name.toLowerCase() === k)
+        if (artist) {
+          byYear[a.year][artist.name] = (byYear[a.year][artist.name] || 0) + sales
+        }
+      }
+    })
+
+    return Object.values(byYear).sort((a, b) => a.year - b.year)
+  }, [singles, albums, top10Artists])
+
+  const hasChartData = chartData.length > 0 && chartData.some(d => d['合計'] > 0)
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
@@ -103,7 +172,7 @@ export default function Stats() {
 
       {loading ? <LoadingSpinner /> : (
         <>
-          {/* 總計 */}
+          {/* ── 總計 ── */}
           <section className="mb-10">
             <h2 className="text-base font-semibold text-[#6e6e73] mb-4 flex items-center gap-2">
               <TrendingUp size={16} /> 整體統計
@@ -139,14 +208,14 @@ export default function Stats() {
             </div>
           </section>
 
-          {/* 藝人排行 */}
-          <section>
+          {/* ── 藝人排行 ── */}
+          <section className="mb-10">
             <h2 className="text-base font-semibold text-[#6e6e73] mb-4 flex items-center gap-2">
               <Users size={16} /> 藝人銷量排行
             </h2>
 
             <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
-              <div className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-0 text-xs font-semibold text-[#6e6e73] px-5 py-3 border-b border-gray-100">
+              <div className="hidden sm:grid grid-cols-[auto_1fr_auto_auto_auto] gap-0 text-xs font-semibold text-[#6e6e73] px-5 py-3 border-b border-gray-100">
                 <div className="w-8">#</div>
                 <div>藝人</div>
                 <div className="w-24 text-right">單曲銷量</div>
@@ -159,7 +228,7 @@ export default function Stats() {
               ) : (
                 <div className="divide-y divide-gray-50">
                   {artistRanking.map((a, i) => (
-                    <div key={a.name} className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-0 items-center px-5 py-3 hover:bg-[#f5f5f7] transition-colors">
+                    <div key={a.name} className="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto_auto_auto] gap-0 items-center px-5 py-3 hover:bg-[#f5f5f7] transition-colors">
                       <div className="w-8 text-sm font-bold text-[#6e6e73]">
                         {i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}
                       </div>
@@ -175,19 +244,19 @@ export default function Stats() {
                         <div className="min-w-0">
                           <div className="text-sm font-semibold text-[#1d1d1f] truncate">{a.name}</div>
                           <div className="text-xs text-[#6e6e73]">
-                            {a.singleCount > 0 && `${a.singleCount}単`}
+                            {a.singleCount > 0 && `${a.singleCount} 單曲`}
                             {a.singleCount > 0 && a.albumCount > 0 && ' · '}
-                            {a.albumCount > 0 && `${a.albumCount}アルバム`}
+                            {a.albumCount > 0 && `${a.albumCount} 專輯`}
                           </div>
                         </div>
                       </div>
-                      <div className="w-24 text-right text-sm text-[#1d1d1f]">
+                      <div className="hidden sm:block w-24 text-right text-sm text-[#1d1d1f]">
                         {a.singleSales > 0 ? formatSales(a.singleSales) : <span className="text-[#6e6e73]">—</span>}
                       </div>
-                      <div className="w-24 text-right text-sm text-[#1d1d1f]">
+                      <div className="hidden sm:block w-24 text-right text-sm text-[#1d1d1f]">
                         {a.albumSales > 0 ? formatSales(a.albumSales) : <span className="text-[#6e6e73]">—</span>}
                       </div>
-                      <div className="w-24 text-right text-sm font-bold text-[#1d1d1f]">
+                      <div className="hidden sm:block w-24 text-right text-sm font-bold text-[#1d1d1f]">
                         {a.totalSales > 0 ? formatSales(a.totalSales) : <span className="font-normal text-[#6e6e73]">—</span>}
                       </div>
                     </div>
@@ -196,6 +265,64 @@ export default function Stats() {
               )}
             </div>
           </section>
+
+          {/* ── 年度銷量折線圖 ── */}
+          {hasChartData && (
+            <section>
+              <h2 className="text-base font-semibold text-[#6e6e73] mb-4 flex items-center gap-2">
+                <TrendingUp size={16} /> 年度銷量趨勢
+              </h2>
+              <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] p-5">
+                <ResponsiveContainer width="100%" height={380}>
+                  <LineChart data={chartData} margin={{ top: 8, right: 16, left: 8, bottom: 8 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis
+                      dataKey="year"
+                      tick={{ fontSize: 11, fill: '#6e6e73' }}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis
+                      tick={{ fontSize: 11, fill: '#6e6e73' }}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={(v) => v === 0 ? '0' : `${v}萬`}
+                      width={52}
+                    />
+                    <Tooltip content={<ChartTooltip />} />
+                    <Legend
+                      wrapperStyle={{ fontSize: 11, paddingTop: 12, color: '#6e6e73' }}
+                      iconType="circle"
+                      iconSize={8}
+                    />
+                    {/* 合計 line (thick, dark) */}
+                    <Line
+                      type="monotone"
+                      dataKey="合計"
+                      stroke="#1d1d1f"
+                      strokeWidth={2.5}
+                      dot={{ r: 3, fill: '#1d1d1f' }}
+                      activeDot={{ r: 5 }}
+                      connectNulls
+                    />
+                    {/* Top-10 artist lines */}
+                    {top10Artists.map((artist, idx) => (
+                      <Line
+                        key={artist.name}
+                        type="monotone"
+                        dataKey={artist.name}
+                        stroke={ARTIST_COLORS[idx % ARTIST_COLORS.length]}
+                        strokeWidth={1.5}
+                        dot={false}
+                        activeDot={{ r: 4 }}
+                        connectNulls
+                      />
+                    ))}
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </section>
+          )}
         </>
       )}
     </div>

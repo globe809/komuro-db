@@ -11,6 +11,8 @@ import { toSortableDate } from '../utils/formatDate'
 const SORT_OPTIONS = [
   { value: 'date_desc', label: '發行日期：新→舊' },
   { value: 'date_asc', label: '發行日期：舊→新' },
+  { value: 'sales_desc', label: '銷售量：高→低' },
+  { value: 'sales_asc', label: '銷售量：低→高' },
 ]
 
 export default function Albums() {
@@ -55,6 +57,14 @@ export default function Albums() {
       return matchKeyword && matchArtist && matchYear && matchType
     })
     return [...list].sort((a, b) => {
+      if (sortBy === 'sales_desc' || sortBy === 'sales_asc') {
+        const sa = Number(a.salesRecord) || 0
+        const sb = Number(b.salesRecord) || 0
+        if (sa === 0 && sb === 0) return 0
+        if (sa === 0) return 1
+        if (sb === 0) return -1
+        return sortBy === 'sales_asc' ? sa - sb : sb - sa
+      }
       const da = toSortableDate(a.year, a.month, a.day)
       const db = toSortableDate(b.year, b.month, b.day)
       return sortBy === 'date_asc' ? da - db : db - da

@@ -13,22 +13,45 @@ const SORT_OPTIONS = [
 ]
 
 /**
+ * Returns true if the text inside brackets/dashes describes a variant
+ * (remix, version, mix, edit, instrumental, etc.)
+ */
+function isVariantContent(inner) {
+  // Matches any string that contains these keywords as whole words / boundary matches
+  return /\b(?:mix(?:es)?|remix|re-?mix|version|ver\.?|edit|instrumental|inst\.?|orchestral|acoustic|piano|mixture|extended|straight)\b/i.test(inner)
+    || /カラオケ/.test(inner)
+    || /\boff\s*vocal\b/i.test(inner)
+    || /\bbacking\b/i.test(inner)
+}
+
+/**
  * Normalize a song title for deduplication:
- * - Lowercase
- * - Strip parenthetical suffixes that indicate variants:
- *   remix, re-mix, version/ver., edit, instrumental/inst., orchestral,
- *   acoustic, piano, カラオケ, off vocal, backing, original mix/version,
- *   straight, radio edit, short ver, long ver, extended, album ver, single ver
+ * - Strip parenthetical / bracket content that describes a variant
+ *   e.g. (album mix), (tk remix), (SPACE GROOVE MIX), (united states mix),
+ *        (UK DANCE VERSION), (Expanded Version), (LA Session Version),
+ *        (-Version. 2023-), (manhattan b.mix), (bob brockman mix), etc.
+ * - Strip dash-bounded variant tags e.g. -Mixture with Canon in D-
+ * - Exception: if title still contains " / " after stripping, the remaining
+ *   text (e.g. "/ a-nation's party") keeps it distinct, so it won't collapse
+ *   with plain versions of the main title.
  */
 function normalizeTitle(title) {
   if (!title) return ''
-  return title
-    .replace(
-      /\s*[\(（\[【][^)\)）\]】]*(?:re[-\s]?mix|remix|version|ver\.?|edit|instrumental|inst\.?|orchestral|acoustic|piano|カラオケ|off\s*vocal|backing|original\s+(?:mix|version)|straight|radio\s+edit|short\s+ver\.?|long\s+ver\.?|extended|album\s+ver\.?|single\s+ver\.?)(?:[^)\)）\]】]*)[\)）\]】]/gi,
-      ''
-    )
-    .trim()
-    .toLowerCase()
+
+  let s = title
+
+  // 1. Strip anything inside ( ), （ ）, [ ], 【 】 when content is a variant
+  s = s.replace(/\s*[\(（\[【]([^\)）\]】]*)[\)）\]】]/g, (match, inner) => {
+    return isVariantContent(inner) ? '' : match
+  })
+
+  // 2. Strip dash-bounded tags when content is a variant, e.g. -Mixture with Canon in D-
+  //    Only match inner segments that don't themselves contain a dash-pair
+  s = s.replace(/\s+-([^-]+)-/g, (match, inner) => {
+    return isVariantContent(inner) ? '' : match
+  })
+
+  return s.trim().toLowerCase()
 }
 
 function includesComposer(str) {

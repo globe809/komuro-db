@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom'
-import { Music, Disc3, Video, Settings, Users, Mic2, BarChart2, PenLine } from 'lucide-react'
+import { Music, Disc3, Video, Settings, Users, Mic2, PenLine } from 'lucide-react'
 
 const navLinks = [
   { to: '/artists', label: '藝人', icon: Users },
@@ -8,7 +8,6 @@ const navLinks = [
   { to: '/video-works', label: '影像作品', icon: Video },
   { to: '/provided-songs', label: '提供樂曲', icon: Mic2 },
   { to: '/composition', label: '作曲總覽', icon: PenLine },
-  { to: '/stats', label: '銷量統計', icon: BarChart2 },
 ]
 
 export default function Navbar() {

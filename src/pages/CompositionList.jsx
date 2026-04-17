@@ -46,10 +46,16 @@ function normalizeTitle(title) {
   })
 
   // 2. Strip dash-bounded tags when content is a variant, e.g. -Mixture with Canon in D-
-  //    Only match inner segments that don't themselves contain a dash-pair
   s = s.replace(/\s+-([^-]+)-/g, (match, inner) => {
     return isVariantContent(inner) ? '' : match
   })
+
+  // 3. Strip known variant keywords at the end of title without brackets
+  //    e.g. "SONG tk remix" / "SONG REMIX-VERSION" / "SONG SEQ OVER DUB MIX"
+  s = s.replace(
+    /\s+(?:tk\s+remix|album\s+mix|seq\s+over\s+dub\s+mix|remix-version|re-?mix|remix)\s*$/gi,
+    ''
+  )
 
   return s.trim().toLowerCase()
 }

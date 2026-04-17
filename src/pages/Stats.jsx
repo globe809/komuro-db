@@ -16,6 +16,18 @@ function StatBigCard({ icon: Icon, label, value, color, sub }) {
   )
 }
 
+// 藝人別名合併：key(小寫) → 正規藝人名(小寫)
+const ARTIST_MERGE = {
+  '篠原涼子 with t.komuro': '篠原涼子',
+  'true kiss destination': 'kiss destination',
+}
+
+function canonicalKey(name) {
+  if (!name) return ''
+  const lower = name.toLowerCase()
+  return ARTIST_MERGE[lower] ?? lower
+}
+
 function formatSales(v) {
   if (!v) return '—'
   return `${v % 1 === 0 ? v : v.toFixed(1)} 萬枚`
@@ -51,14 +63,14 @@ export default function Stats() {
     const stats = {}
     singles.forEach(s => {
       if (!s.artistName) return
-      const k = s.artistName.toLowerCase()
+      const k = canonicalKey(s.artistName)
       if (!stats[k]) stats[k] = { name: s.artistName, singleSales: 0, albumSales: 0, singleCount: 0, albumCount: 0 }
       stats[k].singleCount++
       stats[k].singleSales += Number(s.salesRecord) || 0
     })
     albums.forEach(a => {
       if (!a.artistName) return
-      const k = a.artistName.toLowerCase()
+      const k = canonicalKey(a.artistName)
       if (!stats[k]) stats[k] = { name: a.artistName, singleSales: 0, albumSales: 0, singleCount: 0, albumCount: 0 }
       stats[k].albumCount++
       stats[k].albumSales += Number(a.salesRecord) || 0
@@ -69,7 +81,7 @@ export default function Stats() {
   const artistRanking = useMemo(() => {
     return dedupedArtists
       .map(a => {
-        const k = a.name?.toLowerCase()
+        const k = canonicalKey(a.name)
         const s = artistStatsMap[k] || { singleSales: 0, albumSales: 0, singleCount: 0, albumCount: 0 }
         return {
           name: a.name,

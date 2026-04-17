@@ -159,23 +159,30 @@ export default function Home() {
                       <Link
                         key={artist.id}
                         to={`/artists/${encodeURIComponent(artist.name)}`}
-                        className="card p-3 text-center group hover:border-blue-200 overflow-hidden"
+                        className="card group block overflow-hidden"
                       >
-                        <div className="w-14 h-14 rounded-full mx-auto mb-2 overflow-hidden shrink-0">
+                        <div className="aspect-square relative overflow-hidden">
                           {artist.visualArtUrl ? (
-                            <img src={artist.visualArtUrl} alt={artist.name}
-                              className="w-full h-full object-cover" />
+                            <img
+                              src={artist.visualArtUrl}
+                              alt={artist.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
                           ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-blue-800 to-indigo-700 flex items-center justify-center text-white font-bold text-lg">
+                            <div className="w-full h-full bg-gradient-to-br from-blue-800 to-indigo-700 flex items-center justify-center text-white font-bold text-3xl">
                               {artist.name?.[0]?.toUpperCase() || '?'}
                             </div>
                           )}
-                        </div>
-                        <div className="text-xs font-semibold text-gray-800 group-hover:text-blue-800 leading-snug line-clamp-2">
-                          {artist.name}
-                        </div>
-                        <div className="text-xs text-gray-400 mt-1">
-                          {(stats.singles || 0) + (stats.albums || 0)} 作品
+                          {/* 底部漸層遮罩確保文字清晰 */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                          <div className="absolute bottom-0 left-0 right-0 px-2.5 pb-2.5">
+                            <div className="text-xs font-semibold text-white leading-snug line-clamp-2 drop-shadow-md">
+                              {artist.name}
+                            </div>
+                            <div className="text-xs text-white/65 mt-0.5">
+                              {(stats.singles || 0) + (stats.albums || 0)} 作品
+                            </div>
+                          </div>
                         </div>
                       </Link>
                     )

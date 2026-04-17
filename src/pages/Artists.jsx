@@ -86,9 +86,15 @@ export default function Artists() {
                 to={`/artists/${encodeURIComponent(artist.name)}`}
                 className="card p-4 flex items-center gap-4 group hover:border-blue-200"
               >
-                {/* 頭像佔位 */}
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-800 to-indigo-700 flex items-center justify-center text-white font-bold text-lg shrink-0">
-                  {artist.name?.[0]?.toUpperCase() || '?'}
+                {/* 頭像 */}
+                <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-blue-800 to-indigo-700 shrink-0">
+                  {artist.visualArtUrl ? (
+                    <img src={artist.visualArtUrl} alt={artist.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
+                      {artist.name?.[0]?.toUpperCase() || '?'}
+                    </div>
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="font-semibold text-gray-900 group-hover:text-blue-800 truncate">

@@ -311,6 +311,20 @@ export default function ProvidedSongs() {
                           {song.composition && <span>作曲：{song.composition}</span>}
                           {song.arrangement && <span>編曲：{song.arrangement}</span>}
                         </div>
+                        {(song.salesRecord != null || song.oriconPeak != null) && (
+                          <div className="text-xs text-gray-400 flex gap-3 mt-1">
+                            {song.salesRecord != null && song.salesRecord !== '' && (
+                              <span className="text-blue-600 font-medium">
+                                💿 {song.salesRecord % 1 === 0 ? song.salesRecord : Number(song.salesRecord).toFixed(1)} 萬枚
+                              </span>
+                            )}
+                            {song.oriconPeak != null && song.oriconPeak !== '' && (
+                              <span className="text-amber-600 font-medium">
+                                Oricon #{song.oriconPeak}
+                              </span>
+                            )}
+                          </div>
+                        )}
                       </div>
                       <div className="text-xs text-gray-400 shrink-0 pt-0.5 whitespace-nowrap">
                         {formatReleaseDate(song.year, song.month, song.day)}

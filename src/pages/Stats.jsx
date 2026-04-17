@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Music, Disc3, TrendingUp, Users, BarChart2 } from 'lucide-react'
+import { Music, Disc3, TrendingUp, Users, BarChart2, Mic2 } from 'lucide-react'
 import { useCollection } from '../hooks/useFirestore'
 import LoadingSpinner from '../components/LoadingSpinner'
 
@@ -16,10 +16,16 @@ function StatBigCard({ icon: Icon, label, value, color, sub }) {
   )
 }
 
-// 藝人別名合併：key(小寫) → 正規藝人名(小寫)
+// 藝人別名合併：key(小寫) → canonical key(小寫)
 const ARTIST_MERGE = {
   '篠原涼子 with t.komuro': '篠原涼子',
   'true kiss destination': 'kiss destination',
+}
+
+// canonical key(小寫) → 正式顯示名稱
+const CANONICAL_NAME = {
+  '篠原涼子': '篠原涼子',
+  'kiss destination': 'KiSS DESTiNATiON',
 }
 
 function canonicalKey(name) {
@@ -37,13 +43,16 @@ export default function Stats() {
   const { data: singles, loading: ls } = useCollection('singles', 'year', 'desc')
   const { data: albums, loading: la } = useCollection('albums', 'year', 'desc')
   const { data: artists, loading: lar } = useCollection('artists', 'name', 'asc')
+  const { data: providedSongs, loading: lp } = useCollection('providedSongs', 'year', 'desc')
 
-  const loading = ls || la || lar
+  const loading = ls || la || lar || lp
 
   const totalSingleSales = useMemo(() =>
     singles.reduce((sum, s) => sum + (Number(s.salesRecord) || 0), 0), [singles])
   const totalAlbumSales = useMemo(() =>
     albums.reduce((sum, a) => sum + (Number(a.salesRecord) || 0), 0), [albums])
+  const totalProvidedSales = useMemo(() =>
+    providedSongs.reduce((sum, s) => sum + (Number(s.salesRecord) || 0), 0), [providedSongs])
 
   const singlesWithSales = useMemo(() =>
     singles.filter(s => s.salesRecord != null && s.salesRecord !== '').length, [singles])
@@ -59,47 +68,78 @@ export default function Stats() {
     return [...seen.values()]
   }, [artists])
 
+  // 藝人別銷量統計 Map（canonicalKey → stats）
   const artistStatsMap = useMemo(() => {
     const stats = {}
     singles.forEach(s => {
       if (!s.artistName) return
       const k = canonicalKey(s.artistName)
-      if (!stats[k]) stats[k] = { name: s.artistName, singleSales: 0, albumSales: 0, singleCount: 0, albumCount: 0 }
+      if (!stats[k]) stats[k] = { singleSales: 0, albumSales: 0, providedSales: 0, singleCount: 0, albumCount: 0, providedCount: 0 }
       stats[k].singleCount++
       stats[k].singleSales += Number(s.salesRecord) || 0
     })
     albums.forEach(a => {
       if (!a.artistName) return
       const k = canonicalKey(a.artistName)
-      if (!stats[k]) stats[k] = { name: a.artistName, singleSales: 0, albumSales: 0, singleCount: 0, albumCount: 0 }
+      if (!stats[k]) stats[k] = { singleSales: 0, albumSales: 0, providedSales: 0, singleCount: 0, albumCount: 0, providedCount: 0 }
       stats[k].albumCount++
       stats[k].albumSales += Number(a.salesRecord) || 0
     })
+    providedSongs.forEach(s => {
+      if (!s.artistName) return
+      const k = canonicalKey(s.artistName)
+      if (!stats[k]) stats[k] = { singleSales: 0, albumSales: 0, providedSales: 0, singleCount: 0, albumCount: 0, providedCount: 0 }
+      stats[k].providedCount++
+      stats[k].providedSales += Number(s.salesRecord) || 0
+    })
     return stats
-  }, [singles, albums])
+  }, [singles, albums, providedSongs])
 
+  // 藝人排行：依 canonical key 分組，每個 canonical key 只出現一次
   const artistRanking = useMemo(() => {
-    return dedupedArtists
-      // エイリアス（別名）は除外し、正規名だけ表示
-      // 例: 「篠原涼子 with t.komuro」→ canonicalKey = 「篠原涼子」≠ 自身のlower → 除外
-      .filter(a => canonicalKey(a.name) === a.name.toLowerCase())
-      .map(a => {
-        const k = canonicalKey(a.name)
-        const s = artistStatsMap[k] || { singleSales: 0, albumSales: 0, singleCount: 0, albumCount: 0 }
-        return {
-          name: a.name,
-          visualArtUrl: a.visualArtUrl,
-          singleSales: s.singleSales,
-          albumSales: s.albumSales,
-          singleCount: s.singleCount,
-          albumCount: s.albumCount,
-          totalSales: s.singleSales + s.albumSales,
-          totalWorks: s.singleCount + s.albumCount,
-        }
-      })
-      .filter(a => a.totalWorks > 0)
-      .sort((a, b) => b.totalSales - a.totalSales || b.totalWorks - a.totalWorks)
+    // Group dedupedArtists by canonical key
+    const groups = new Map() // canonicalKey → { primary, fallback }
+    dedupedArtists.forEach(a => {
+      const key = canonicalKey(a.name)
+      if (!groups.has(key)) {
+        groups.set(key, { primary: null, fallback: a })
+      }
+      const group = groups.get(key)
+      // primary = 名稱 lowercase 完全等於 canonical key 的藝人
+      if (a.name.toLowerCase() === key) {
+        group.primary = a
+      }
+      // fallback 優先使用有照片的
+      if (!group.fallback.visualArtUrl && a.visualArtUrl) {
+        group.fallback = a
+      }
+    })
+
+    return [...groups.entries()].map(([key, group]) => {
+      const artist = group.primary || group.fallback
+      const s = artistStatsMap[key] || { singleSales: 0, albumSales: 0, providedSales: 0, singleCount: 0, albumCount: 0, providedCount: 0 }
+
+      // 顯示名稱：優先 CANONICAL_NAME，其次 primary 藝人名，最後 fallback 藝人名
+      const displayName = CANONICAL_NAME[key] || artist.name
+
+      return {
+        name: displayName,
+        visualArtUrl: artist.visualArtUrl,
+        singleSales: s.singleSales,
+        albumSales: s.albumSales,
+        providedSales: s.providedSales,
+        singleCount: s.singleCount,
+        albumCount: s.albumCount,
+        providedCount: s.providedCount,
+        totalSales: s.singleSales + s.albumSales + s.providedSales,
+        totalWorks: s.singleCount + s.albumCount + s.providedCount,
+      }
+    })
+    .filter(a => a.totalWorks > 0)
+    .sort((a, b) => b.totalSales - a.totalSales || b.totalWorks - a.totalWorks)
   }, [dedupedArtists, artistStatsMap])
+
+  const grandTotal = totalSingleSales + totalAlbumSales + totalProvidedSales
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
@@ -131,17 +171,16 @@ export default function Stats() {
                 sub={albumsWithSales > 0 ? `${albumsWithSales} 張有銷量資料` : '尚無銷量資料'}
               />
               <StatBigCard
-                icon={TrendingUp}
-                label="單曲＋專輯合計"
-                value={formatSales(totalSingleSales + totalAlbumSales)}
-                color="bg-teal-700"
+                icon={Mic2}
+                label="提供樂曲銷量"
+                value={formatSales(totalProvidedSales)}
+                color="bg-rose-600"
               />
               <StatBigCard
-                icon={Users}
-                label="藝人數"
-                value={artistRanking.length}
-                color="bg-gray-700"
-                sub="有作品紀錄"
+                icon={TrendingUp}
+                label="單曲＋專輯＋提供 合計"
+                value={formatSales(grandTotal)}
+                color="bg-teal-700"
               />
             </div>
           </section>
@@ -153,11 +192,12 @@ export default function Stats() {
             </h2>
 
             <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
-              <div className="hidden sm:grid grid-cols-[auto_1fr_auto_auto_auto] gap-0 text-xs font-semibold text-[#6e6e73] px-5 py-3 border-b border-gray-100">
+              <div className="hidden sm:grid grid-cols-[auto_1fr_auto_auto_auto_auto] gap-0 text-xs font-semibold text-[#6e6e73] px-5 py-3 border-b border-gray-100">
                 <div className="w-8">#</div>
                 <div>藝人</div>
                 <div className="w-24 text-right">單曲銷量</div>
                 <div className="w-24 text-right">專輯銷量</div>
+                <div className="w-24 text-right">提供樂曲</div>
                 <div className="w-24 text-right">合計</div>
               </div>
 
@@ -166,7 +206,7 @@ export default function Stats() {
               ) : (
                 <div className="divide-y divide-gray-50">
                   {artistRanking.map((a, i) => (
-                    <div key={a.name} className="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto_auto_auto] gap-0 items-center px-5 py-3 hover:bg-[#f5f5f7] transition-colors">
+                    <div key={a.name} className="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto_auto_auto_auto] gap-0 items-center px-5 py-3 hover:bg-[#f5f5f7] transition-colors">
                       <div className="w-8 text-sm font-bold text-[#6e6e73]">
                         {i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}
                       </div>
@@ -183,8 +223,10 @@ export default function Stats() {
                           <div className="text-sm font-semibold text-[#1d1d1f] truncate">{a.name}</div>
                           <div className="text-xs text-[#6e6e73]">
                             {a.singleCount > 0 && `${a.singleCount} 單曲`}
-                            {a.singleCount > 0 && a.albumCount > 0 && ' · '}
+                            {a.singleCount > 0 && (a.albumCount > 0 || a.providedCount > 0) && ' · '}
                             {a.albumCount > 0 && `${a.albumCount} 專輯`}
+                            {a.albumCount > 0 && a.providedCount > 0 && ' · '}
+                            {a.providedCount > 0 && `${a.providedCount} 提供樂曲`}
                           </div>
                         </div>
                       </div>
@@ -193,6 +235,9 @@ export default function Stats() {
                       </div>
                       <div className="hidden sm:block w-24 text-right text-sm text-[#1d1d1f]">
                         {a.albumSales > 0 ? formatSales(a.albumSales) : <span className="text-[#6e6e73]">—</span>}
+                      </div>
+                      <div className="hidden sm:block w-24 text-right text-sm text-[#1d1d1f]">
+                        {a.providedSales > 0 ? formatSales(a.providedSales) : <span className="text-[#6e6e73]">—</span>}
                       </div>
                       <div className="hidden sm:block w-24 text-right text-sm font-bold text-[#1d1d1f]">
                         {a.totalSales > 0 ? formatSales(a.totalSales) : <span className="font-normal text-[#6e6e73]">—</span>}

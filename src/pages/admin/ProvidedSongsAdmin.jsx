@@ -16,6 +16,8 @@ const EMPTY_FORM = {
   sourceTitle: '',
   discNo: '',
   trackNo: '',
+  salesRecord: '',
+  oriconPeak: '',
   imageUrl: '',
   youtubeUrl: '',
   notes: '',
@@ -56,6 +58,8 @@ export default function ProvidedSongsAdmin() {
         day: form.day ? Number(form.day) : null,
         discNo: form.discNo ? Number(form.discNo) : null,
         trackNo: form.trackNo ? Number(form.trackNo) : null,
+        salesRecord: form.salesRecord !== '' ? Number(form.salesRecord) : null,
+        oriconPeak: form.oriconPeak !== '' ? Number(form.oriconPeak) : null,
       }
       if (editId) await updateDocument('providedSongs', editId, data)
       else await addDocument('providedSongs', data)
@@ -172,6 +176,33 @@ export default function ProvidedSongsAdmin() {
                     <label className="form-label">第幾首</label>
                     <input type="number" className="form-input" placeholder="1" min="1" value={form.trackNo} onChange={e => setField('trackNo', e.target.value)} />
                   </div>
+                </div>
+              </div>
+
+              {/* 銷售量 & Oricon */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="form-label">銷售量（萬枚）</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    className="form-input"
+                    placeholder="例：50.2"
+                    value={form.salesRecord}
+                    onChange={e => setField('salesRecord', e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="form-label">Oricon 最高位</label>
+                  <input
+                    type="number"
+                    min="1"
+                    className="form-input"
+                    placeholder="例：1"
+                    value={form.oriconPeak}
+                    onChange={e => setField('oriconPeak', e.target.value)}
+                  />
                 </div>
               </div>
 

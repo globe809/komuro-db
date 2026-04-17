@@ -95,36 +95,42 @@ export default function Stats() {
     return stats
   }, [singles, albums, providedSongs])
 
-  // 藝人排行：依 canonical key 分組，每個 canonical key 只出現一次
-  const artistRanking = useMemo(() => {
-    // Group dedupedArtists by canonical key
-    const groups = new Map() // canonicalKey → { primary, fallback }
+  // 藝人照片 Map：canonical key → visualArtUrl（從 artists collection 查）
+  const artistPhotoMap = useMemo(() => {
+    const map = {}
     dedupedArtists.forEach(a => {
       const key = canonicalKey(a.name)
-      if (!groups.has(key)) {
-        groups.set(key, { primary: null, fallback: a })
-      }
-      const group = groups.get(key)
-      // primary = 名稱 lowercase 完全等於 canonical key 的藝人
-      if (a.name.toLowerCase() === key) {
-        group.primary = a
-      }
-      // fallback 優先使用有照片的
-      if (!group.fallback.visualArtUrl && a.visualArtUrl) {
-        group.fallback = a
+      if (a.visualArtUrl && !map[key]) {
+        map[key] = a.visualArtUrl
       }
     })
+    return map
+  }, [dedupedArtists])
 
-    return [...groups.entries()].map(([key, group]) => {
-      const artist = group.primary || group.fallback
-      const s = artistStatsMap[key] || { singleSales: 0, albumSales: 0, providedSales: 0, singleCount: 0, albumCount: 0, providedCount: 0 }
+  // 藝人原始名稱 Map：canonical key → 最佳顯示名（從 artists collection 查）
+  const artistDisplayMap = useMemo(() => {
+    const map = {}
+    dedupedArtists.forEach(a => {
+      const key = canonicalKey(a.name)
+      // 偏好名稱 lowercase === canonical key 的（即非別名）
+      if (!map[key] || a.name.toLowerCase() === key) {
+        map[key] = a.name
+      }
+    })
+    return map
+  }, [dedupedArtists])
 
-      // 顯示名稱：優先 CANONICAL_NAME，其次 primary 藝人名，最後 fallback 藝人名
-      const displayName = CANONICAL_NAME[key] || artist.name
+  // 藝人排行：從 artistStatsMap 所有 key 出發
+  // 涵蓋 singles + albums + providedSongs 的所有藝人，不限於 artists collection
+  const artistRanking = useMemo(() => {
+    return Object.entries(artistStatsMap).map(([key, s]) => {
+      // 顯示名稱優先順序：CANONICAL_NAME → artists collection → 原始作品中的名稱
+      const displayName = CANONICAL_NAME[key] || artistDisplayMap[key] || key
+      const visualArtUrl = artistPhotoMap[key] || ''
 
       return {
         name: displayName,
-        visualArtUrl: artist.visualArtUrl,
+        visualArtUrl,
         singleSales: s.singleSales,
         albumSales: s.albumSales,
         providedSales: s.providedSales,
@@ -137,7 +143,7 @@ export default function Stats() {
     })
     .filter(a => a.totalWorks > 0)
     .sort((a, b) => b.totalSales - a.totalSales || b.totalWorks - a.totalWorks)
-  }, [dedupedArtists, artistStatsMap])
+  }, [artistStatsMap, artistDisplayMap, artistPhotoMap])
 
   const grandTotal = totalSingleSales + totalAlbumSales + totalProvidedSales
 

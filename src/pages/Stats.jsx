@@ -80,6 +80,9 @@ export default function Stats() {
 
   const artistRanking = useMemo(() => {
     return dedupedArtists
+      // エイリアス（別名）は除外し、正規名だけ表示
+      // 例: 「篠原涼子 with t.komuro」→ canonicalKey = 「篠原涼子」≠ 自身のlower → 除外
+      .filter(a => canonicalKey(a.name) === a.name.toLowerCase())
       .map(a => {
         const k = canonicalKey(a.name)
         const s = artistStatsMap[k] || { singleSales: 0, albumSales: 0, singleCount: 0, albumCount: 0 }

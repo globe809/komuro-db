@@ -8,7 +8,7 @@ import {
 } from '../../hooks/useFirestore'
 import ContentListEditor from '../../components/ContentListEditor'
 import LoadingSpinner from '../../components/LoadingSpinner'
-import { VIDEO_FORMATS, MONTHS } from '../../utils/constants'
+import { VIDEO_FORMATS, VIDEO_TYPES, getVideoTypeLabel, MONTHS } from '../../utils/constants'
 import { formatReleaseDate } from '../../utils/formatDate'
 
 const EMPTY_FORM = {
@@ -17,6 +17,7 @@ const EMPTY_FORM = {
   year: '',
   month: '',
   day: '',
+  videoType: '',    // 類型：演唱會 / MV / 紀錄片 / BOX
   formats: [],      // array of format values
   contents: [],
   imageUrl: '',
@@ -197,6 +198,21 @@ export default function VideoWorksAdmin() {
                 </select>
               </div>
 
+              {/* 類型 */}
+              <div>
+                <label className="form-label">類型</label>
+                <select
+                  className="form-select"
+                  value={form.videoType}
+                  onChange={(e) => setField('videoType', e.target.value)}
+                >
+                  <option value="">請選擇類型</option>
+                  {VIDEO_TYPES.map((t) => (
+                    <option key={t.value} value={t.value}>{t.label}</option>
+                  ))}
+                </select>
+              </div>
+
               {/* 發行日期 */}
               <div>
                 <label className="form-label">發行日期</label>
@@ -295,6 +311,7 @@ export default function VideoWorksAdmin() {
                   <div className="text-sm font-medium text-gray-900 truncate">{w.title}</div>
                   <div className="text-xs text-gray-400">
                     {w.artistName} · {formatReleaseDate(w.year, w.month, w.day)} · {formatLabel(w)}
+                    {w.videoType && ` · ${getVideoTypeLabel(w.videoType)}`}
                   </div>
                 </div>
                 <div className="flex gap-1 shrink-0">

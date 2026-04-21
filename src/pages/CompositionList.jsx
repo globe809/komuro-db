@@ -64,6 +64,19 @@ function includesComposer(str) {
   return str && str.includes(COMPOSER)
 }
 
+/**
+ * 判斷歌曲標題是否為應排除的版本（純音樂、Karaoke、配唱、TVサイズ等）
+ * 這類歌曲不算獨立作品，不列入作曲總覽
+ */
+function isTitleToSkip(title) {
+  if (!title) return false
+  return /\binstrumental\b/i.test(title)
+    || /\bkaraoke\b/i.test(title)
+    || /\bback[\s-]?track\b/i.test(title)
+    || /TVサイズ/i.test(title)
+    || /TVオープニングサイズ/i.test(title)
+}
+
 export default function CompositionList() {
   const [searchParams, setSearchParams] = useSearchParams()
   const sortBy = searchParams.get('sort') || 'date_desc'
@@ -94,7 +107,7 @@ export default function CompositionList() {
       const tracks = single.tracks || []
       if (tracks.length === 0) {
         // No tracks — treat the single itself as one track
-        if (includesComposer(single.composition)) {
+        if (includesComposer(single.composition) && !isTitleToSkip(single.title)) {
           raw.push({
             title: single.title,
             artistName: single.artistName || '',
@@ -108,7 +121,7 @@ export default function CompositionList() {
         }
       } else {
         tracks.forEach(track => {
-          if (includesComposer(track.composition)) {
+          if (includesComposer(track.composition) && !isTitleToSkip(track.title)) {
             raw.push({
               title: track.title,
               artistName: single.artistName || '',
@@ -128,7 +141,7 @@ export default function CompositionList() {
     albums.forEach(album => {
       const tracks = album.tracks || []
       tracks.forEach(track => {
-        if (includesComposer(track.composition)) {
+        if (includesComposer(track.composition) && !isTitleToSkip(track.title)) {
           raw.push({
             title: track.title,
             artistName: album.artistName || '',
@@ -145,7 +158,7 @@ export default function CompositionList() {
 
     // 3. From providedSongs
     providedSongs.forEach(song => {
-      if (includesComposer(song.composition)) {
+      if (includesComposer(song.composition) && !isTitleToSkip(song.title)) {
         raw.push({
           title: song.title,
           artistName: song.artistName || '',

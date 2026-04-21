@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Video } from 'lucide-react'
 import { formatReleaseDate } from '../utils/formatDate'
+import { getVideoTypeLabel } from '../utils/constants'
 
 const formatColors = {
   DVD: 'badge-blue',
@@ -9,8 +10,15 @@ const formatColors = {
   LD: 'badge-green',
 }
 
+const typeColors = {
+  concert: 'bg-rose-600',
+  mv: 'bg-blue-700',
+  documentary: 'bg-teal-700',
+  box: 'bg-amber-600',
+}
+
 export default function VideoWorkCard({ work }) {
-  const { id, title, artistName, year, month, day, imageUrl } = work
+  const { id, title, artistName, year, month, day, imageUrl, videoType } = work
   // Backward-compat: support both formats[] array and legacy format string
   const formats = Array.isArray(work.formats) ? work.formats : work.format ? [work.format] : []
 
@@ -29,6 +37,15 @@ export default function VideoWorkCard({ work }) {
             <Video size={40} className="text-gray-600" />
           </div>
         )}
+        {/* 類型標籤（左上角） */}
+        {videoType && (
+          <div className="absolute top-2 left-2">
+            <span className={`text-xs text-white font-semibold px-2 py-0.5 rounded-full ${typeColors[videoType] || 'bg-gray-600'}`}>
+              {getVideoTypeLabel(videoType)}
+            </span>
+          </div>
+        )}
+        {/* 格式標籤（右上角） */}
         {formats.length > 0 && (
           <div className="absolute top-2 right-2 flex flex-col gap-1 items-end">
             {formats.map(f => (

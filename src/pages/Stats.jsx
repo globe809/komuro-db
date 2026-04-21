@@ -68,30 +68,83 @@ export default function Stats() {
     return [...seen.values()]
   }, [artists])
 
+  // 判斷一個作品是否與小室哲哉相關（作曲 OR 作詞 OR 製作人 tatsumaki）
+  function hasKomuroCredit(item) {
+    const KOMURO = '小室哲哉'
+    const TATSUMAKI = 'tatsumaki'
+    const fields = [item.composition, item.lyrics, item.arrangement]
+    if (fields.some(f => f?.includes(KOMURO))) return true
+    if (item.producer?.toLowerCase().includes(TATSUMAKI)) return true
+    // 逐曲目檢查
+    const tracks = item.tracks || []
+    return tracks.some(t =>
+      t.composition?.includes(KOMURO) ||
+      t.lyrics?.includes(KOMURO) ||
+      t.arrangement?.includes(KOMURO) ||
+      t.producer?.toLowerCase().includes(TATSUMAKI)
+    )
+  }
+
   // 藝人別銷量統計 Map（canonicalKey → stats）
+  // 納入條件：作曲、作詞含小室哲哉，或製作人為 tatsumaki
+  // 若上述欄位均未填寫則視為 TK 作品（資料庫內的預設前提）仍計入
   const artistStatsMap = useMemo(() => {
     const stats = {}
+    const EMPTY_STATS = () => ({ singleSales: 0, albumSales: 0, providedSales: 0, singleCount: 0, albumCount: 0, providedCount: 0 })
+
+    // 以 Set 追蹤已計入的 ID，避免同一作品重複計入
+    const countedSingleIds = new Set()
+    const countedAlbumIds = new Set()
+
+    // 第一輪：所有 singles（無論是否填寫 credit，資料庫內均為 TK 相關）
     singles.forEach(s => {
-      if (!s.artistName) return
+      if (!s.artistName || countedSingleIds.has(s.id)) return
+      countedSingleIds.add(s.id)
       const k = canonicalKey(s.artistName)
-      if (!stats[k]) stats[k] = { singleSales: 0, albumSales: 0, providedSales: 0, singleCount: 0, albumCount: 0, providedCount: 0 }
+      if (!stats[k]) stats[k] = EMPTY_STATS()
       stats[k].singleCount++
       stats[k].singleSales += Number(s.salesRecord) || 0
     })
+
+    // 第二輪：singles 中若有 lyrics（作詞）含小室哲哉但不同藝人名的 track（補充邊緣情況）
+    // 此處為保險機制，一般情況 artistName 相同不會再加
+    singles.forEach(s => {
+      const tracks = s.tracks || []
+      tracks.forEach(t => {
+        const artistName = t.artistName || s.artistName
+        if (!artistName) return
+        const hasLyrics = t.lyrics?.includes('小室哲哉')
+        const hasTatsumaki = t.producer?.toLowerCase().includes('tatsumaki')
+        if (!hasLyrics && !hasTatsumaki) return
+        // 若 track 藝人與 single 藝人不同，單獨計入
+        if (artistName !== s.artistName) {
+          const k = canonicalKey(artistName)
+          if (!stats[k]) stats[k] = EMPTY_STATS()
+          stats[k].singleCount++
+          stats[k].singleSales += Number(s.salesRecord) || 0
+        }
+      })
+    })
+
+    // albums
     albums.forEach(a => {
-      if (!a.artistName) return
+      if (!a.artistName || countedAlbumIds.has(a.id)) return
+      countedAlbumIds.add(a.id)
       const k = canonicalKey(a.artistName)
-      if (!stats[k]) stats[k] = { singleSales: 0, albumSales: 0, providedSales: 0, singleCount: 0, albumCount: 0, providedCount: 0 }
+      if (!stats[k]) stats[k] = EMPTY_STATS()
       stats[k].albumCount++
       stats[k].albumSales += Number(a.salesRecord) || 0
     })
+
+    // providedSongs：全部計入（包含作詞、作曲、tatsumaki 製作）
     providedSongs.forEach(s => {
       if (!s.artistName) return
       const k = canonicalKey(s.artistName)
-      if (!stats[k]) stats[k] = { singleSales: 0, albumSales: 0, providedSales: 0, singleCount: 0, albumCount: 0, providedCount: 0 }
+      if (!stats[k]) stats[k] = EMPTY_STATS()
       stats[k].providedCount++
       stats[k].providedSales += Number(s.salesRecord) || 0
     })
+
     return stats
   }, [singles, albums, providedSongs])
 

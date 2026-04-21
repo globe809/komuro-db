@@ -4,13 +4,14 @@ import { useCollection } from '../hooks/useFirestore'
 import FilterPanel from '../components/FilterPanel'
 import VideoWorkCard from '../components/VideoWorkCard'
 import LoadingSpinner from '../components/LoadingSpinner'
-import { VIDEO_FORMATS } from '../utils/constants'
+import { VIDEO_FORMATS, VIDEO_TYPES } from '../utils/constants'
 
 export default function VideoWorks() {
   const [keyword, setKeyword] = useState('')
   const [selectedArtist, setSelectedArtist] = useState('')
   const [selectedYear, setSelectedYear] = useState('')
-  const [selectedType, setSelectedType] = useState('')
+  const [selectedFormat, setSelectedFormat] = useState('')
+  const [selectedVideoType, setSelectedVideoType] = useState('')
 
   const { data: works, loading } = useCollection('videoWorks', 'year', 'desc')
 
@@ -33,16 +34,19 @@ export default function VideoWorks() {
         w.artistName?.toLowerCase().includes(kw)
       const matchArtist = !selectedArtist || w.artistName === selectedArtist
       const matchYear = !selectedYear || String(w.year) === String(selectedYear)
-      const matchType = !selectedType || w.format === selectedType
-      return matchKeyword && matchArtist && matchYear && matchType
+      const formats = Array.isArray(w.formats) ? w.formats : w.format ? [w.format] : []
+      const matchFormat = !selectedFormat || formats.includes(selectedFormat)
+      const matchVideoType = !selectedVideoType || w.videoType === selectedVideoType
+      return matchKeyword && matchArtist && matchYear && matchFormat && matchVideoType
     })
-  }, [works, keyword, selectedArtist, selectedYear, selectedType])
+  }, [works, keyword, selectedArtist, selectedYear, selectedFormat, selectedVideoType])
 
   const resetFilters = () => {
     setKeyword('')
     setSelectedArtist('')
     setSelectedYear('')
-    setSelectedType('')
+    setSelectedFormat('')
+    setSelectedVideoType('')
   }
 
   return (
@@ -65,11 +69,14 @@ export default function VideoWorks() {
           onArtistChange={setSelectedArtist}
           selectedYear={selectedYear}
           onYearChange={setSelectedYear}
-          selectedType={selectedType}
-          onTypeChange={setSelectedType}
+          selectedType={selectedFormat}
+          onTypeChange={setSelectedFormat}
+          selectedVideoType={selectedVideoType}
+          onVideoTypeChange={setSelectedVideoType}
           artists={artists}
           years={years}
           types={VIDEO_FORMATS}
+          videoTypes={VIDEO_TYPES}
           onReset={resetFilters}
         />
       </div>

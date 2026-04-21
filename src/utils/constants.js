@@ -34,6 +34,14 @@ export const VIDEO_FORMATS = [
   { value: 'LD', label: 'LD（LaserDisc）' },
 ]
 
+// 影像作品類型
+export const VIDEO_TYPES = [
+  { value: 'concert', label: '演唱會' },
+  { value: 'mv', label: 'MV' },
+  { value: 'documentary', label: '紀錄片' },
+  { value: 'box', label: 'BOX' },
+]
+
 // 月份
 export const MONTHS = [
   { value: 1, label: '1月' },
@@ -58,6 +66,9 @@ export const getSingleTypeLabel = (value) =>
 
 export const getVideoFormatLabel = (value) =>
   VIDEO_FORMATS.find((f) => f.value === value)?.label ?? value
+
+export const getVideoTypeLabel = (value) =>
+  VIDEO_TYPES.find((t) => t.value === value)?.label ?? value
 
 export const getProvidedSongKindLabel = (value) =>
   PROVIDED_SONG_KINDS.find((k) => k.value === value)?.label ?? value

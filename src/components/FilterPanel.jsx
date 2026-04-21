@@ -24,12 +24,15 @@ export default function FilterPanel({
   onYearChange,
   selectedType = '',
   onTypeChange,
+  selectedVideoType = '',
+  onVideoTypeChange,
   artists = [],
   years = [],
   types = [],
+  videoTypes = [],
   onReset,
 }) {
-  const hasFilter = keyword || selectedArtist || selectedYear || selectedType
+  const hasFilter = keyword || selectedArtist || selectedYear || selectedType || selectedVideoType
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
@@ -78,15 +81,31 @@ export default function FilterPanel({
           </select>
         )}
 
-        {/* 類型篩選 */}
+        {/* 格式篩選（原 types） */}
         {types.length > 0 && (
           <select
             value={selectedType}
             onChange={(e) => onTypeChange(e.target.value)}
             className="form-select sm:w-36"
           >
-            <option value="">所有類型</option>
+            <option value="">所有格式</option>
             {types.map((t) => (
+              <option key={t.value} value={t.value}>
+                {t.label}
+              </option>
+            ))}
+          </select>
+        )}
+
+        {/* 影像類型篩選 */}
+        {videoTypes.length > 0 && (
+          <select
+            value={selectedVideoType}
+            onChange={(e) => onVideoTypeChange(e.target.value)}
+            className="form-select sm:w-32"
+          >
+            <option value="">所有類型</option>
+            {videoTypes.map((t) => (
               <option key={t.value} value={t.value}>
                 {t.label}
               </option>

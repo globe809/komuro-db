@@ -194,9 +194,25 @@ export default function Stats() {
         totalWorks: s.singleCount + s.albumCount + s.providedCount,
       }
     })
-    .filter(a => a.totalWorks > 0)
+    .filter(a => a.totalWorks > 0 && a.totalSales > 0)  // 沒有銷量資料者不顯示
     .sort((a, b) => b.totalSales - a.totalSales || b.totalWorks - a.totalWorks)
   }, [artistStatsMap, artistDisplayMap, artistPhotoMap])
+
+  // 銷量前 100 單曲
+  const top100Singles = useMemo(() =>
+    [...singles]
+      .filter(s => s.salesRecord != null && s.salesRecord !== '' && Number(s.salesRecord) > 0)
+      .sort((a, b) => Number(b.salesRecord) - Number(a.salesRecord))
+      .slice(0, 100),
+    [singles])
+
+  // 銷量前 30 專輯
+  const top30Albums = useMemo(() =>
+    [...albums]
+      .filter(a => a.salesRecord != null && a.salesRecord !== '' && Number(a.salesRecord) > 0)
+      .sort((a, b) => Number(b.salesRecord) - Number(a.salesRecord))
+      .slice(0, 30),
+    [albums])
 
   const grandTotal = totalSingleSales + totalAlbumSales + totalProvidedSales
 
@@ -307,6 +323,84 @@ export default function Stats() {
               )}
             </div>
           </section>
+
+          {/* ── 銷量前 100 單曲 ── */}
+          {top100Singles.length > 0 && (
+            <section className="mt-10">
+              <h2 className="text-base font-semibold text-[#6e6e73] mb-4 flex items-center gap-2">
+                <Music size={16} className="text-blue-800" /> 銷量前 {top100Singles.length} 單曲
+              </h2>
+              <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
+                <div className="hidden sm:grid grid-cols-[auto_auto_1fr_auto_auto] gap-0 text-xs font-semibold text-[#6e6e73] px-5 py-3 border-b border-gray-100">
+                  <div className="w-8">#</div>
+                  <div className="w-10" />
+                  <div>單曲名稱</div>
+                  <div className="w-32 text-right">藝人</div>
+                  <div className="w-24 text-right">銷量</div>
+                </div>
+                <div className="divide-y divide-gray-50">
+                  {top100Singles.map((s, i) => (
+                    <div key={s.id} className="grid grid-cols-[auto_auto_1fr_auto] sm:grid-cols-[auto_auto_1fr_auto_auto] items-center px-5 py-2.5 hover:bg-[#f5f5f7] transition-colors gap-0">
+                      <div className="w-8 text-sm font-bold text-[#6e6e73]">
+                        {i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}
+                      </div>
+                      <div className="w-10 h-10 rounded overflow-hidden bg-blue-50 shrink-0 mr-3">
+                        {s.imageUrl
+                          ? <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover" />
+                          : <div className="w-full h-full flex items-center justify-center"><Music size={14} className="text-blue-400" /></div>
+                        }
+                      </div>
+                      <div className="min-w-0 pr-3">
+                        <div className="text-sm font-medium text-[#1d1d1f] truncate">{s.title}</div>
+                        <div className="text-xs text-[#6e6e73] sm:hidden">{s.artistName}</div>
+                      </div>
+                      <div className="hidden sm:block w-32 text-right text-xs text-[#6e6e73] pr-3 truncate">{s.artistName}</div>
+                      <div className="w-24 text-right text-sm font-bold text-blue-800">{formatSales(Number(s.salesRecord))}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* ── 銷量前 30 專輯 ── */}
+          {top30Albums.length > 0 && (
+            <section className="mt-10 mb-4">
+              <h2 className="text-base font-semibold text-[#6e6e73] mb-4 flex items-center gap-2">
+                <Disc3 size={16} className="text-indigo-700" /> 銷量前 {top30Albums.length} 專輯
+              </h2>
+              <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
+                <div className="hidden sm:grid grid-cols-[auto_auto_1fr_auto_auto] gap-0 text-xs font-semibold text-[#6e6e73] px-5 py-3 border-b border-gray-100">
+                  <div className="w-8">#</div>
+                  <div className="w-10" />
+                  <div>專輯名稱</div>
+                  <div className="w-32 text-right">藝人</div>
+                  <div className="w-24 text-right">銷量</div>
+                </div>
+                <div className="divide-y divide-gray-50">
+                  {top30Albums.map((a, i) => (
+                    <div key={a.id} className="grid grid-cols-[auto_auto_1fr_auto] sm:grid-cols-[auto_auto_1fr_auto_auto] items-center px-5 py-2.5 hover:bg-[#f5f5f7] transition-colors gap-0">
+                      <div className="w-8 text-sm font-bold text-[#6e6e73]">
+                        {i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}
+                      </div>
+                      <div className="w-10 h-10 rounded overflow-hidden bg-indigo-50 shrink-0 mr-3">
+                        {a.imageUrl
+                          ? <img src={a.imageUrl} alt={a.title} className="w-full h-full object-cover" />
+                          : <div className="w-full h-full flex items-center justify-center"><Disc3 size={14} className="text-indigo-400" /></div>
+                        }
+                      </div>
+                      <div className="min-w-0 pr-3">
+                        <div className="text-sm font-medium text-[#1d1d1f] truncate">{a.title}</div>
+                        <div className="text-xs text-[#6e6e73] sm:hidden">{a.artistName}</div>
+                      </div>
+                      <div className="hidden sm:block w-32 text-right text-xs text-[#6e6e73] pr-3 truncate">{a.artistName}</div>
+                      <div className="w-24 text-right text-sm font-bold text-indigo-700">{formatSales(Number(a.salesRecord))}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
         </>
       )}
     </div>

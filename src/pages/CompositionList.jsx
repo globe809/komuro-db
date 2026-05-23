@@ -10,6 +10,8 @@ const COMPOSER = '小室哲哉'
 const SORT_OPTIONS = [
   { value: 'date_desc', label: '發行日期：新→舊' },
   { value: 'date_asc', label: '發行日期：舊→新' },
+  { value: 'title_asc', label: '歌名：A → Z' },
+  { value: 'title_desc', label: '歌名：Z → A' },
 ]
 
 /**
@@ -204,7 +206,10 @@ export default function CompositionList() {
       )
     }
     return [...list].sort((a, b) => {
-      return sortBy === 'date_asc' ? a._date - b._date : b._date - a._date
+      if (sortBy === 'date_asc') return a._date - b._date
+      if (sortBy === 'title_asc') return (a.title || '').localeCompare(b.title || '', 'ja')
+      if (sortBy === 'title_desc') return (b.title || '').localeCompare(a.title || '', 'ja')
+      return b._date - a._date
     })
   }, [allSongs, keyword, sortBy])
 

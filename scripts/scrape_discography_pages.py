@@ -46,6 +46,8 @@ DISCOGRAPHY_PAGES = [
      ["globe"]),
     ("https://ja.wikipedia.org/wiki/%E9%88%B4%E6%9C%A8%E4%BA%9C%E7%BE%8E",
      ["鈴木あみ"]),
+    ("https://ja.wikipedia.org/wiki/%E5%AE%89%E5%AE%A4%E5%A5%88%E7%BE%8E%E6%81%B5",
+     ["安室奈美恵"]),
 ]
 
 # ── 文字工具 ──────────────────────────────────────────
@@ -185,58 +187,51 @@ def _parse_credits_from_ul(ul_tags) -> dict:
     return credits
 
 def _extract_tracks_from_ol(soup) -> list:
-    """從 <ol> 格式解析曲目（hitomi/華原朋美/TRF 等頁面）"""
-    # 找収録曲 section
-    section_node = None
+    """從 <ol> 格式解析曲目（支援有/無 収録曲 標題的頁面）"""
+    def _scan(siblings):
+        tracks = []; track_no = 0
+        current_credits = {"lyrics": "", "composition": "", "arrangement": ""}
+        for sib in siblings:
+            if sib.name in ["h2", "h3"]: break
+            if sib.name == "ul":
+                current_credits = _parse_credits_from_ul([sib])
+            elif sib.name == "ol":
+                for li in sib.find_all("li"):
+                    track_no += 1
+                    tracks.append({"trackNo": track_no, "title": clean_title(li.get_text()),
+                                   "lyrics": current_credits["lyrics"],
+                                   "composition": current_credits["composition"],
+                                   "arrangement": current_credits["arrangement"], "tieUp": ""})
+            if hasattr(sib, "find_all"):
+                for ul in sib.find_all("ul", recursive=False):
+                    current_credits = _parse_credits_from_ul([ul])
+                for ol in sib.find_all("ol", recursive=False):
+                    for li in ol.find_all("li"):
+                        track_no += 1
+                        tracks.append({"trackNo": track_no, "title": clean_title(li.get_text()),
+                                       "lyrics": current_credits["lyrics"],
+                                       "composition": current_credits["composition"],
+                                       "arrangement": current_credits["arrangement"], "tieUp": ""})
+        return tracks
+
+    # 優先：找 収録曲 section
     for tag in soup.find_all(["h2", "h3"]):
         if "収録曲" in tag.get_text():
-            section_node = tag.parent
-            break
-    if section_node is None:
-        return []
+            tracks = _scan(tag.parent.find_next_siblings())
+            if tracks: return tracks
 
-    tracks = []
-    track_no = 0
-
-    # 往下掃描 section siblings，收集 ul(credits) 和 ol(曲目)
-    current_credits = {"lyrics": "", "composition": "", "arrangement": ""}
-    for sib in section_node.find_next_siblings():
-        if sib.name in ["h2", "h3"]:
-            break
-        if sib.name == "ul":
-            current_credits = _parse_credits_from_ul([sib])
-        elif sib.name == "dl":
-            pass  # 通常是 MIX 資訊，略過
-        elif sib.name == "ol":
-            for li in sib.find_all("li"):
-                track_no += 1
-                title = clean_title(li.get_text())
-                tracks.append({
-                    "trackNo": track_no,
-                    "title": title,
-                    "lyrics": current_credits["lyrics"],
-                    "composition": current_credits["composition"],
-                    "arrangement": current_credits["arrangement"],
-                    "tieUp": "",
-                })
-        # ol 也可能嵌在 div/p 裡
-        if hasattr(sib, "find_all"):
-            for ul in sib.find_all("ul", recursive=False):
-                current_credits = _parse_credits_from_ul([ul])
-            for ol in sib.find_all("ol", recursive=False):
-                for li in ol.find_all("li"):
-                    track_no += 1
-                    title = clean_title(li.get_text())
-                    tracks.append({
-                        "trackNo": track_no,
-                        "title": title,
-                        "lyrics": current_credits["lyrics"],
-                        "composition": current_credits["composition"],
-                        "arrangement": current_credits["arrangement"],
-                        "tieUp": "",
-                    })
-
-    return tracks
+    # fallback：找有 作詞/作曲 前置 ul 的 ol
+    for ol in soup.find_all("ol"):
+        items = ol.find_all("li")
+        if len(items) < 2: continue
+        prev = ol.find_previous_sibling()
+        if prev and prev.name == "ul" and any(k in prev.get_text() for k in ["作詞","作曲","編曲"]):
+            credits = _parse_credits_from_ul([prev])
+            return [{"trackNo": i+1, "title": clean_title(li.get_text()),
+                     "lyrics": credits["lyrics"], "composition": credits["composition"],
+                     "arrangement": credits["arrangement"], "tieUp": ""}
+                    for i, li in enumerate(items)]
+    return []
 
 def extract_tracks(soup) -> list:
     # 先試 table 格式

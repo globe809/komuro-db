@@ -225,40 +225,68 @@ def _parse_credits_from_ul(ul_tags) -> dict:
     return credits
 
 def _extract_tracks_from_ol(soup) -> list:
-    section_node = None
-    for tag in soup.find_all(["h2", "h3"]):
-        if "収録曲" in tag.get_text():
-            section_node = tag.parent
-            break
-    if section_node is None:
-        return []
-    tracks = []
-    track_no = 0
-    current_credits = {"lyrics": "", "composition": "", "arrangement": ""}
-    for sib in section_node.find_next_siblings():
-        if sib.name in ["h2", "h3"]: break
-        if sib.name == "ul":
-            current_credits = _parse_credits_from_ul([sib])
-        elif sib.name == "ol":
-            for li in sib.find_all("li"):
-                track_no += 1
-                title = re.sub(r"[「」『』【】〈〉]", "", re.sub(r"\s+", " ", li.get_text()).strip())
-                tracks.append({"trackNo": track_no, "title": title,
-                                "lyrics": current_credits["lyrics"],
-                                "composition": current_credits["composition"],
-                                "arrangement": current_credits["arrangement"], "tieUp": ""})
-        if hasattr(sib, "find_all"):
-            for ul in sib.find_all("ul", recursive=False):
-                current_credits = _parse_credits_from_ul([ul])
-            for ol in sib.find_all("ol", recursive=False):
-                for li in ol.find_all("li"):
+    """
+    從 <ol> 清單格式解析曲目。
+    優先找 収録曲 section，找不到就掃全頁第一個有歌曲特徵的 <ol>。
+    """
+    def _scan_siblings(siblings):
+        tracks = []
+        track_no = 0
+        current_credits = {"lyrics": "", "composition": "", "arrangement": ""}
+        for sib in siblings:
+            if sib.name in ["h2", "h3"]: break
+            if sib.name == "ul":
+                current_credits = _parse_credits_from_ul([sib])
+            elif sib.name == "ol":
+                for li in sib.find_all("li"):
                     track_no += 1
                     title = re.sub(r"[「」『』【】〈〉]", "", re.sub(r"\s+", " ", li.get_text()).strip())
                     tracks.append({"trackNo": track_no, "title": title,
                                    "lyrics": current_credits["lyrics"],
                                    "composition": current_credits["composition"],
                                    "arrangement": current_credits["arrangement"], "tieUp": ""})
-    return tracks
+            if hasattr(sib, "find_all"):
+                for ul in sib.find_all("ul", recursive=False):
+                    current_credits = _parse_credits_from_ul([ul])
+                for ol in sib.find_all("ol", recursive=False):
+                    for li in ol.find_all("li"):
+                        track_no += 1
+                        title = re.sub(r"[「」『』【】〈〉]", "", re.sub(r"\s+", " ", li.get_text()).strip())
+                        tracks.append({"trackNo": track_no, "title": title,
+                                       "lyrics": current_credits["lyrics"],
+                                       "composition": current_credits["composition"],
+                                       "arrangement": current_credits["arrangement"], "tieUp": ""})
+        return tracks
+
+    # 優先：找 収録曲 section
+    for tag in soup.find_all(["h2", "h3"]):
+        if "収録曲" in tag.get_text():
+            tracks = _scan_siblings(tag.parent.find_next_siblings())
+            if tracks:
+                return tracks
+
+    # fallback：掃全頁，找第一個符合「曲目列表」特徵的 <ol>
+    # 條件：ol 前方有 <ul> 含 作詞/作曲 關鍵字，或 ol 本身 ≥ 2 個 li
+    for ol in soup.find_all("ol"):
+        items = ol.find_all("li")
+        if len(items) < 2:
+            continue
+        # 確認不是 目次 或 参照 類型的 ol
+        prev = ol.find_previous_sibling()
+        if prev and prev.name == "ul":
+            text = prev.get_text()
+            if any(k in text for k in ["作詞", "作曲", "編曲"]):
+                credits = _parse_credits_from_ul([prev])
+                tracks = []
+                for i, li in enumerate(items, 1):
+                    title = re.sub(r"[「」『』【】〈〉]", "", re.sub(r"\s+", " ", li.get_text()).strip())
+                    tracks.append({"trackNo": i, "title": title,
+                                   "lyrics": credits["lyrics"],
+                                   "composition": credits["composition"],
+                                   "arrangement": credits["arrangement"], "tieUp": ""})
+                if tracks:
+                    return tracks
+    return []
 
 def extract_tracks_from_soup(soup) -> list:
     candidates = []

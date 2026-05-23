@@ -1406,7 +1406,24 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "夢みてTRY",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "I Say Hello Again",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -2992,7 +3009,72 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Open Your Heart 〜素顔のままで〜(5:00) 作詞：JUN.T、田中隼人/作曲：田中隼人/編曲：CHOKKAKU",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "There Must Be An Angel(4:36) Eurythmicsのカバー 作詞：Dave Stewart, Annie Lennox/作曲：Dave Stewart, Annie Lennox/編曲：E-3, DJ HIROnyc フジテレビ系めざましテレビ占いコーナーOA曲",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "奇跡を望むなら...(6:17) 3rdシングル 作詞・作曲：E-3、編曲：E-3、DJ HIROnyc テレビ東京系ドラマ24クピドの悪戯 虹玉エンディングテーマ SUBARULEGACY OUTBACKCMソング テレビ東京系JAPAN COUNTDOWN2月度オープニングテーマ テレビ東京系美しくやせたい女たちの驚異の記録〜その後〜エンディングテーマ テレビ東京系たけしの誰でもピカソエンディングテーマ dwango着うたCMソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "I like it(5:13) DeBargeのカバー 作詞：Randy De Barge, Elda Debarge, Etterlene Jordan/作曲：Randy De Barge, Elda Debarge, Etterlene Jordan",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "CRAVIN' -07mix-(4:53) 2ndシングル 作詞・作曲：JUJU, E-3, DJ HIROnyc",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "Guilty Pleasure(5:03) 作詞：JUJU, E-3/作曲：JUJU 松坂屋2007サマー 水着・浴衣CMソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "光の中へ -07mix-(4:56) 1stシングル 作詞・作曲：JUJU, E-3",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 8,
+        "title": "New York State Of Mind(5:41) Billy Joelのカバー 作詞・作曲：Billy Joel/編曲：DJ HIROnyc, E-3",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -3656,7 +3738,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "SEARCHIN’ 作詞・作曲・編曲：小室哲哉",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "STRANGER 作詞：井上秋緒 作曲・編曲：土橋安騎夫",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "SEARCHIN’ (Guitar Oriented Version)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -3923,7 +4030,32 @@
     "arrangement": "小室哲哉\n久保こーじ",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "masquerade [original rock simulation mix]銀座じゅわいよ・くちゅーるマキカメリアダイヤモンドCMソング",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Winter Grooves [VELFARRE snow club mix]",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "masquerade [instrumental]",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -4024,7 +4156,32 @@
     "arrangement": "小室哲哉\n久保こーじ",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "もっと もっと… [6:00] 作詞・作曲：小室哲哉 / 編曲：小室哲哉、久保こーじ マンダムトリーティア ハーブ in ウォーターCMソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "夏の日 [4:27] 作詞：小室哲哉 / 作曲・編曲：久保こーじ",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "もっと もっと…（オリジナルカラオケ）[5:59]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -4439,7 +4596,40 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Only One,Only You 発足25周年を迎えるオフィシャルファンクラブHappy Swing25th Anniversary公式応援ソング[10]。 オフィシャルではメインコンポーザーであるTAKUROが、今の世の中に対する想いと祈りを込めた1曲[6]平和に対する強い願いが込められたナンバー[11]と紹介されている。 同年10月より行われたツアーGLAY Anthology presents -UNITY ROOTS & FAMILY,AWAY 2022-にて、楽曲のラストに未来を担う若者代表として、日本赤十字社の青少年赤十字メンバー、そして東京スクールオブミュージック専門学校渋谷に所属する学生達によるコーラスワークを交え、合唱を披露した[12]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "GALAXY (GLAY×80KIDZ) WOWOWテニス2022シーズン イメージソング[13]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "クロムノワール テレビ東京系WBS ワールドビジネスサテライトエンディングテーマ[14]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "WE♡HAPPY SWING (2022.7.31 幕張メッセ) TAKUROが7月31日に幕張メッセでファイナルを迎えたファンクラブ発足25周年のアリーナツアーGLAY LIVE TOUR 2022 〜We♡Happy Swing〜Vol.3 Presented by HAPPY SWING 25th Anniv.のため新たに書き下ろした楽曲。オフィシャルでは80年代のパンクロックが思い浮かぶキャッチ―なリズムに、オフィシャルファンクラブHappy Swingへの感謝の気持ちが伝わってくる歌詞が融合した、情熱的なナンバーとなっている、とのこと。同ツアー同公演でのテイクを収録[8][9]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -5388,7 +5578,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "BABY'S GROWING UP(4:52)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "19 NINETEEN(3:20)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "BABY'S GROWING UP（カラオケ）(4:52)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -6687,7 +6902,40 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "FRIENDSHIP (Original Mix)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "FRIENDSHIP (KC's Extended Mix)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "FRIENDSHIP (Instrumental)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "FRIENDSHIP (TK's Rough Mix)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -7144,7 +7392,64 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Promise [4:46] 作曲・編曲：Daisuke\"D.I\"Imai",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Star [4:04] 作曲：Kousuke Morimoto編曲：h-wonder",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Promise (Instrumental) [4:46]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "Star (Instrumental) [4:03]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "Promise (MUSIC VIDEO) 結婚直前での恋人の死がテーマということもあり、ウェディングドレス姿を披露している。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "Star 〜Short Version〜 (MUSIC VIDEO) 本作のみに収録のクリップ。ただし、フルバージョンは制作されていない。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "Making of Promise & Star",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -7612,7 +7917,64 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Close To Your Heart 作詞：愛内里菜 作曲：大野愛果 編曲：尾城九龍",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "作詞：愛内里菜 作曲：大野愛果 編曲：尾城九龍",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Black eyes,Blue tears 作詞：愛内里菜 作曲：大野愛果 編曲：尾城九龍",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "作詞：愛内里菜 作曲：大野愛果 編曲：尾城九龍",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "Close To Your Heart 〜VIVA RINA Q MIX〜 作詞：愛内里菜 作曲：大野愛果 編曲：CAPTAIN DINAMO",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "作詞：愛内里菜 作曲：大野愛果 編曲：CAPTAIN DINAMO",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "Close To Your Heart 〜instrumental〜",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -7802,7 +8164,56 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "CLOSE YOUR EYES 作詞・作曲・編曲：長渕剛、ストリングスアレンジ：瀬尾一三",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "作詞・作曲・編曲：長渕剛、ストリングスアレンジ：瀬尾一三",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "YAMATO 作詞・作曲・編曲：長渕剛",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "作詞・作曲・編曲：長渕剛",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "CLOSE YOUR EYES（instrumental）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "YAMATO（instrumental）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -9697,7 +10108,128 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Prologue 作曲・編曲：鈴木雅也",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Yourself 作詞：松室麻衣、作曲：菊池一仁、編曲：鈴木雅也 12thシングル",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "パズル 作詞：松室麻衣、作曲・編曲：五十嵐充 松室が初めて何かに例えて気持ちを歌詞に託した曲。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "solve 作詞：松室麻衣、作曲：川本盛文、編曲：IZUMI \"D・M・X\" MIYAZAKI 8thシングル。PVや歌番組ではスタンドマイクを使って歌唱していた。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "New Days (Kana Tachibana) 作詞：橘佳奈、作曲：長尾大、菊池一仁、編曲：鈴木雅也 橘が作詞も手がけたソロ曲。間奏に男性のラップが入っている。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "destine 作詞：松室麻衣、作曲：織田哲郎、編曲：HΛL",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "Precious Heart (Yu Hasebe) 作詞：長谷部優、作曲・編曲：五十嵐充 長谷部が作詞も手がけたソロ曲",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 8,
+        "title": "Our Time 作詞：松室麻衣、作曲：D・A・I、編曲：IZUMI \"D・M・X\" MIYAZAKI 9thシングル",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 9,
+        "title": "NeverMore (Mai Matsumuro) 作詞：松室麻衣、作曲・編曲：五十嵐充 松室のソロ曲",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 10,
+        "title": "SUBPAIN 作詞：松室麻衣、作曲：梅崎俊春、編曲：HΛL",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 11,
+        "title": "Answer 作詞：橘佳奈、作曲・編曲：五十嵐充 橘が作詞を担当。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 12,
+        "title": "願い 作詞：松室麻衣、作曲：大谷靖夫、編曲：小幡英之 松室曰く絵が浮かぶような歌詞を書いたと語るバラード。森永製菓ミルクココアCMソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 13,
+        "title": "Get Over 作詞：松室麻衣、作曲：BOUNCEBACK、編曲：矢崎俊輔、中尾昌文 11thシングル。テレビ東京系アニメヒカルの碁オープニングテーマ",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 14,
+        "title": "Don't forget memory 作詞：長谷部優、作曲：星野靖彦、編曲：中尾昌文 長谷部が失恋をテーマに歌詞を書いた。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 15,
+        "title": "STAY 〜now I'm here〜(brilliant version) 作詞：松室麻衣、作曲：多胡邦夫、編曲：鈴木雅也 for GROUND-BASE PROJECT CMソングにもなった10thシングル",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -9792,7 +10324,72 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "in your arms 作詞：atsuko 作曲：atsuko・KATSU 編曲：KATSU ヴァンパイアホストオープニング曲",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "作詞：atsuko 作曲：atsuko・KATSU 編曲：KATSU",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "ヴァンパイアホストオープニング曲",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "solitude 作詞：atsuko 作曲：atsuko・KATSU 編曲：KATSU ヴァンパイアホストエンディング曲",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "作詞：atsuko 作曲：atsuko・KATSU 編曲：KATSU",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "ヴァンパイアホストエンディング曲",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "in your arms (Off Vocal Ver.)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 8,
+        "title": "solitude (Off Vocal Ver.)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -9949,7 +10546,32 @@
     "arrangement": "小室哲哉\n久保こーじ",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "ONE, TWO STEP - Japanese Version (5:06)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "ONE, TWO STEP - Mandarin Version (5:08)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "ONE, TWO STEP - Instrumental (5:06)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -10071,7 +10693,40 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Tonight I need your kiss",
+        "lyrics": "甲斐よしひろ、",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Tonight I need your kiss 〜Summer Groove MIX〜 Mix & Remix by Keith \"KC\" Cohen Additional Production by George Black トランスの要素を混在させた[1]。",
+        "lyrics": "甲斐よしひろ、",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "トランスの要素を混在させた[1]。",
+        "lyrics": "甲斐よしひろ、",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "Tonight I need your kiss 〜TV MIX〜",
+        "lyrics": "甲斐よしひろ、",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -10269,7 +10924,40 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "HEY! MONOCHROME CITY",
+        "lyrics": "甲斐よしひろ、",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "HEY! MONOCHROME CITY 〜Old School MIX〜 Mix & Remix by Keith \"KC\" Cohen Additional Production by George Black オールドスクール・ヒップホップ調でありつつ、1996年頃から取り組んでいたR&Bを取り入れている[1]。",
+        "lyrics": "甲斐よしひろ、",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "オールドスクール・ヒップホップ調でありつつ、1996年頃から取り組んでいたR&Bを取り入れている[1]。",
+        "lyrics": "甲斐よしひろ、",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "HEY! MONOCHROME CITY 〜Instrumental〜",
+        "lyrics": "甲斐よしひろ、",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -10483,7 +11171,40 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "tohhikoh 作詞：マーク・パンサー・小室哲哉、作曲・編曲：小室哲哉、ミキシング：伊東俊郎 楽曲のタイトルは2人でどこかへ駆け落ちするのではなくて、現実から逃げ出したい嫌なことを考えるのが嫌で、昔の良かったことを思い出しながらその中で暮らしていく切なさを例えた[1]。 歌詞は恋人と連絡が途絶えがちで、自然消滅になってしまう時の微妙な気持ちを表現した[1]。 小室は今回は抑えた歌い方をした方が色んなものが出てくると思うという意向から、敢えてキーは高くせずに作曲することを心掛けた[1]。 歌入れの際に小室はtohkoにキーを上げない様に指示し、tohkoは普段より力を抜いて歌い、テイクは重ねなかった。その少ないテイクから、tohkoの今回はただきれいに声が鳴っているのとは違う、敢えて少し語尾がかすれている方が合うという意向から、最終テイクをtohkoが選んでいった[1]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "tohhikoh (remix) リミックス：久保こーじ",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "BAD LUCK ON LOVE 〜BLUES ON LIFE〜 (LIVE) 作詞：マーク・パンサー、作曲・編曲：日向大介、ピアノアレンジ：tohko BAD LUCK ON LOVE 〜BLUES ON LIFE〜をリリース直後から、家でピアノを弾きながら、バラード風にして歌っていた。前々からtohkoがピアノでやってみたいと主張していたら、スタッフが今度は12センチシングルで容量が多く入るから、やる?と勧められた[1]。 ピアノと歌を同時にレコーディングするため、どこかを間違えたら、もう1回最初からやり直しだった。あらかじめバックトラックがある状態で歌う歌入れがどんなに楽だったかを痛感し、プレッシャーがのしかかったが、逆にそれが良い緊張感となって、1発でOKテイクとなった[1]。 tohkoはピアノアレンジも自分でこなしたこともあり、小室さんと日向さんと私の3人で制作したという感じがして、すごく充実感と達成感があったと語っている[1]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "tohhikoh (TV mix)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -10552,7 +11273,40 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "KI-RA-ME-I-TE",
+        "lyrics": "甲斐よしひろ、",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "KI-RA-ME-I-TE 〜Aura MIX〜 Mix & Remix by Eddie Delena Additional Production by Gary Adante & Rob Arbittier for Noisy Neighbors Productions 王道のアダルト・コンテンポラリー・ミュージックを志向した[2]。",
+        "lyrics": "甲斐よしひろ、",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "王道のアダルト・コンテンポラリー・ミュージックを志向した[2]。",
+        "lyrics": "甲斐よしひろ、",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "KI-RA-ME-I-TE 〜Instrumental〜",
+        "lyrics": "甲斐よしひろ、",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -11500,7 +12254,64 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Adore 作詞: 小竹正人、作曲: 金澤信葉、編曲: 嶋田陽一",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "作詞: 小竹正人、作曲: 金澤信葉、編曲: 嶋田陽一",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Adore (for movie) 作詞: 小竹正人、作曲: 金澤信葉、編曲: 嶋田陽一",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "作詞: 小竹正人、作曲: 金澤信葉、編曲: 嶋田陽一",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "Sweetest Lover 作詞: 北山瑞穂、作曲: Cindy、編曲: Little Creatures",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "作詞: 北山瑞穂、作曲: Cindy、編曲: Little Creatures",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "Adore(オリジナルカラオケ)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -12805,7 +13616,72 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "reality（Original Mix） 作詞：松室麻衣 作曲：y@suo ohtani 編曲：五十嵐充",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "reality（Dub's Warp House Remix）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "send a little love（BEATWAVE REMIX）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "reality（EUROBEAT MIX）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "send a little love（Happy Euro 2000 Mix）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "send a little love（Original Mix） 作詞：松室麻衣 作曲：桑原秀明 編曲：D-Z",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "reality（Instrumental）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 8,
+        "title": "send a little love（Instrumental）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -12823,7 +13699,48 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "PLEASE SMILE AGAIN (TK original mix) [4:43] 明治製菓FranCMソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "CROSS OVER (TK original mix) [4:42] ツーカーホン関西CMソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "PLEASE SMILE AGAIN (Jamaster A Mix) [6:33]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "PLEASE SMILE AGAIN (tv mix) [4:43]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "PLEASE SMILE AGAIN (acappella) [4:35]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -13858,7 +14775,24 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "the meaning of peace (original mix) 作詞・作曲・編曲：Tetsuya Komuro",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "the meaning of peace (tv mix)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -13876,7 +14810,24 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "lovin' it (original mix)（作詞：Tetsuya Komuro, VERBAL / 作曲・編曲：Tetsuya Komuro）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "lovin' it (tv mix)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -14923,7 +15874,56 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "BE WITH YOU （作詞・作曲：TAKURO） ミュージックビデオはニューヨークで撮影された。 アレンジでは色々な手法を試しすぎ、TAKUROが一度ボツにしかけた曲である。歌詞に関しては満足のいく出来だったらしく、当時自身最高傑作と語っている。これまでに、4枚のアルバムに収録され、5thアルバムHEAVY GAUGEにはアレンジ変更を含む別テイク、DRIVE-GLAY complete BESTにはボーカルとコーラスのミックスが異なるバージョンが収録されている。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "毒ロック （作詞：HISASHI / 作曲：TAKURO）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "ストロベリーシェイク〜It's dying It's not dying ストロベリーシェイク （作詞・作曲：JIRO） It's dying It's not dying （作詞・作曲：TAKURO） 1つのトラックに収められたメドレー楽曲。歌詞カードも別々に書かれている。前曲とサウンド上では繋がっている。ストロベリーシェイクはJIROのボーカル、作詞、作曲。It's dying It's not dyingはTERUのメインボーカルとコーラスを含めて全員で合唱している。rare collectives vol.1ではトラック分けされ収録されている。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "ストロベリーシェイク （作詞・作曲：JIRO）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "It's dying It's not dying （作詞・作曲：TAKURO）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "BE WITH YOU instrumental",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -15120,7 +16120,40 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "眠らないラブソング（5分12秒） 作詞：小室哲哉",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "道標（4分34秒） 作詞：Kenn Kato",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "眠らないラブソング（オリジナル・カラオケ）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "道標（オリジナル・カラオケ）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -15713,7 +16746,56 @@
     "arrangement": "小室哲哉\n鈴木大輔",
     "type": "digital",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Lovely Magic [4:35] 作詞・作曲：渡邉美佳、編曲：渡邉美佳・久保幹一郎 文化放送系ラジオ田村ゆかりのいたずら黒うさぎオープニングテーマ（2003年4月 - 9月）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "文化放送系ラジオ田村ゆかりのいたずら黒うさぎオープニングテーマ（2003年4月 - 9月）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "恋歌姫 [4:54] 作詞・作曲・編曲：太田雅友 文化放送系ラジオ田村ゆかりのいたずら黒うさぎエンディングテーマ（2003年4月 - 9月）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "文化放送系ラジオ田村ゆかりのいたずら黒うさぎエンディングテーマ（2003年4月 - 9月）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "Prince On A Star 〜Princess Whispers〜 [4:48] 作詞：さな、作曲：竹安弘、編曲：多田光裕 音楽ゲームbeatmania IIDX収録曲のカバー。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "音楽ゲームbeatmania IIDX収録曲のカバー。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -16219,7 +17301,32 @@
     "arrangement": "日比野裕史",
     "type": "digital",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Lady Generation (Original Mix) [4:31] 作詞・作曲・編曲：小室哲哉 ファミリーマート CMソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Lady Generation (Club Mix) [6:20]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Lady Generation (Instrumental) [4:29]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -16397,7 +17504,80 @@
     "arrangement": "",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Dear Angie〜あなたは負けない 作詞・作曲：杉真理",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "それぞれの夜 作詞・作曲：竹内まりや",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Your Mother Should Know 作詞・作曲：Lennon / McCartney",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "Dear Angie〜あなたは負けない（オリジナル・カラオケ）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "それぞれの夜（オリジナル・カラオケ）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "Dear Angie〜あなたは負けない",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "それぞれの夜",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 8,
+        "title": "Your Mother Should Know",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 9,
+        "title": "This boy 作詞・作曲：Lennon / McCartney",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",

@@ -224,6 +224,108 @@ def _parse_credits_from_ul(ul_tags) -> dict:
                 credits[field] = re.sub(r"（[^）]*）|\([^)]*\)|\[.*?\]", "", m2.group(1)).strip()
     return credits
 
+def _extract_title_from_li(li) -> str:
+    """
+    從 <li> 取曲目標題：優先 <b> 元素，同時把 <b> 後到 <br>/作詞/作曲之前的
+    文字節點一起納入（如 Let's Play Winter <b> + (INSTRUMENTAL) 文字節點）。
+    """
+    b = li.find("b")
+    if b:
+        title = b.get_text().strip()
+        # 收集 <b> 之後、<br>/<ul>/<dl> 之前的文字節點
+        # NavigableString 的 .name 是 None，實際 Tag 的 .name 是字串
+        for sib in b.next_siblings:
+            if getattr(sib, "name", None) is not None:  # 真正的 HTML tag
+                if sib.name in ("br", "ul", "dl"):
+                    break
+            else:  # 文字節點 NavigableString
+                suffix = str(sib).strip()
+                if re.search(r"作詞|作曲|編曲", suffix):
+                    break
+                if suffix:
+                    title = title.rstrip() + " " + suffix
+        return re.sub(r"[「」『』【】〈〉]", "", title).strip()
+    # fallback: 取到作詞/作曲關鍵字前的文字
+    text = normalize(li.get_text())
+    m = re.search(r"作詞|作曲|編曲", text)
+    if m:
+        text = text[:m.start()]
+    return re.sub(r"[「」『』【】〈〉]", "", text).strip()
+
+def _extract_credits_from_li(li) -> dict:
+    """
+    從 <li> 的 inline 文字提取作詞/作曲/編曲。
+    取 <br> 之後、<ul>/<dl> 之前的文字段落。
+    """
+    credits = {"lyrics": "", "composition": "", "arrangement": ""}
+    # 收集 <br> 之後、<ul>/<dl> 之前的文字節點
+    found_br = False
+    parts = []
+    for child in li.children:
+        if hasattr(child, "name"):
+            if child.name == "br":
+                found_br = True
+            elif child.name in ("ul", "dl"):
+                break
+            elif found_br:
+                parts.append(child.get_text())
+        elif found_br:
+            parts.append(str(child))
+    text = re.sub(r"\[.*?\]", "", "".join(parts)).replace("　", " ").strip()
+    if not text:
+        return credits
+
+    # 模式1: 作詞・作曲・編曲：xxx
+    m = re.search(r"作詞[・・]作曲[・・]編曲[：:]\s*([^\n\t/／]+)", text)
+    if m:
+        val = clean_credit(m.group(1))
+        credits["lyrics"] = credits["composition"] = credits["arrangement"] = val
+        return credits
+
+    # 模式2: 作詞・作曲：xxx 編曲：xxx
+    m_lc = re.search(r"作詞[・・]作曲[：:]\s*([^\n\t/／編　 ]+)", text)
+    if m_lc:
+        credits["lyrics"] = credits["composition"] = clean_credit(m_lc.group(1))
+
+    # 模式3: 作詞：xxx / 作曲：xxx / 編曲：xxx（斜線分隔）
+    for field, pat in [
+        ("lyrics",      r"(?<![曲・・])作詞[：:]\s*([^/／\n\t　 作編]+)"),
+        ("composition", r"(?<![詞・・])作曲[：:]\s*([^/／\n\t　 編]+)"),
+        ("arrangement", r"編曲[：:]\s*([^/／\n\t　 ]+)"),
+    ]:
+        if not credits[field]:
+            m2 = re.search(pat, text)
+            if m2:
+                credits[field] = clean_credit(m2.group(1))
+
+    return credits
+
+def _parse_ol_tracks(ol, default_credits=None) -> list:
+    """
+    從 <ol> 的直接子 <li> 解析曲目（recursive=False 避開腳注）。
+    每個 <li> 優先取 inline credits，其次用 default_credits。
+    """
+    if default_credits is None:
+        default_credits = {"lyrics": "", "composition": "", "arrangement": ""}
+    tracks = []
+    for i, li in enumerate(ol.find_all("li", recursive=False), 1):
+        title = _extract_title_from_li(li)
+        if not title:
+            continue
+        credits = _extract_credits_from_li(li)
+        if not any(credits.values()):
+            credits = default_credits
+        tieup = ""
+        dd = li.find("dd")
+        if dd:
+            tieup = normalize(dd.get_text())
+        tracks.append({"trackNo": i, "title": title,
+                       "lyrics": credits["lyrics"],
+                       "composition": credits["composition"],
+                       "arrangement": credits["arrangement"],
+                       "tieUp": tieup})
+    return tracks
+
 def _extract_tracks_from_ol(soup) -> list:
     """
     從 <ol> 清單格式解析曲目。
@@ -238,24 +340,20 @@ def _extract_tracks_from_ol(soup) -> list:
             if sib.name == "ul":
                 current_credits = _parse_credits_from_ul([sib])
             elif sib.name == "ol":
-                for li in sib.find_all("li"):
+                new = _parse_ol_tracks(sib, current_credits)
+                for t in new:
                     track_no += 1
-                    title = re.sub(r"[「」『』【】〈〉]", "", re.sub(r"\s+", " ", li.get_text()).strip())
-                    tracks.append({"trackNo": track_no, "title": title,
-                                   "lyrics": current_credits["lyrics"],
-                                   "composition": current_credits["composition"],
-                                   "arrangement": current_credits["arrangement"], "tieUp": ""})
+                    t["trackNo"] = track_no
+                tracks.extend(new)
             if hasattr(sib, "find_all"):
                 for ul in sib.find_all("ul", recursive=False):
                     current_credits = _parse_credits_from_ul([ul])
                 for ol in sib.find_all("ol", recursive=False):
-                    for li in ol.find_all("li"):
+                    new = _parse_ol_tracks(ol, current_credits)
+                    for t in new:
                         track_no += 1
-                        title = re.sub(r"[「」『』【】〈〉]", "", re.sub(r"\s+", " ", li.get_text()).strip())
-                        tracks.append({"trackNo": track_no, "title": title,
-                                       "lyrics": current_credits["lyrics"],
-                                       "composition": current_credits["composition"],
-                                       "arrangement": current_credits["arrangement"], "tieUp": ""})
+                        t["trackNo"] = track_no
+                    tracks.extend(new)
         return tracks
 
     # 優先：找 収録曲 section
@@ -266,26 +364,19 @@ def _extract_tracks_from_ol(soup) -> list:
                 return tracks
 
     # fallback：掃全頁，找第一個符合「曲目列表」特徵的 <ol>
-    # 條件：ol 前方有 <ul> 含 作詞/作曲 關鍵字，或 ol 本身 ≥ 2 個 li
     for ol in soup.find_all("ol"):
-        items = ol.find_all("li")
+        items = ol.find_all("li", recursive=False)
         if len(items) < 2:
             continue
-        # 確認不是 目次 或 参照 類型的 ol
         prev = ol.find_previous_sibling()
+        default_credits = {"lyrics": "", "composition": "", "arrangement": ""}
         if prev and prev.name == "ul":
             text = prev.get_text()
             if any(k in text for k in ["作詞", "作曲", "編曲"]):
-                credits = _parse_credits_from_ul([prev])
-                tracks = []
-                for i, li in enumerate(items, 1):
-                    title = re.sub(r"[「」『』【】〈〉]", "", re.sub(r"\s+", " ", li.get_text()).strip())
-                    tracks.append({"trackNo": i, "title": title,
-                                   "lyrics": credits["lyrics"],
-                                   "composition": credits["composition"],
-                                   "arrangement": credits["arrangement"], "tieUp": ""})
-                if tracks:
-                    return tracks
+                default_credits = _parse_credits_from_ul([prev])
+        new = _parse_ol_tracks(ol, default_credits)
+        if new:
+            return new
     return []
 
 def extract_tracks_from_soup(soup) -> list:

@@ -201,13 +201,63 @@ def is_valid_tracklist(tracks: list) -> bool:
     return invalid / len(tracks) < 0.3
 
 def _renumber_from_one(tracks: list) -> list:
-    """若 track 1 不存在，整體重新編號（從 1 開始）"""
-    if not tracks:
-        return tracks
-    if tracks[0]["trackNo"] == 1:
+    if not tracks or tracks[0]["trackNo"] == 1:
         return tracks
     for i, t in enumerate(tracks):
         t["trackNo"] = i + 1
+    return tracks
+
+def _parse_credits_from_ul(ul_tags) -> dict:
+    credits = {"lyrics": "", "composition": "", "arrangement": ""}
+    for ul in ul_tags:
+        text = re.sub(r"\s+", " ", ul.get_text().replace("　", " ")).strip()
+        m = re.match(r"作詞[・・]作曲[・・]編曲[：:]\s*(.+)", text)
+        if m:
+            val = re.sub(r"（[^）]*）|\([^)]*\)|\[.*?\]", "", m.group(1).split("MIX")[0]).strip()
+            credits["lyrics"] = credits["composition"] = credits["arrangement"] = val
+            continue
+        for field, pat in [("lyrics", r"作詞[：:]\s*([^　\s作編]+)"),
+                            ("composition", r"作曲[：:]\s*([^　\s作編]+)"),
+                            ("arrangement", r"編曲[：:]\s*([^　\s作編]+)")]:
+            m2 = re.search(pat, text)
+            if m2:
+                credits[field] = re.sub(r"（[^）]*）|\([^)]*\)|\[.*?\]", "", m2.group(1)).strip()
+    return credits
+
+def _extract_tracks_from_ol(soup) -> list:
+    section_node = None
+    for tag in soup.find_all(["h2", "h3"]):
+        if "収録曲" in tag.get_text():
+            section_node = tag.parent
+            break
+    if section_node is None:
+        return []
+    tracks = []
+    track_no = 0
+    current_credits = {"lyrics": "", "composition": "", "arrangement": ""}
+    for sib in section_node.find_next_siblings():
+        if sib.name in ["h2", "h3"]: break
+        if sib.name == "ul":
+            current_credits = _parse_credits_from_ul([sib])
+        elif sib.name == "ol":
+            for li in sib.find_all("li"):
+                track_no += 1
+                title = re.sub(r"[「」『』【】〈〉]", "", re.sub(r"\s+", " ", li.get_text()).strip())
+                tracks.append({"trackNo": track_no, "title": title,
+                                "lyrics": current_credits["lyrics"],
+                                "composition": current_credits["composition"],
+                                "arrangement": current_credits["arrangement"], "tieUp": ""})
+        if hasattr(sib, "find_all"):
+            for ul in sib.find_all("ul", recursive=False):
+                current_credits = _parse_credits_from_ul([ul])
+            for ol in sib.find_all("ol", recursive=False):
+                for li in ol.find_all("li"):
+                    track_no += 1
+                    title = re.sub(r"[「」『』【】〈〉]", "", re.sub(r"\s+", " ", li.get_text()).strip())
+                    tracks.append({"trackNo": track_no, "title": title,
+                                   "lyrics": current_credits["lyrics"],
+                                   "composition": current_credits["composition"],
+                                   "arrangement": current_credits["arrangement"], "tieUp": ""})
     return tracks
 
 def extract_tracks_from_soup(soup) -> list:
@@ -216,10 +266,13 @@ def extract_tracks_from_soup(soup) -> list:
         parsed = parse_track_table(tbl)
         if len(parsed) >= 2 and is_valid_tracklist(parsed):
             candidates.append(parsed)
-    if not candidates:
-        return []
-    best = max(candidates, key=len)
-    return _renumber_from_one(best)
+    if candidates:
+        return _renumber_from_one(max(candidates, key=len))
+    # fallback: ol 格式
+    ol_tracks = _extract_tracks_from_ol(soup)
+    if ol_tracks:
+        return ol_tracks
+    return []
 
 # ── 搜尋策略 ──────────────────────────────────────────
 

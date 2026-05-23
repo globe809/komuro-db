@@ -204,7 +204,24 @@
     "arrangement": "",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "YOUR SONG (\"D\"Mix)",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉、木根尚登",
+        "arrangement": "小室哲哉、木根尚登",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "YOUR SONG (Special Instrumental Disco Mix)",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉、木根尚登",
+        "arrangement": "小室哲哉、木根尚登",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -399,329 +416,17 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "カラアゲ!![10]",
-        "lyrics": "",
-        "composition": "",
+        "title": "GIRL",
+        "lyrics": "神沢礼江",
+        "composition": "小室哲哉",
         "arrangement": "",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "速っ! 速うた NON-STOPメガミックス[11]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 3,
-        "title": "a-box NEO 〜avex Best Hit Collection〜",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 4,
-        "title": "超然パラパラ!! プレゼンツ キャンパス・サミット 2009 〜15th アニヴァーサリー〜",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 5,
-        "title": "a-nation'09 BEST HIT SELECTION[12]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 6,
-        "title": "TEPPAN-YAKI -A Collection Of Remixes-[13]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 7,
-        "title": "エッグ ゲット・ワイルド&ビー・セクシー",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 8,
-        "title": "きみのミカタ 〜歩み続けるきみへ〜[14]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 9,
-        "title": "テイルズ オブ バーサス オリジナル サウンドトラック",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 10,
-        "title": "スーパーユーロビート VOL.200",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 11,
-        "title": "D-1ドリーム・プロジェクト2010",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 12,
-        "title": "スーパーユーロビート VOL.201",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 13,
-        "title": "スーパーユーロビート VOL.203",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 14,
-        "title": "JAPANATION[15]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 15,
-        "title": "a-nation'10 BEST HIT SELECTION[16]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 16,
-        "title": "キャンパス・サミット・2010",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 17,
-        "title": "ベスト・オブ・スーパー・ユーロ・クリスマス",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 18,
-        "title": "JAPANATION 2nd FLOOR[17]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 19,
-        "title": "ウルトラマンゼロ THE MOVIE 超決戦!ベリアル銀河帝国 オリジナル・サウンドトラック",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 20,
-        "title": "スーパーユーロビート VOL.210",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 21,
-        "title": "RUN",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 22,
-        "title": "極ユーロ・ベスト",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 23,
-        "title": "エヴリバディ・ダンス!",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 24,
-        "title": "キャンパス・サミット・2011",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 25,
-        "title": "ウルトラマンシリーズ45周年記念 ウルトラマン主題歌大全集",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 26,
-        "title": "スーパーユーロビート VOL.220",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 27,
-        "title": "Dramatic Tunes",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 28,
-        "title": "アゲイン!00's BEST OF HEARTFUL J-POP SONGS",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 29,
-        "title": "TRF TRIBUTE ALBUM BEST[18]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 30,
-        "title": "女子力を磨く歌[19]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 31,
-        "title": "あにこん! the beginning",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 32,
-        "title": "円谷プロダクション 創立50周年記念円谷プロの世界Ⅱ ★ULTRA ANTHOLOGY★1966～2013",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 33,
-        "title": "ディズニー・ジャパニーズ・アーティスト・ベスト[20]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 34,
-        "title": "ウルトラマンシリーズ放送開始50年 ウルトラマン主題歌大全集 1966-2016",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 35,
-        "title": "ウルトラマン 主題歌・挿入歌 大全集 Ultraman Songs Collected Works",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 36,
-        "title": "スーパーユーロビート VOL.250",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 37,
-        "title": "平成HITS avex[21]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 38,
-        "title": "SUPER BEST HITS a-mix",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 39,
-        "title": "ドラマと涙 ～懐かしい思い出と、あの頃の歌～",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 40,
-        "title": "Girls Pop Parade 〜Happy Mix〜",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 41,
-        "title": "HOT MiLK",
-        "lyrics": "",
-        "composition": "",
+        "title": "雨に誓って〜SAINT RAIN〜",
+        "lyrics": "西門加里",
+        "composition": "小室哲哉、木根尚登",
         "arrangement": "",
         "tieUp": ""
       }
@@ -1650,7 +1355,40 @@
     "arrangement": "",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "天と地と〜HEAVEN AND EARTH〜 作詞・作曲・編曲: 小室哲哉",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "作詞・作曲・編曲: 小室哲哉",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "天と地と〜HEAVEN AND EARTH〜（Movie Mix） 作詞・作曲・編曲: 小室哲哉",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "作詞・作曲・編曲: 小室哲哉",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -2990,7 +2728,40 @@
     "arrangement": "",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "永遠と名づけてデイドリーム ～une rêverie appelée ēfini～ 作詞：坂元裕二／作曲・編曲：小室哲哉",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "作詞：坂元裕二／作曲・編曲：小室哲哉",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "The theme from Mademoiselle Mozart ～マドモアゼル・モーツァルトのテーマ～ 作曲：小室哲哉／オーケストレーション：岩代太郎",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "作曲：小室哲哉／オーケストレーション：岩代太郎",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -3079,7 +2850,88 @@
     "arrangement": "",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Pure (Hyper Mix)",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Yūki's Song",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "City Stream",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "Far & Away",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "Pure (Strings Mix)",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "Straight To The Heart",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "Innocent Eyes",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 8,
+        "title": "Tears In The Rain",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 9,
+        "title": "Pure",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 10,
+        "title": "Overture",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -3162,33 +3014,65 @@
       {
         "trackNo": 1,
         "title": "EZ DO DANCE",
-        "lyrics": "小室哲哉",
+        "lyrics": "小室哲哉・KOO",
         "composition": "小室哲哉",
-        "arrangement": "",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "パーリィー☆パーリィー",
-        "lyrics": "田形美喜子",
-        "composition": "大場康司",
-        "arrangement": "",
+        "title": "ROCK IT ON!!",
+        "lyrics": "小室哲哉・KOO",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 3,
-        "title": "EZ DO DANCE(inst.)",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
+        "title": "ISLAND ON YOUR MIND",
+        "lyrics": "小室哲哉・KOO",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 4,
-        "title": "パーリィー☆パーリィー(inst.)",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
+        "title": "ON MY WAY",
+        "lyrics": "小室哲哉・KOO",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "ONE MORE NIGHT",
+        "lyrics": "小室哲哉・KOO",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "RAVING ZONE",
+        "lyrics": "小室哲哉・KOO",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "EZ DO DANCE (UK DANCE VERSION)",
+        "lyrics": "小室哲哉・KOO",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 8,
+        "title": "ONE MORE NIGHT (UK DANCE VERSION)",
+        "lyrics": "小室哲哉・KOO",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -3711,7 +3595,32 @@
     "arrangement": "小室哲哉\n久保こーじ",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Happy wake up!作詞・作曲：小室哲哉 編曲：小室哲哉、久保こーじ クノール カップスープ CMソング。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Close to you作詞・作曲：小室哲哉 編曲：久保こーじ",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Happy wake up! オリジナル・カラオケ",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -3880,7 +3789,80 @@
     "arrangement": "小室哲哉\n久保こーじ",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Let's Play Winter (ORIGINAL MIX)作詞：hitomi / 作曲：小室哲哉 / 編曲：小室哲哉、久保こーじ 原曲は小室が20歳の頃に制作された[1]。 hitomiは好きな人とスノーボードに行く時はどんな風だろうと思いながら歌詞を書いた[2]。 hitomiは書く前にスノーマンを見たため、それを参考にした[2]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "原曲は小室が20歳の頃に制作された[1]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "hitomiは好きな人とスノーボードに行く時はどんな風だろうと思いながら歌詞を書いた[2]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "hitomiは書く前にスノーマンを見たため、それを参考にした[2]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "PLEASURE (ORIGINAL MIX)作詞：hitomi / 作曲：小室哲哉 / 編曲：小室哲哉、久保こーじ メジャーデビュー前に歌詞を書き溜めていたhitomiが書き方について悩んでいた時に、小室がリアルに起こったことでも、電話で話した内容でも何でもいいと言った。その時に感じた作詞作業そのものに対するもっと格好良く書けないかなという葛藤・疑問がそのまま反映された[2]。 後にhitomiは今読み直すと表現の仕方が格好悪いと思う歌う度に同じ曲な気がしない。自分の中で一番つかみ切れてない曲自分の解釈にも疑問があると振り返っている[2]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "メジャーデビュー前に歌詞を書き溜めていたhitomiが書き方について悩んでいた時に、小室がリアルに起こったことでも、電話で話した内容でも何でもいいと言った。その時に感じた作詞作業そのものに対するもっと格好良く書けないかなという葛藤・疑問がそのまま反映された[2]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "後にhitomiは今読み直すと表現の仕方が格好悪いと思う歌う度に同じ曲な気がしない。自分の中で一番つかみ切れてない曲自分の解釈にも疑問があると振り返っている[2]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 8,
+        "title": "Let's Play Winter (INSTRUMENTAL)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 9,
+        "title": "PLEASURE (INSTRUMENTAL)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -4103,7 +4085,32 @@
     "arrangement": "久保こーじ",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "あなたの世代へくちづけを 作詞・作曲：小室哲哉 編曲：久保こーじ フジテレビ系ドラマヘルプ!主題歌。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "ある日 ある朝 恋人は 作詞：小室哲哉 作曲・編曲：久保こーじ",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "あなたの世代へくちづけを（オリジナル・カラオケ）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -4121,7 +4128,64 @@
     "arrangement": "久保こーじ",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "WE ARE \"LONELY GIRL\" [RADIO MIX] (4:59) 作詞：hitomi / 作曲：小室哲哉 / 編曲：久保こーじ / Mixed by Dave Ford 1994年末に歌詞を書いた[1]。 タイアップが付いていたので、作詞作業のスケジュールが短かった。その時の歌詞はすぐに書けるもんじゃない。じゃあ、何も考えていないのか?と問われればそうじゃない。それは認めるけど、その先努力してそれの壁を越えようとしなければ、それだけの人間だよということに気づき、その時の葛藤が反映されている[1]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "1994年末に歌詞を書いた[1]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "タイアップが付いていたので、作詞作業のスケジュールが短かった。その時の歌詞はすぐに書けるもんじゃない。じゃあ、何も考えていないのか?と問われればそうじゃない。それは認めるけど、その先努力してそれの壁を越えようとしなければ、それだけの人間だよということに気づき、その時の葛藤が反映されている[1]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "WE ARE \"LONELY GIRL\" [CLUB MIX] (6:00)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "WE ARE \"LONELY GIRL\" [INSTRUMENTAL] (5:00)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "TOKYOのど真んなかBUSの中で [RADIO MIX] (4:57) 作詞：hitomi / 作曲：No! Galers with T.Komuro / 編曲：No! Galers hitomiが東京の友達の家からバスに乗ろうと走っていたら、僅かな差だったのに止まってくれなかったという体験を元にして、絶対バスの運転手は私の事が見えていたのに、ナメた態度をとるな!という思いを都会の冷たさとして表現した[1]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "hitomiが東京の友達の家からバスに乗ろうと走っていたら、僅かな差だったのに止まってくれなかったという体験を元にして、絶対バスの運転手は私の事が見えていたのに、ナメた態度をとるな!という思いを都会の冷たさとして表現した[1]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -4139,7 +4203,32 @@
     "arrangement": "小室哲哉\n久保こーじ",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Overnight Sensation 〜時代はあなたに委ねてる〜 [Original Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Overnight Sensation 〜時代はあなたに委ねてる〜 [Extended Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Overnight Sensation 〜時代はあなたに委ねてる〜 [Original Karaoke]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -4307,7 +4396,32 @@
     "arrangement": "小室哲哉\n久保こーじ",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "CANDY GIRL [ORIGINAL MIX] (4:02)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "CANDY GIRL [CLUB MIX] (6:24)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "CANDY GIRL [INSTRUMENTAL] (4:02)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -5292,7 +5406,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "keep yourself alive [RADIO EDIT MIX]",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "keep yourself alive [ORIGINAL FULL LENGTH MIX]",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "keep yourself alive [INSTRUMENTAL]",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -5371,7 +5510,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "I BELIEVE [RADIO EDIT]",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "I BELIEVE [EXTENDED (MILAN MIX)]",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "I BELIEVE [INSTRUMENTAL]",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -6073,7 +6237,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Sexy [original mix] (5:16)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Sexy [club mix] (7:44)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Sexy [instrumental] (5:13)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -6091,7 +6280,48 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "I'm Proud [Radio Edit]",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "I'm Proud [Extended Mix]",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "I'm Proud [Orchestral Mix]",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "I'm Proud [Instrumental] 1曲目の[Radio Edit]ではなく、[full version]（もしくは[Original Mix]）のものである。",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "1曲目の[Radio Edit]ではなく、[full version]（もしくは[Original Mix]）のものである。",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -6417,98 +6647,26 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "BETTY BLUE",
-        "lyrics": "TAKURO",
-        "composition": "TAKURO 亀田誠治",
-        "arrangement": "GLAY 亀田誠治",
+        "title": "FREEDOM (RADIO EDIT)",
+        "lyrics": "小室哲哉・MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "Hypersonic",
-        "lyrics": "TAKURO",
-        "composition": "TAKURO",
-        "arrangement": "GLAY 亀田誠治",
+        "title": "FREEDOM (EXTENDED MIX)",
+        "lyrics": "小室哲哉・MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 3,
-        "title": "Winter Moon Winter Stars",
-        "lyrics": "TAKURO",
-        "composition": "TAKURO",
-        "arrangement": "GLAY 亀田誠治",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 4,
-        "title": "FRIED GREEN TOMATOES",
-        "lyrics": "TAKURO",
-        "composition": "TAKURO",
-        "arrangement": "GLAY 亀田誠治",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 5,
-        "title": "永遠を名乗る一秒",
-        "lyrics": "TAKURO",
-        "composition": "TAKURO",
-        "arrangement": "GLAY 亀田誠治村山☆潤",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 6,
-        "title": "漂えど沈まず",
-        "lyrics": "TAKURO",
-        "composition": "TAKURO",
-        "arrangement": "GLAY 亀田誠治",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 7,
-        "title": "BAD APPLE",
-        "lyrics": "TAKURO",
-        "composition": "TAKURO",
-        "arrangement": "GLAY YOW-ROW 亀田誠治",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 8,
-        "title": "Tiny Soldier",
-        "lyrics": "TAKURO",
-        "composition": "TAKURO",
-        "arrangement": "GLAY 亀田誠治",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 9,
-        "title": "Holy Knight",
-        "lyrics": "TAKURO",
-        "composition": "AUDIO 2 AUDIO",
-        "arrangement": "GLAY YOW-ROW 亀田誠治",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 10,
-        "title": "青春は残酷だ",
-        "lyrics": "TAKURO",
-        "composition": "TAKURO",
-        "arrangement": "GLAY 亀田誠治",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 11,
-        "title": "祝祭",
-        "lyrics": "TAKURO",
-        "composition": "TAKURO",
-        "arrangement": "GLAY 亀田誠治",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 12,
-        "title": "桜めぐり",
-        "lyrics": "TAKURO",
-        "composition": "TAKURO",
-        "arrangement": "TAKURO",
+        "title": "FREEDOM (TV MIX)",
+        "lyrics": "小室哲哉・MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -6547,7 +6705,56 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "In the future (4:40) 作詞：hitomi、小室哲哉 / 作曲・編曲：小室哲哉 / Mixed by Jon Gass 歌詞のテーマはタイトル通り今と未来であり、自分にパワーを付けていかないと、いつか世間に捨てられるぞ外見ばかりの変化だけじゃ、その内ダメな時が来るよという思いを込めた[3]。 とにかく何かを壊したいおばさんっぽく見せたいというhitomiの意向から、ジャケットは赤を基調にし、PVでは髪を赤茶色に染めている[4]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "作詞：hitomi、小室哲哉 / 作曲・編曲：小室哲哉 / Mixed by Jon Gass",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Shinin' On (4:15) 作詞：hitomi / 作曲・編曲：小室哲哉 / Mixed by Jon Gass 歌詞は夢を追いかけていくのに、余計なことでじめじめ悩んでいる暇はないよ[3]カッコいいとか、スゲェとか、良い意味でのショックを感じようよ。同時に私も他人にそんなショックを与えられるような人間になりたい![4]をテーマにしている。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "作詞：hitomi / 作曲・編曲：小室哲哉 / Mixed by Jon Gass",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "In the future [TV Mix] (4:39)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "Shinin' On [TV Mix] (4:14)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -6897,90 +7104,26 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "LOVE BRACE [overture]",
+        "title": "LOVE BRACE タイトルはカルティエのブレスレットから取られた[1]。これは中世ヨーロッパの貞操帯をモデルにしたもので、専用のドライバーがなければ外せない仕様になっている[2]。アルバムの制作期間中に一番初めに完成されたが、他の曲を歌うときもこの曲の雰囲気を生かすという華原の姿勢で歌入れは最後に行われた。マライア・キャリーの様に歌いたいという思いから、締め切りがその日の深夜0時なのにその事を知らなかった華原が沢山食べてから歌うというマライアの姿勢を踏襲し、夜22時頃にカツ弁当を食べた。それが功を奏し華原はゆったりとした気持ちで歌えた[3]。",
         "lyrics": "",
-        "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
+        "composition": "",
+        "arrangement": "",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "Just a real love night",
-        "lyrics": "小室哲哉",
-        "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
+        "title": "MOONLIGHT 歌詞が最初に完成して、小室はそれを見た途端1分もかからずに全てのメロディが出来上がり、使用楽器もピアノだけだったこともありレコーディングも早く済んだ[4]。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
         "tieUp": ""
       },
       {
         "trackNo": 3,
-        "title": "keep yourself alive [more rock]",
-        "lyrics": "小室哲哉",
-        "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 4,
-        "title": "Living on…!",
-        "lyrics": "小室哲哉",
-        "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 5,
-        "title": "I BELIEVE [album earth mix]",
-        "lyrics": "小室哲哉",
-        "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 6,
-        "title": "summer visit",
-        "lyrics": "小室哲哉",
-        "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 7,
-        "title": "MOONLIGHT",
-        "lyrics": "小室哲哉・華原朋美",
-        "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 8,
-        "title": "I'm proud [full version]",
-        "lyrics": "小室哲哉",
-        "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 9,
-        "title": "Somebody loves you",
-        "lyrics": "小室哲哉",
-        "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 10,
-        "title": "LOVE BRACE",
-        "lyrics": "小室哲哉",
-        "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 11,
-        "title": "I BELIEVE [play piano]",
+        "title": "LOVE BRACE [original karaoke]",
         "lyrics": "",
-        "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
+        "composition": "",
+        "arrangement": "",
         "tieUp": ""
       }
     ],
@@ -7530,7 +7673,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "save your dream [Original Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "save your dream [Deep Dark Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "save your dream [Lotte Remix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -7594,194 +7762,26 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "Silent Siren ワンマン FREE LIVE[132][133]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
+        "title": "SILENT NIGHT (STRAIGHT RUN)",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "Silent Siren × teena コラボイベント1stALBUMリリース記念イベント",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
+        "title": "SILENT NIGHT (UP ALL NIGHT MIX)",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 3,
-        "title": "Silent Siren × teena コラボイベント第2弾サイサイ祭",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 4,
-        "title": "Silent Siren SPECIAL LIVE 〜サイサイ、あと二ヶ月でメジャーデビューです。〜",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 5,
-        "title": "Silent Siren × teena コラボイベント第3弾サイサイ祭 2012 秋〜サイサイ、あと一ヶ月でメジャーデビューです。〜",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 6,
-        "title": "サイサイ祭 2012 冬1部 〜今夜はサイレンナイト、サイサイサンタがやってくる。〜2部 〜2012年感謝祭 これだからバンドはやめらんねぇ〜よライブ。〜",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 7,
-        "title": "サイサイ祭 2012 年末スペシャル ハッピーバーすぅday! 〜オトナの階段登りますぅ〜",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 8,
-        "title": "AKASAKA BLITZ 5th Anniversary Silent Siren 〜サイサイ祭 2013秋〜[134]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 9,
-        "title": "Silent Siren きょうはクリスマス！〜サイサイはまだチキンライスでいいや〜[135]",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 10,
-        "title": "Silent Siren Live in Hong Kong",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 11,
-        "title": "Silent Siren Live in X'mas〜聖☆ピンク☆night〜",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 12,
-        "title": "Silent Siren Live in Jakarta",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 13,
-        "title": "SILENT SIREN 新春ライブ2018〜今年は戌年です〜",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 14,
-        "title": "別冊カドカワDirecT Presents SILENT SIREN サイファミVSサイサイ ALL TIME REQUEST LIVE",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 15,
-        "title": "SILENT SIREN 年末スペシャルライブ2018 平成最後だョ！サイファミ全員集合！！",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 16,
-        "title": "SILENT SIREN 31313リリース記念シークレットライブ“無音の警告GIG”",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 17,
-        "title": "SILENT SIREN SPECIAL LIVE -3131 in香港 -",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 18,
-        "title": "SILENT SIREN 年末スペシャルライブ2019 HERO",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 19,
-        "title": "SILENT SIREN 結成10周年LIVE サイサイ10歳祭 〜てっぺん目指してGO！サイレンGO！〜",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 20,
-        "title": "Symphonic Concert 2021＠LINE CUBE SHIBUYA〜SILENT SIREN Special Orchestra Live〜",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 21,
-        "title": "SILENT SIREN きららリベンジ〜サイサイ10歳祭〜",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 22,
-        "title": "SILENT SIREN 年末スペシャルライブ2025～15年でこんなにたくさん曲ができました～",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 23,
-        "title": "SILENT SIREN COME BACK LIVE 2026 in Hong Kong",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 24,
-        "title": "SILENT SIREN COME BACK LIVE 2026 in TAIPEI",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
+        "title": "SILENT NIGHT (INSTRUMENTAL)",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -8495,15 +8495,15 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "FACES PLACES (STRAIGHT RUN)",
-        "lyrics": "小室哲哉・MARC",
+        "title": "overdose",
+        "lyrics": "-",
         "composition": "小室哲哉",
         "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "FACES PLACES (DR. DISTORTO'S MIX)",
+        "title": "DEGENERATE",
         "lyrics": "小室哲哉・MARC",
         "composition": "小室哲哉",
         "arrangement": "小室哲哉",
@@ -8511,8 +8511,96 @@
       },
       {
         "trackNo": 3,
-        "title": "FACES PLACES (INSTRUMENTAL)",
+        "title": "FACES PLACES",
         "lyrics": "小室哲哉・MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "Is this love",
+        "lyrics": "小室哲哉・MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "So far away from home (Beautiful Journey)",
+        "lyrics": "MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "a temporary girl",
+        "lyrics": "小室哲哉・MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "Because I LOVE the NIGHT",
+        "lyrics": "小室哲哉・MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 8,
+        "title": "Anytime smokin' cigarette",
+        "lyrics": "小室哲哉・MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 9,
+        "title": "Watch the movie?",
+        "lyrics": "‐",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 10,
+        "title": "a picture on my mind",
+        "lyrics": "小室哲哉・MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 11,
+        "title": "FACE",
+        "lyrics": "小室哲哉・MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 12,
+        "title": "Can't Stop Fallin' in Love",
+        "lyrics": "小室哲哉・MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 13,
+        "title": "can't stop PIANO SOLO",
+        "lyrics": "‐",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 14,
+        "title": "FACES PLACES (REMIX)",
+        "lyrics": "小室哲哉",
         "composition": "小室哲哉",
         "arrangement": "小室哲哉",
         "tieUp": ""
@@ -8553,7 +8641,64 @@
     "arrangement": "久保こーじ",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "BUSY NOW [LONG DISTANCE MIX] (5:36) Mixed by Eddie Delena",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Mixed by Eddie Delena",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "BUSY NOW (5:14) タイトル曲のノーマルバージョンだが、2トラック目に配されている。 ダイハツテリオスCMソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "タイトル曲のノーマルバージョンだが、2トラック目に配されている。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "ダイハツテリオスCMソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "BUSY NOW [RADIO EDIT] (3:40)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "BUSY NOW [KARAOKE] (5:13)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -8632,7 +8777,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Hate tell a lie [Original Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Hate tell a lie [Late Nite Dub Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Hate tell a lie [Original Karaoke]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -8736,7 +8906,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "problem [STRAIGHT RUN] (4:39)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "problem [NERVOUS BREAKDOWN MIX] (4:56)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "problem [INSTRUMENTAL] (4:36)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -8840,7 +9035,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "LOVE IS ALL MUSIC [Original Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "LOVE IS ALL MUSIC [Jazzy Vibe Club Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "LOVE IS ALL MUSIC [Instrumental]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -8943,7 +9163,40 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "たのしく たのしく やさしくね [Original Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "たのしく たのしく やさしくね [Kanebo CM Version]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "たのしく たのしく やさしくね [Summer Night Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "たのしく たのしく やさしくね [Karaoke Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -8961,7 +9214,32 @@
     "arrangement": "小室哲哉\n久保こーじ",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "PRETTY EYES [STRAIGHT RUN] (5:35)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "PRETTY EYES [MOTOR-PHILLY MIX] (5:27)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "PRETTY EYES [TV MIX] (5:32)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -9111,98 +9389,26 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "?",
-        "lyrics": "川上洋平",
-        "composition": "川上洋平",
-        "arrangement": "川上洋平",
+        "title": "I WANNA GO [Single Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "My Blueberry Morning",
-        "lyrics": "川上洋平",
-        "composition": "川上洋平",
-        "arrangement": "川上洋平",
+        "title": "I WANNA GO [Candle Lights Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
         "tieUp": ""
       },
       {
         "trackNo": 3,
-        "title": "Rocknrolla!",
-        "lyrics": "川上洋平",
-        "composition": "川上洋平",
-        "arrangement": "川上洋平",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 4,
-        "title": "Underconstruction",
-        "lyrics": "川上洋平",
-        "composition": "川上洋平",
-        "arrangement": "川上洋平",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 5,
-        "title": "Tic Tac Toe",
-        "lyrics": "川上洋平",
-        "composition": "川上洋平",
-        "arrangement": "川上洋平",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 6,
-        "title": "tokyo2pm36floor",
-        "lyrics": "川上洋平",
-        "composition": "川上洋平",
-        "arrangement": "川上洋平",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 7,
-        "title": "city",
-        "lyrics": "川上洋平",
-        "composition": "川上洋平",
-        "arrangement": "川上洋平",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 8,
-        "title": "風邪をひいた時の歌",
-        "lyrics": "川上洋平",
-        "composition": "川上洋平",
-        "arrangement": "川上洋平",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 9,
-        "title": "Revolution, My Friend",
-        "lyrics": "川上洋平",
-        "composition": "川上洋平",
-        "arrangement": "川上洋平",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 10,
-        "title": "Cat 2",
-        "lyrics": "川上洋平",
-        "composition": "川上洋平",
-        "arrangement": "川上洋平",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 11,
-        "title": "You're So Sweet & I Love You",
-        "lyrics": "川上洋平",
-        "composition": "川上洋平",
-        "arrangement": "川上洋平",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 12,
-        "title": "サテライト",
-        "lyrics": "川上洋平",
-        "composition": "川上洋平",
-        "arrangement": "川上洋平",
+        "title": "I WANNA GO [Instrumental with vocoder]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
         "tieUp": ""
       }
     ],
@@ -9346,7 +9552,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "YOU DON'T GIVE UP [Single mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "YOU DON'T GIVE UP [East meets West remix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "YOU DON'T GIVE UP [Karaoke mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -9410,129 +9641,41 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "アニメーション作品",
-        "lyrics": "",
-        "composition": "",
+        "title": "TOGETHER NOW - Original Full Mix",
+        "lyrics": "小室哲哉、OLIVIA、Jean Michel Jarre",
+        "composition": "Jean Michel Jarre、小室哲哉",
         "arrangement": "",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "本編",
-        "lyrics": "",
-        "composition": "",
+        "title": "TOGETHER NOW - parlez vous francais mix",
+        "lyrics": "小室哲哉、MARC、OLIVIA",
+        "composition": "Jean Michel Jarre、小室哲哉",
         "arrangement": "",
         "tieUp": ""
       },
       {
         "trackNo": 3,
-        "title": "外伝",
-        "lyrics": "",
-        "composition": "",
+        "title": "TOGETHER NOW - Radio Edit (Breakdown Mix)",
+        "lyrics": "小室哲哉、OLIVIA",
+        "composition": "Jean Michel Jarre、小室哲哉",
         "arrangement": "",
         "tieUp": ""
       },
       {
         "trackNo": 4,
-        "title": "映画",
+        "title": "Oxygene 13 TK Remix",
         "lyrics": "",
-        "composition": "",
+        "composition": "Jean Michel Jarre",
         "arrangement": "",
         "tieUp": ""
       },
       {
         "trackNo": 5,
-        "title": "人物",
+        "title": "TOGETHER NOW - Instrumental",
         "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 6,
-        "title": "漫画",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 7,
-        "title": "雑誌・小説",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 8,
-        "title": "絵本",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 9,
-        "title": "アナログゲーム",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 10,
-        "title": "商品とサービス",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 11,
-        "title": "ラジオドラマ",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 12,
-        "title": "テレビドラマ",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 13,
-        "title": "テレビ番組",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 14,
-        "title": "インターネット番組",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 15,
-        "title": "ラジオ番組",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 16,
-        "title": "実写映画",
-        "lyrics": "",
-        "composition": "",
+        "composition": "Jean Michel Jarre、小室哲哉",
         "arrangement": "",
         "tieUp": ""
       }
@@ -9572,7 +9715,48 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "tumblin' dice [Original TK Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "tumblin' dice [TK up date remix] リミックス：小室哲哉 Additional Programming：村上章久",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "リミックス：小室哲哉",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "Additional Programming：村上章久",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "tumblin' dice [Instrumental]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -9687,7 +9871,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "oh-darling（SINGLE MIX）作詞：MARC&TK 作曲・編曲：TETSUYA KOMURO",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "oh-darling（HARD TOP REMIX）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "oh-darling（INSTRUMENTAL）",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -9758,7 +9967,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "here we are [Single Mix]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "here we are [Acoustic Mix with TK]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "here we are [Instrumental]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -10096,7 +10330,48 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "daily news [Straight Run]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "daily news [Intensive Remix] リミックス：Dave Ford Additional Production：Errol Reid",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "リミックス：Dave Ford",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "Additional Production：Errol Reid",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "daily news [Instrumental]",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -10316,15 +10591,31 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "POWDER SNOW",
+        "title": "white key",
+        "lyrics": "MARC・小室哲哉",
+        "composition": "久保こーじ・小室哲哉",
+        "arrangement": "久保こーじ・小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "white key (doze off mix)",
         "lyrics": "",
         "composition": "",
         "arrangement": "",
         "tieUp": ""
       },
       {
-        "trackNo": 2,
-        "title": "1986年のマリリン",
+        "trackNo": 3,
+        "title": "もうじき朝になるのに",
+        "lyrics": "鈴木あみ",
+        "composition": "久保こーじ",
+        "arrangement": "久保こーじ",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "white key (TV mix)",
         "lyrics": "",
         "composition": "",
         "arrangement": "",
@@ -10661,26 +10952,34 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "Rainbow Road",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
+        "title": "Girls, be ambitious! (TETSUYA KOMURO Remix Part I)",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "戸松遥 BEST SELECTION -sunshine-",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
+        "title": "Girls, be ambitious! (Straight Run)",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 3,
-        "title": "Rainbow Road",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
+        "title": "Girls, be ambitious! (TETSUYA KOMURO Remix Part II)",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "How do you think? (Funkmaster Flex Mix)",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -11222,106 +11521,26 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "FUTURE KISS",
-        "lyrics": "倉木麻衣",
-        "composition": "望月由絵・平賀貴大",
-        "arrangement": "小澤正澄",
+        "title": "FUTURE OF THE DAY -SINGLE MIX-",
+        "lyrics": "小室哲哉・吉田麻美",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "wana",
-        "lyrics": "倉木麻衣",
-        "composition": "Silver Stream",
-        "arrangement": "Silver Stream",
+        "title": "VICTIM",
+        "lyrics": "小室哲哉・MARC",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 3,
-        "title": "Revive",
-        "lyrics": "倉木麻衣",
-        "composition": "大野愛果",
-        "arrangement": "Miguel Sá Pessoa",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 4,
-        "title": "わたしの、しらない、わたし。 〜precious ver.〜",
-        "lyrics": "倉木麻衣",
-        "composition": "望月由絵",
-        "arrangement": "池田大介",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 5,
-        "title": "SUMMER TIME GONE",
-        "lyrics": "倉木麻衣",
-        "composition": "大野愛果",
-        "arrangement": "葉山たけし",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 6,
-        "title": "I scream!",
-        "lyrics": "倉木麻衣",
-        "composition": "徳永暁人",
-        "arrangement": "徳永暁人",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 7,
-        "title": "Drive me crazy",
-        "lyrics": "倉木麻衣",
-        "composition": "Silver Stream",
-        "arrangement": "Silver Stream",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 8,
-        "title": "I can do it now",
-        "lyrics": "倉木麻衣",
-        "composition": "内池秀和",
-        "arrangement": "池田大介",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 9,
-        "title": "Beautiful 〜comfortable ver.〜",
-        "lyrics": "倉木麻衣",
-        "composition": "Song Yang Ha",
-        "arrangement": "Song Yang Ha",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 10,
-        "title": "I Promise",
-        "lyrics": "倉木麻衣",
-        "composition": "大野愛果",
-        "arrangement": "岡本仁志",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 11,
-        "title": "sound of rain",
-        "lyrics": "倉木麻衣",
-        "composition": "徳永暁人",
-        "arrangement": "徳永暁人",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 12,
-        "title": "Tomorrow is the last Time",
-        "lyrics": "倉木麻衣",
-        "composition": "大野愛果",
-        "arrangement": "葉山たけし",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 13,
-        "title": "anywhere",
-        "lyrics": "倉木麻衣",
-        "composition": "Jon Carin・Perry Geyer",
-        "arrangement": "Jon Carin・Perry Geyer",
+        "title": "FUTURE OF THE DAY -TV MIX-",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -11662,7 +11881,7 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "LOVE LOVE LOVE",
+        "title": "LOVE 2000 (4:25)（作詞：hitomi、作曲：鎌田雅人） 日本テレビ系劇空間プロ野球20006・7月度、日本シリーズ第2戦と巨人日本一祝勝会のイメージソング",
         "lyrics": "",
         "composition": "",
         "arrangement": "",
@@ -11670,7 +11889,7 @@
       },
       {
         "trackNo": 2,
-        "title": "LOVE LOVE LOVE 〜ALBUM VERSION",
+        "title": "日本テレビ系劇空間プロ野球20006・7月度、日本シリーズ第2戦と巨人日本一祝勝会のイメージソング",
         "lyrics": "",
         "composition": "",
         "arrangement": "",
@@ -11678,7 +11897,7 @@
       },
       {
         "trackNo": 3,
-        "title": "LOVE LOVE LOVE (English Version)",
+        "title": "REGRET (4:29)（作詞：hitomi、作曲：渡辺善太郎）",
         "lyrics": "",
         "composition": "",
         "arrangement": "",
@@ -11686,7 +11905,7 @@
       },
       {
         "trackNo": 4,
-        "title": "DREAMS COME TRUE GREATEST HITS \"THE SOUL 2\"",
+        "title": "アイドルを探せ (3:15)（作詞：シャルル・アズナブール、作曲：ガーバレンツ・ジョルジュ） シルヴィ・ヴァルタンが歌った1964年のフランス映画アイドルを探せの主題歌のカバー。フランス語。 資生堂TAPHYCMソング 歌詞カードにはアイドルを探せ（LA PLUS BELLE POUR ALLER DANSER)と書かれている。",
         "lyrics": "",
         "composition": "",
         "arrangement": "",
@@ -11694,7 +11913,7 @@
       },
       {
         "trackNo": 5,
-        "title": "嵐が来る",
+        "title": "シルヴィ・ヴァルタンが歌った1964年のフランス映画アイドルを探せの主題歌のカバー。フランス語。",
         "lyrics": "",
         "composition": "",
         "arrangement": "",
@@ -11702,7 +11921,31 @@
       },
       {
         "trackNo": 6,
-        "title": "嵐が来る 〜ALBUM VERSION",
+        "title": "資生堂TAPHYCMソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "歌詞カードにはアイドルを探せ（LA PLUS BELLE POUR ALLER DANSER)と書かれている。",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 8,
+        "title": "destiny (4:32)（作詞：hitomi、作曲：鎌田雅人） 朝日放送ガラスの地球を救えイメージソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 9,
+        "title": "朝日放送ガラスの地球を救えイメージソング",
         "lyrics": "",
         "composition": "",
         "arrangement": "",
@@ -11726,7 +11969,32 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Don't need to say good bye 作詞：鈴木あみ・小室哲哉・小室みつ子／作曲・編曲：小室哲哉 アサヒ飲料バヤリース純粋仕立てグレープフルーツCMソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "My wish -If you wanna be with me- 作詞：鈴木あみ・小室哲哉／作曲・編曲：小室哲哉 財団法人省エネルギーセンター冬季キャンペーンCMソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Don't need to say good bye(Instrumental)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -11909,7 +12177,40 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "THANK YOU 4 EVERY DAY EVERY BODY 作詞：小室哲哉・鈴木あみ・前田たかひろ／作曲·編曲：小室哲哉 コダックスナップキッズCMイメージソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "I really wanna tell 作詞：小室哲哉・前田たかひろ／作曲·編曲：小室哲哉 カネボウプロスタイルシャンプーCMイメージソング",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "THANK YOU 4 EVERY DAY EVERY BODY (club collapse remix)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "I really wanna tell (confession remix)",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -13069,18 +13370,34 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "THE WAVE OF LOVE feat.ANRI",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
+        "title": "WAVE OF LOVE -ORIGINAL MIX-",
+        "lyrics": "吉田麻美",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "安らぎを求めて",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
+        "title": "WAVE OF LOVE -INSTRUMENTAL-",
+        "lyrics": "吉田麻美",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Sweet Memories -ORIGINAL MIX-",
+        "lyrics": "吉田麻美",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "Sweet Memories -INSTRUMENTAL-",
+        "lyrics": "吉田麻美",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -13155,18 +13472,26 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "Dear Friend",
-        "lyrics": "伊東真由美",
-        "composition": "和泉一弥",
-        "arrangement": "和泉一弥若草恵",
+        "title": "DEAR MY CLOSE FRIEND",
+        "lyrics": "吉田麻美",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "CARIBBEAN",
-        "lyrics": "大西美帆",
-        "composition": "和泉一弥",
-        "arrangement": "和泉一弥",
+        "title": "DEAR MY CLOSE FRIEND 〜TV MIX〜",
+        "lyrics": "吉田麻美",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "DEAR MY CLOSE FRIEND (TK version) 〜INSTRUMENTAL〜",
+        "lyrics": "吉田麻美",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -13388,7 +13713,40 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Stop! In the Name of Love (original mix)",
+        "lyrics": "MARC・KEIKO",
+        "composition": "E.Holland・L.Dozier・B.Holland",
+        "arrangement": "E.Holland・L.Dozier・B.Holland",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Stop! In the Name of Love (tatsumaki club mix)",
+        "lyrics": "E.Holland・L.Dozier・B.Holland",
+        "composition": "E.Holland・L.Dozier・B.Holland",
+        "arrangement": "E.Holland・L.Dozier・B.Holland",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Stop! In the Name of Love (tatsumaki remix)",
+        "lyrics": "E.Holland・L.Dozier・B.Holland",
+        "composition": "E.Holland・L.Dozier・B.Holland",
+        "arrangement": "E.Holland・L.Dozier・B.Holland",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "Stop! In the Name of Love (tv mix)",
+        "lyrics": "E.Holland・L.Dozier・B.Holland",
+        "composition": "E.Holland・L.Dozier・B.Holland",
+        "arrangement": "E.Holland・L.Dozier・B.Holland",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -14498,7 +14856,56 @@
     "arrangement": "小室哲哉",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "We are all BLOOMIN'作詞：前田たかひろ／作曲・編曲：小室哲哉",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "My Revolution作詞：川村真澄／作曲：小室哲哉／編曲：JUNKOO",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "We are all BLOOMIN' -Music Video Edit-",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "We are all BLOOMIN' -Back Track-",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "My Revolution -Back Track-",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "We are all BLOOMIN' -Music Clip-",
+        "lyrics": "",
+        "composition": "",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -15033,18 +15440,34 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "RE: I AM",
-        "lyrics": "",
-        "composition": "",
-        "arrangement": "",
-        "tieUp": "OVA『機動戦士ガンダムUC』episode 6「宇宙と地球と」主題歌"
+        "title": "I am",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "テレビアニメ機動戦士ガンダムユニコーン RE:0096第18話オープニングテーマ",
+        "title": "君がいてよかった",
+        "lyrics": "小室みつ子",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "I am(Instrumental)",
         "lyrics": "",
-        "composition": "",
-        "arrangement": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "君がいてよかった(Instrumental)",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -15242,7 +15665,7 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "Get Wild",
+        "title": "Get Wild 2015 -HUGE DATA-",
         "lyrics": "小室みつ子",
         "composition": "小室哲哉",
         "arrangement": "小室哲哉",
@@ -15250,24 +15673,24 @@
       },
       {
         "trackNo": 2,
-        "title": "GET WILD '89",
-        "lyrics": "小室みつ子",
+        "title": "Children of the New Century -FINAL MISSION-(Instrumental)",
+        "lyrics": "",
         "composition": "小室哲哉",
-        "arrangement": "Pete Hammond",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
-        "trackNo": 1,
-        "title": "Get Wild (Techno Overdub Mix)",
-        "lyrics": "小室みつ子",
+        "trackNo": 3,
+        "title": "Get Wild 2015 -HUGE DATA-(Instrumental)",
+        "lyrics": "",
         "composition": "小室哲哉",
-        "arrangement": "Pete Hammond, 小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
-        "trackNo": 2,
-        "title": "Get Wild (Original Single Back Track)",
-        "lyrics": "小室みつ子",
+        "trackNo": 4,
+        "title": "Just Like Paradise 2015",
+        "lyrics": "小室哲哉",
         "composition": "小室哲哉",
         "arrangement": "小室哲哉",
         "tieUp": ""
@@ -15372,34 +15795,122 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "Get Wild",
+        "title": "Get Wild(ビクター・ファンタスティック・オーケストラ)",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "ビクター・ファンタスティック・オーケストラ",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Get Wild(Dave Rodgers)",
+        "lyrics": "Dave Rodgers",
+        "composition": "小室哲哉",
+        "arrangement": "Dave Rodgers",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "Get Wild(小室みつ子)",
+        "lyrics": "小室みつ子",
+        "composition": "小室哲哉",
+        "arrangement": "京田誠一",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "Get Wild (CITY HUNTER SPECIAL’97 VERSION)(NAHO)",
+        "lyrics": "小室みつ子",
+        "composition": "小室哲哉",
+        "arrangement": "上杉洋史",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "Get Wild(玉置成実)",
         "lyrics": "小室みつ子",
         "composition": "小室哲哉",
         "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
-        "trackNo": 2,
-        "title": "GET WILD '89",
+        "trackNo": 6,
+        "title": "Get Wild(緒方恵美)",
         "lyrics": "小室みつ子",
         "composition": "小室哲哉",
-        "arrangement": "Pete Hammond",
+        "arrangement": "河野陽吾",
         "tieUp": ""
       },
       {
-        "trackNo": 1,
-        "title": "Get Wild (Techno Overdub Mix)",
-        "lyrics": "小室みつ子",
+        "trackNo": 7,
+        "title": "Get Wild(超新星)",
+        "lyrics": "小室みつ子・Kanata Okajima",
         "composition": "小室哲哉",
-        "arrangement": "Pete Hammond, 小室哲哉",
+        "arrangement": "鈴木ヒロト",
         "tieUp": ""
       },
       {
-        "trackNo": 2,
-        "title": "Get Wild (Original Single Back Track)",
+        "trackNo": 8,
+        "title": "Get Wild(globe)",
         "lyrics": "小室みつ子",
         "composition": "小室哲哉",
         "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 9,
+        "title": "Get Wild(Clementine)",
+        "lyrics": "クレモンティーヌ",
+        "composition": "小室哲哉",
+        "arrangement": "クレモンティーヌ",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 10,
+        "title": "Get Wild(H ZETT M)",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "H ZETT M",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 11,
+        "title": "Get Wild(Purple Days)",
+        "lyrics": "小室みつ子",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 12,
+        "title": "GET WILD (2017 TK REMIX)(小室哲哉)",
+        "lyrics": "小室みつ子",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 13,
+        "title": "GET WILD (Takkyu Ishino Latino Acid Remix)(石野卓球)",
+        "lyrics": "小室みつ子",
+        "composition": "小室哲哉",
+        "arrangement": "石野卓球",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 14,
+        "title": "GET WILD (SICK INDIVIDUALS Remix)(Sick Individuals)",
+        "lyrics": "小室みつ子",
+        "composition": "小室哲哉",
+        "arrangement": "Sick Individuals",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 15,
+        "title": "GET WILD (Dave Rodgers Remix)(Dave Rodgers)",
+        "lyrics": "小室みつ子",
+        "composition": "小室哲哉",
+        "arrangement": "Dave Rodgers",
         "tieUp": ""
       }
     ],
@@ -15744,7 +16255,80 @@
     "arrangement": "",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "Fool On The Planet",
+        "lyrics": "小室みつ子",
+        "composition": "木根尚登",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "HUMAN SYSTEM",
+        "lyrics": "小室みつ子",
+        "composition": "小室哲哉",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "WINTER COMES AROUND",
+        "lyrics": "小室みつ子",
+        "composition": "木根尚登",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 4,
+        "title": "Here,There & Everywhere",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 5,
+        "title": "TK solo",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 6,
+        "title": "Come On Let's Dance",
+        "lyrics": "神沢礼江",
+        "composition": "小室哲哉",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 7,
+        "title": "LOUD",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 8,
+        "title": "LOVE TRAIN",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 9,
+        "title": "BEYOND THE TIME",
+        "lyrics": "小室みつ子",
+        "composition": "小室哲哉",
+        "arrangement": "",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",
@@ -15885,114 +16469,26 @@
     "tracks": [
       {
         "trackNo": 1,
-        "title": "Carry On my way",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
+        "title": "Carry on the Memories",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
-        "title": "蒼いリグレット",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
+        "title": "Good Morning Mr.Roadie",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 3,
-        "title": "Long Way Home(Album Edit)",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 4,
-        "title": "Deep Blue & Truth",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 5,
-        "title": "Luv Blanket",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 6,
-        "title": "Breakin' out to the morning",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 7,
-        "title": "Snow Kiss",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 8,
-        "title": "You are the moonlight",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 9,
-        "title": "Lookin' for Love",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 10,
-        "title": "Precious Time",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 11,
-        "title": "Two of us",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 12,
-        "title": "Eternity",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 13,
-        "title": "Confusion",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 14,
-        "title": "Don't be afraid",
-        "lyrics": "伊秩弘将",
-        "composition": "伊秩弘将",
-        "arrangement": "伊秩弘将",
+        "title": "Show My Music Beat",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -16013,7 +16509,32 @@
     "arrangement": "",
     "type": "physical",
     "producer": "",
-    "tracks": [],
+    "tracks": [
+      {
+        "trackNo": 1,
+        "title": "We Can't Stop That Way -2025 IP ver.-",
+        "lyrics": "小室哲哉",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 2,
+        "title": "Last Encount -2025 IP ver.-",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      },
+      {
+        "trackNo": 3,
+        "title": "We Can't Stop That Way -2025 IP ver.- (Instrumental)",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
+        "tieUp": ""
+      }
+    ],
     "tieUp": "",
     "oriconPeak": null,
     "imageUrl": "",

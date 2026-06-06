@@ -69,7 +69,7 @@
         "title": "1974 (16光年の訪問者)",
         "lyrics": "西門加里",
         "composition": "小室哲哉",
-        "arrangement": "",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
@@ -77,7 +77,7 @@
         "title": "パノラマジック (アストロノーツの悲劇)",
         "lyrics": "麻生香太郎",
         "composition": "木根尚登",
-        "arrangement": "",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -122,12 +122,12 @@
         "title": "アクシデント (ACCIDENT)",
         "lyrics": "松井五郎",
         "composition": "小室哲哉",
-        "arrangement": "小室哲哉久保こーじ",
+        "arrangement": "小室哲哉 久保こーじ",
         "tieUp": ""
       },
       {
-        "trackNo": 1,
-        "title": "FANTASTIC VISION[注釈 3]",
+        "trackNo": 2,
+        "title": "FANTASTIC VISION",
         "lyrics": "小室哲哉",
         "composition": "小室哲哉",
         "arrangement": "小室哲哉",
@@ -209,16 +209,16 @@
         "trackNo": 1,
         "title": "YOUR SONG (\"D\"Mix)",
         "lyrics": "小室哲哉",
-        "composition": "小室哲哉、木根尚登",
-        "arrangement": "小室哲哉、木根尚登",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
         "title": "YOUR SONG (Special Instrumental Disco Mix)",
-        "lyrics": "小室哲哉",
-        "composition": "小室哲哉、木根尚登",
-        "arrangement": "小室哲哉、木根尚登",
+        "lyrics": "",
+        "composition": "小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -419,15 +419,15 @@
         "title": "GIRL",
         "lyrics": "神沢礼江",
         "composition": "小室哲哉",
-        "arrangement": "",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
         "title": "雨に誓って〜SAINT RAIN〜",
         "lyrics": "西門加里",
-        "composition": "小室哲哉、木根尚登",
-        "arrangement": "",
+        "composition": "小室哲哉 木根尚登",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -547,23 +547,7 @@
       },
       {
         "trackNo": 2,
-        "title": "GET WILD '89",
-        "lyrics": "小室みつ子",
-        "composition": "小室哲哉",
-        "arrangement": "Pete Hammond",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 1,
-        "title": "Get Wild (Techno Overdub Mix)",
-        "lyrics": "小室みつ子",
-        "composition": "小室哲哉",
-        "arrangement": "Pete Hammond, 小室哲哉",
-        "tieUp": ""
-      },
-      {
-        "trackNo": 2,
-        "title": "Get Wild (Original Single Back Track)",
+        "title": "Fighting (君のファイティング)",
         "lyrics": "小室みつ子",
         "composition": "小室哲哉",
         "arrangement": "小室哲哉",
@@ -775,7 +759,7 @@
         "title": "RESISTANCE",
         "lyrics": "小室みつ子",
         "composition": "小室哲哉",
-        "arrangement": "",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
@@ -783,7 +767,7 @@
         "title": "COME BACK TO ASIA",
         "lyrics": "小室みつ子",
         "composition": "木根尚登",
-        "arrangement": "",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -863,7 +847,7 @@
         "title": "SEVEN DAYS WAR",
         "lyrics": "小室みつ子",
         "composition": "小室哲哉",
-        "arrangement": "",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
@@ -871,7 +855,7 @@
         "title": "GIRLFRIEND",
         "lyrics": "小室みつ子",
         "composition": "木根尚登",
-        "arrangement": "",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -992,15 +976,15 @@
         "title": "JUST ONE VICTORY (たったひとつの勝利)(Remix Version)",
         "lyrics": "小室哲哉",
         "composition": "小室哲哉",
-        "arrangement": "",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
         "title": "STILL LOVE HER (失われた風景)",
         "lyrics": "小室哲哉",
-        "composition": "小室哲哉・木根尚登",
-        "arrangement": "",
+        "composition": "小室哲哉 木根尚登",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -1198,7 +1182,7 @@
         "title": "COME ON EVERYBODY (with Nile Rodgers)",
         "lyrics": "小室哲哉",
         "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
+        "arrangement": "",
         "tieUp": ""
       },
       {
@@ -1206,7 +1190,7 @@
         "title": "COME ON LET'S DANCE (DANCE SUPREME)",
         "lyrics": "神沢礼江",
         "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
+        "arrangement": "",
         "tieUp": ""
       }
     ],
@@ -1233,7 +1217,7 @@
         "title": "KISS YOU (KISS JAPAN)",
         "lyrics": "小室みつ子",
         "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
+        "arrangement": "",
         "tieUp": ""
       },
       {
@@ -1241,7 +1225,7 @@
         "title": "TIME (PASSES SO SLOWLY)",
         "lyrics": "三浦徳子",
         "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
+        "arrangement": "",
         "tieUp": ""
       }
     ],
@@ -1721,15 +1705,15 @@
         "title": "RHYTHM RED BEAT BLACK",
         "lyrics": "坂元裕二",
         "composition": "小室哲哉",
-        "arrangement": "",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
         "title": "DREAMS OF CHRISTMAS",
         "lyrics": "小室哲哉",
-        "composition": "木根尚登・小室哲哉",
-        "arrangement": "",
+        "composition": "木根尚登 小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],
@@ -2799,15 +2783,15 @@
         "title": "RHYTHM RED BEAT BLACK (Version 2.0)(TMN)",
         "lyrics": "Patricia Wynn",
         "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
+        "arrangement": "",
         "tieUp": ""
       },
       {
         "trackNo": 2,
         "title": "RHYTHM RED BEAT BLACK (Version 300000000000)(電気GROOVE)",
-        "lyrics": "石野卓球・ピエール瀧",
+        "lyrics": "石野卓球 ピエール瀧",
         "composition": "小室哲哉",
-        "arrangement": "小室哲哉",
+        "arrangement": "",
         "tieUp": ""
       }
     ],
@@ -2869,15 +2853,15 @@
         "title": "WILD HEAVEN",
         "lyrics": "小室みつ子",
         "composition": "小室哲哉",
-        "arrangement": "",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       },
       {
         "trackNo": 2,
         "title": "DREAMS OF CHRISTMAS ('91 NY MIX)",
         "lyrics": "小室哲哉",
-        "composition": "木根尚登・小室哲哉",
-        "arrangement": "",
+        "composition": "木根尚登 小室哲哉",
+        "arrangement": "小室哲哉",
         "tieUp": ""
       }
     ],

@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Music, Disc3, Video, Search, Users, Mic2, Calendar, ChevronDown } from 'lucide-react'
+import { Music, Disc3, Video, Search, Users, Mic2, Calendar, ChevronDown, List, LayoutGrid } from 'lucide-react'
 import { useCollection, useDocument } from '../hooks/useFirestore'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { formatReleaseDate } from '../utils/formatDate'
@@ -19,6 +19,77 @@ function StatCard({ icon: Icon, label, count, to, color }) {
   )
 }
 
+// 清單容器：list 模式為直向分隔列表，grid 模式為卡片網格
+function ItemContainer({ viewMode, children }) {
+  if (viewMode === 'grid') {
+    return (
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+        {children}
+      </div>
+    )
+  }
+  return (
+    <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+      {children}
+    </div>
+  )
+}
+
+// 單筆作品：依 viewMode 顯示為列表列或卡片。若未提供 to，則不可點擊
+function ReleaseItem({ to, title, subtitle, dateLabel, imageUrl, Icon, iconBg, iconColor, isToday, viewMode }) {
+  const Wrapper = to ? Link : 'div'
+  const wrapperProps = to ? { to } : {}
+
+  if (viewMode === 'grid') {
+    return (
+      <Wrapper {...wrapperProps} className="card group block overflow-hidden">
+        <div className={`aspect-square relative overflow-hidden ${iconBg}`}>
+          {imageUrl ? (
+            <img src={imageUrl} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <Icon size={28} className={iconColor} />
+            </div>
+          )}
+          {isToday && (
+            <span className="absolute top-1.5 left-1.5 inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-white shadow">
+              🎉 今天
+            </span>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 px-2.5 pb-2.5">
+            <div className="text-xs font-semibold text-white leading-snug line-clamp-2 drop-shadow-md">
+              {title}
+            </div>
+            <div className="text-[11px] text-white/65 mt-0.5 truncate">{subtitle}</div>
+          </div>
+        </div>
+      </Wrapper>
+    )
+  }
+  return (
+    <Wrapper {...wrapperProps}
+      className={`flex items-center gap-4 px-4 py-3 transition-colors ${isToday ? 'bg-amber-50 hover:bg-amber-100' : to ? 'hover:bg-gray-50' : ''}`}>
+      <div className={`w-10 h-10 rounded flex items-center justify-center shrink-0 overflow-hidden ${iconBg}`}>
+        {imageUrl ? <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+          : <Icon size={16} className={iconColor} />}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="font-medium text-sm text-gray-900 truncate flex items-center gap-1.5">
+          {title}
+          {isToday && (
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-white shrink-0">
+              🎉 今天發行
+            </span>
+          )}
+        </div>
+        <div className="text-xs text-gray-400 truncate">{subtitle}</div>
+      </div>
+      <div className={`text-xs shrink-0 ${isToday ? 'text-amber-600 font-semibold' : 'text-gray-400'}`}>{dateLabel}</div>
+    </Wrapper>
+  )
+}
+
 export default function Home() {
   const { data: siteConfig } = useDocument('siteConfig', 'home')
   const { data: singles, loading: ls } = useCollection('singles', 'year', 'desc')
@@ -28,6 +99,7 @@ export default function Home() {
   const { data: providedSongs, loading: lp } = useCollection('providedSongs', 'year', 'desc')
 
   const [keyword, setKeyword] = useState('')
+  const [viewMode, setViewMode] = useState('list')
 
   const recentSingles = useMemo(() => singles.slice(0, 6), [singles])
   const recentAlbums = useMemo(() => albums.slice(0, 6), [albums])
@@ -153,11 +225,33 @@ export default function Home() {
         {loading ? <LoadingSpinner /> : (
           <>
             {/* 統計 */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
               <StatCard icon={Users} label="藝人" count={dedupedArtists.length} to="/artists" color="bg-teal-700" />
               <StatCard icon={Music} label="單曲" count={singles.length} to="/singles" color="bg-blue-800" />
               <StatCard icon={Disc3} label="專輯" count={albums.length} to="/albums" color="bg-indigo-700" />
               <StatCard icon={Video} label="影像作品" count={videoWorks.length} to="/video-works" color="bg-gray-700" />
+            </div>
+
+            {/* 顯示模式切換 */}
+            <div className="flex justify-end mb-4">
+              <div className="inline-flex items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm">
+                <button
+                  type="button"
+                  onClick={() => setViewMode('list')}
+                  aria-pressed={viewMode === 'list'}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${viewMode === 'list' ? 'bg-blue-900 text-white' : 'text-gray-500 hover:text-gray-700'}`}
+                >
+                  <List size={14} /> 列表
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode('grid')}
+                  aria-pressed={viewMode === 'grid'}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${viewMode === 'grid' ? 'bg-blue-900 text-white' : 'text-gray-500 hover:text-gray-700'}`}
+                >
+                  <LayoutGrid size={14} /> 卡片
+                </button>
+              </div>
             </div>
 
             {/* 藝人 Section */}
@@ -226,31 +320,24 @@ export default function Home() {
                         </span>
                         <ChevronDown size={16} className="text-gray-400 transition-transform group-open:rotate-180" />
                       </summary>
-                      <div className="divide-y divide-gray-50 border-t border-gray-50">
-                        {historicalSingles.map(s => {
-                          const isToday = s.day === currentDay
-                          return (
-                          <Link key={`s-${s.id}`} to={`/singles/${s.id}`}
-                            className={`flex items-center gap-4 px-4 py-3 transition-colors ${isToday ? 'bg-amber-50 hover:bg-amber-100' : 'hover:bg-gray-50'}`}>
-                            <div className="w-10 h-10 rounded bg-blue-100 flex items-center justify-center shrink-0 overflow-hidden">
-                              {s.imageUrl ? <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover" />
-                                : <Music size={16} className="text-blue-700" />}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="font-medium text-sm text-gray-900 truncate flex items-center gap-1.5">
-                                {s.title}
-                                {isToday && (
-                                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-white shrink-0">
-                                    🎉 今天發行
-                                  </span>
-                                )}
-                              </div>
-                              <div className="text-xs text-gray-400">{s.artistName}</div>
-                            </div>
-                            <div className={`text-xs shrink-0 ${isToday ? 'text-amber-600 font-semibold' : 'text-gray-400'}`}>{formatReleaseDate(s.year, s.month, s.day)}</div>
-                          </Link>
-                          )
-                        })}
+                      <div className={viewMode === 'grid' ? 'p-3 border-t border-gray-50' : 'border-t border-gray-50'}>
+                        <ItemContainer viewMode={viewMode}>
+                          {historicalSingles.map(s => (
+                            <ReleaseItem
+                              key={`s-${s.id}`}
+                              to={`/singles/${s.id}`}
+                              title={s.title}
+                              subtitle={s.artistName}
+                              dateLabel={formatReleaseDate(s.year, s.month, s.day)}
+                              imageUrl={s.imageUrl}
+                              Icon={Music}
+                              iconBg="bg-blue-100"
+                              iconColor="text-blue-700"
+                              isToday={s.day === currentDay}
+                              viewMode={viewMode}
+                            />
+                          ))}
+                        </ItemContainer>
                       </div>
                     </details>
                   )}
@@ -263,31 +350,24 @@ export default function Home() {
                         </span>
                         <ChevronDown size={16} className="text-gray-400 transition-transform group-open:rotate-180" />
                       </summary>
-                      <div className="divide-y divide-gray-50 border-t border-gray-50">
-                        {historicalAlbums.map(a => {
-                          const isToday = a.day === currentDay
-                          return (
-                          <Link key={`a-${a.id}`} to={`/albums/${a.id}`}
-                            className={`flex items-center gap-4 px-4 py-3 transition-colors ${isToday ? 'bg-amber-50 hover:bg-amber-100' : 'hover:bg-gray-50'}`}>
-                            <div className="w-10 h-10 rounded bg-indigo-100 flex items-center justify-center shrink-0 overflow-hidden">
-                              {a.imageUrl ? <img src={a.imageUrl} alt={a.title} className="w-full h-full object-cover" />
-                                : <Disc3 size={16} className="text-indigo-700" />}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="font-medium text-sm text-gray-900 truncate flex items-center gap-1.5">
-                                {a.title}
-                                {isToday && (
-                                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-white shrink-0">
-                                    🎉 今天發行
-                                  </span>
-                                )}
-                              </div>
-                              <div className="text-xs text-gray-400">{a.artistName}</div>
-                            </div>
-                            <div className={`text-xs shrink-0 ${isToday ? 'text-amber-600 font-semibold' : 'text-gray-400'}`}>{formatReleaseDate(a.year, a.month, a.day)}</div>
-                          </Link>
-                          )
-                        })}
+                      <div className={viewMode === 'grid' ? 'p-3 border-t border-gray-50' : 'border-t border-gray-50'}>
+                        <ItemContainer viewMode={viewMode}>
+                          {historicalAlbums.map(a => (
+                            <ReleaseItem
+                              key={`a-${a.id}`}
+                              to={`/albums/${a.id}`}
+                              title={a.title}
+                              subtitle={a.artistName}
+                              dateLabel={formatReleaseDate(a.year, a.month, a.day)}
+                              imageUrl={a.imageUrl}
+                              Icon={Disc3}
+                              iconBg="bg-indigo-100"
+                              iconColor="text-indigo-700"
+                              isToday={a.day === currentDay}
+                              viewMode={viewMode}
+                            />
+                          ))}
+                        </ItemContainer>
                       </div>
                     </details>
                   )}
@@ -304,22 +384,22 @@ export default function Home() {
                   </h2>
                   <Link to="/singles" className="text-sm text-blue-700 hover:underline">查看全部</Link>
                 </div>
-                <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+                <ItemContainer viewMode={viewMode}>
                   {recentSingles.map(s => (
-                    <Link key={s.id} to={`/singles/${s.id}`}
-                      className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors">
-                      <div className="w-10 h-10 rounded bg-blue-100 flex items-center justify-center shrink-0 overflow-hidden">
-                        {s.imageUrl ? <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover" />
-                          : <Music size={16} className="text-blue-700" />}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm text-gray-900 truncate">{s.title}</div>
-                        <div className="text-xs text-gray-400">{s.artistName}</div>
-                      </div>
-                      <div className="text-xs text-gray-400 shrink-0">{s.year ? `${s.year}年` : ''}</div>
-                    </Link>
+                    <ReleaseItem
+                      key={s.id}
+                      to={`/singles/${s.id}`}
+                      title={s.title}
+                      subtitle={s.artistName}
+                      dateLabel={s.year ? `${s.year}年` : ''}
+                      imageUrl={s.imageUrl}
+                      Icon={Music}
+                      iconBg="bg-blue-100"
+                      iconColor="text-blue-700"
+                      viewMode={viewMode}
+                    />
                   ))}
-                </div>
+                </ItemContainer>
               </section>
             )}
 
@@ -332,22 +412,22 @@ export default function Home() {
                   </h2>
                   <Link to="/albums" className="text-sm text-blue-700 hover:underline">查看全部</Link>
                 </div>
-                <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+                <ItemContainer viewMode={viewMode}>
                   {recentAlbums.map(a => (
-                    <Link key={a.id} to={`/albums/${a.id}`}
-                      className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors">
-                      <div className="w-10 h-10 rounded bg-indigo-100 flex items-center justify-center shrink-0 overflow-hidden">
-                        {a.imageUrl ? <img src={a.imageUrl} alt={a.title} className="w-full h-full object-cover" />
-                          : <Disc3 size={16} className="text-indigo-700" />}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm text-gray-900 truncate">{a.title}</div>
-                        <div className="text-xs text-gray-400">{a.artistName}</div>
-                      </div>
-                      <div className="text-xs text-gray-400 shrink-0">{a.year ? `${a.year}年` : ''}</div>
-                    </Link>
+                    <ReleaseItem
+                      key={a.id}
+                      to={`/albums/${a.id}`}
+                      title={a.title}
+                      subtitle={a.artistName}
+                      dateLabel={a.year ? `${a.year}年` : ''}
+                      imageUrl={a.imageUrl}
+                      Icon={Disc3}
+                      iconBg="bg-indigo-100"
+                      iconColor="text-indigo-700"
+                      viewMode={viewMode}
+                    />
                   ))}
-                </div>
+                </ItemContainer>
               </section>
             )}
 
@@ -360,25 +440,21 @@ export default function Home() {
                   </h2>
                   <Link to="/provided-songs" className="text-sm text-blue-700 hover:underline">查看全部</Link>
                 </div>
-                <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+                <ItemContainer viewMode={viewMode}>
                   {recentProvided.map((s, i) => (
-                    <div key={s.id || i} className="flex items-center gap-4 px-4 py-3">
-                      <div className="w-10 h-10 rounded bg-rose-50 flex items-center justify-center shrink-0 overflow-hidden">
-                        {s.imageUrl ? <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover" />
-                          : <Mic2 size={16} className="text-rose-400" />}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm text-gray-900 truncate">{s.title}</div>
-                        <div className="text-xs text-gray-400">{s.artistName}
-                          {s.sourceTitle && ` · ${s.sourceTitle}`}
-                        </div>
-                      </div>
-                      <div className="text-xs text-gray-400 shrink-0">
-                        {formatReleaseDate(s.year, s.month, s.day)}
-                      </div>
-                    </div>
+                    <ReleaseItem
+                      key={s.id || i}
+                      title={s.title}
+                      subtitle={s.sourceTitle ? `${s.artistName} · ${s.sourceTitle}` : s.artistName}
+                      dateLabel={formatReleaseDate(s.year, s.month, s.day)}
+                      imageUrl={s.imageUrl}
+                      Icon={Mic2}
+                      iconBg="bg-rose-50"
+                      iconColor="text-rose-400"
+                      viewMode={viewMode}
+                    />
                   ))}
-                </div>
+                </ItemContainer>
               </section>
             )}
           </>

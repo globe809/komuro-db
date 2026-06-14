@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Music, Disc3, Video, Search, Users, Mic2, Calendar } from 'lucide-react'
+import { Music, Disc3, Video, Search, Users, Mic2, Calendar, ChevronDown } from 'lucide-react'
 import { useCollection, useDocument } from '../hooks/useFirestore'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { formatReleaseDate } from '../utils/formatDate'
@@ -158,47 +158,6 @@ export default function Home() {
               <StatCard icon={Video} label="影像作品" count={videoWorks.length} to="/video-works" color="bg-gray-700" />
             </div>
 
-            {/* 歷史上的這個月 */}
-            {(historicalSingles.length > 0 || historicalAlbums.length > 0) && (
-              <section className="mb-10">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                    <Calendar size={18} className="text-amber-600" /> 歷史上的{currentMonth}月發行
-                  </h2>
-                </div>
-                <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
-                  {historicalSingles.map(s => (
-                    <Link key={`s-${s.id}`} to={`/singles/${s.id}`}
-                      className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors">
-                      <div className="w-10 h-10 rounded bg-blue-100 flex items-center justify-center shrink-0 overflow-hidden">
-                        {s.imageUrl ? <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover" />
-                          : <Music size={16} className="text-blue-700" />}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm text-gray-900 truncate">{s.title}</div>
-                        <div className="text-xs text-gray-400">{s.artistName} · 單曲</div>
-                      </div>
-                      <div className="text-xs text-gray-400 shrink-0">{formatReleaseDate(s.year, s.month, s.day)}</div>
-                    </Link>
-                  ))}
-                  {historicalAlbums.map(a => (
-                    <Link key={`a-${a.id}`} to={`/albums/${a.id}`}
-                      className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors">
-                      <div className="w-10 h-10 rounded bg-indigo-100 flex items-center justify-center shrink-0 overflow-hidden">
-                        {a.imageUrl ? <img src={a.imageUrl} alt={a.title} className="w-full h-full object-cover" />
-                          : <Disc3 size={16} className="text-indigo-700" />}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm text-gray-900 truncate">{a.title}</div>
-                        <div className="text-xs text-gray-400">{a.artistName} · 專輯</div>
-                      </div>
-                      <div className="text-xs text-gray-400 shrink-0">{formatReleaseDate(a.year, a.month, a.day)}</div>
-                    </Link>
-                  ))}
-                </div>
-              </section>
-            )}
-
             {/* 藝人 Section */}
             {topArtists.length > 0 && (
               <section className="mb-10">
@@ -243,6 +202,73 @@ export default function Home() {
                       </Link>
                     )
                   })}
+                </div>
+              </section>
+            )}
+
+            {/* 歷史上的這個月 */}
+            {(historicalSingles.length > 0 || historicalAlbums.length > 0) && (
+              <section className="mb-10">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                    <Calendar size={18} className="text-amber-600" /> 歷史上的{currentMonth}月發行
+                  </h2>
+                </div>
+                <div className="space-y-3">
+                  {historicalSingles.length > 0 && (
+                    <details className="bg-white rounded-xl border border-gray-100 shadow-sm group" open>
+                      <summary className="flex items-center justify-between px-4 py-3 cursor-pointer select-none list-none">
+                        <span className="flex items-center gap-2 font-bold text-sm text-gray-800">
+                          <Music size={16} className="text-blue-800" /> 單曲
+                          <span className="text-xs font-normal text-gray-400">({historicalSingles.length})</span>
+                        </span>
+                        <ChevronDown size={16} className="text-gray-400 transition-transform group-open:rotate-180" />
+                      </summary>
+                      <div className="divide-y divide-gray-50 border-t border-gray-50">
+                        {historicalSingles.map(s => (
+                          <Link key={`s-${s.id}`} to={`/singles/${s.id}`}
+                            className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors">
+                            <div className="w-10 h-10 rounded bg-blue-100 flex items-center justify-center shrink-0 overflow-hidden">
+                              {s.imageUrl ? <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover" />
+                                : <Music size={16} className="text-blue-700" />}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium text-sm text-gray-900 truncate">{s.title}</div>
+                              <div className="text-xs text-gray-400">{s.artistName}</div>
+                            </div>
+                            <div className="text-xs text-gray-400 shrink-0">{formatReleaseDate(s.year, s.month, s.day)}</div>
+                          </Link>
+                        ))}
+                      </div>
+                    </details>
+                  )}
+                  {historicalAlbums.length > 0 && (
+                    <details className="bg-white rounded-xl border border-gray-100 shadow-sm group" open>
+                      <summary className="flex items-center justify-between px-4 py-3 cursor-pointer select-none list-none">
+                        <span className="flex items-center gap-2 font-bold text-sm text-gray-800">
+                          <Disc3 size={16} className="text-indigo-700" /> 專輯
+                          <span className="text-xs font-normal text-gray-400">({historicalAlbums.length})</span>
+                        </span>
+                        <ChevronDown size={16} className="text-gray-400 transition-transform group-open:rotate-180" />
+                      </summary>
+                      <div className="divide-y divide-gray-50 border-t border-gray-50">
+                        {historicalAlbums.map(a => (
+                          <Link key={`a-${a.id}`} to={`/albums/${a.id}`}
+                            className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors">
+                            <div className="w-10 h-10 rounded bg-indigo-100 flex items-center justify-center shrink-0 overflow-hidden">
+                              {a.imageUrl ? <img src={a.imageUrl} alt={a.title} className="w-full h-full object-cover" />
+                                : <Disc3 size={16} className="text-indigo-700" />}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium text-sm text-gray-900 truncate">{a.title}</div>
+                              <div className="text-xs text-gray-400">{a.artistName}</div>
+                            </div>
+                            <div className="text-xs text-gray-400 shrink-0">{formatReleaseDate(a.year, a.month, a.day)}</div>
+                          </Link>
+                        ))}
+                      </div>
+                    </details>
+                  )}
                 </div>
               </section>
             )}

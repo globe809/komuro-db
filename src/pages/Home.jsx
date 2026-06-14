@@ -34,7 +34,9 @@ export default function Home() {
   const recentProvided = useMemo(() => providedSongs.slice(0, 6), [providedSongs])
 
   // 歷史上的這個月：過去發行於本月的單曲與專輯（依日期、年份排序）
-  const currentMonth = useMemo(() => new Date().getMonth() + 1, [])
+  const today = useMemo(() => new Date(), [])
+  const currentMonth = useMemo(() => today.getMonth() + 1, [today])
+  const currentDay = useMemo(() => today.getDate(), [today])
 
   const historicalSingles = useMemo(() => {
     return singles
@@ -225,20 +227,30 @@ export default function Home() {
                         <ChevronDown size={16} className="text-gray-400 transition-transform group-open:rotate-180" />
                       </summary>
                       <div className="divide-y divide-gray-50 border-t border-gray-50">
-                        {historicalSingles.map(s => (
+                        {historicalSingles.map(s => {
+                          const isToday = s.day === currentDay
+                          return (
                           <Link key={`s-${s.id}`} to={`/singles/${s.id}`}
-                            className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors">
+                            className={`flex items-center gap-4 px-4 py-3 transition-colors ${isToday ? 'bg-amber-50 hover:bg-amber-100' : 'hover:bg-gray-50'}`}>
                             <div className="w-10 h-10 rounded bg-blue-100 flex items-center justify-center shrink-0 overflow-hidden">
                               {s.imageUrl ? <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover" />
                                 : <Music size={16} className="text-blue-700" />}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="font-medium text-sm text-gray-900 truncate">{s.title}</div>
+                              <div className="font-medium text-sm text-gray-900 truncate flex items-center gap-1.5">
+                                {s.title}
+                                {isToday && (
+                                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-white shrink-0">
+                                    🎉 今天發行
+                                  </span>
+                                )}
+                              </div>
                               <div className="text-xs text-gray-400">{s.artistName}</div>
                             </div>
-                            <div className="text-xs text-gray-400 shrink-0">{formatReleaseDate(s.year, s.month, s.day)}</div>
+                            <div className={`text-xs shrink-0 ${isToday ? 'text-amber-600 font-semibold' : 'text-gray-400'}`}>{formatReleaseDate(s.year, s.month, s.day)}</div>
                           </Link>
-                        ))}
+                          )
+                        })}
                       </div>
                     </details>
                   )}
@@ -252,20 +264,30 @@ export default function Home() {
                         <ChevronDown size={16} className="text-gray-400 transition-transform group-open:rotate-180" />
                       </summary>
                       <div className="divide-y divide-gray-50 border-t border-gray-50">
-                        {historicalAlbums.map(a => (
+                        {historicalAlbums.map(a => {
+                          const isToday = a.day === currentDay
+                          return (
                           <Link key={`a-${a.id}`} to={`/albums/${a.id}`}
-                            className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors">
+                            className={`flex items-center gap-4 px-4 py-3 transition-colors ${isToday ? 'bg-amber-50 hover:bg-amber-100' : 'hover:bg-gray-50'}`}>
                             <div className="w-10 h-10 rounded bg-indigo-100 flex items-center justify-center shrink-0 overflow-hidden">
                               {a.imageUrl ? <img src={a.imageUrl} alt={a.title} className="w-full h-full object-cover" />
                                 : <Disc3 size={16} className="text-indigo-700" />}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="font-medium text-sm text-gray-900 truncate">{a.title}</div>
+                              <div className="font-medium text-sm text-gray-900 truncate flex items-center gap-1.5">
+                                {a.title}
+                                {isToday && (
+                                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-white shrink-0">
+                                    🎉 今天發行
+                                  </span>
+                                )}
+                              </div>
                               <div className="text-xs text-gray-400">{a.artistName}</div>
                             </div>
-                            <div className="text-xs text-gray-400 shrink-0">{formatReleaseDate(a.year, a.month, a.day)}</div>
+                            <div className={`text-xs shrink-0 ${isToday ? 'text-amber-600 font-semibold' : 'text-gray-400'}`}>{formatReleaseDate(a.year, a.month, a.day)}</div>
                           </Link>
-                        ))}
+                          )
+                        })}
                       </div>
                     </details>
                   )}

@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Music, Disc3, Video, Search, Users, Mic2 } from 'lucide-react'
+import { Music, Disc3, Video, Search, Users, Mic2, Calendar } from 'lucide-react'
 import { useCollection, useDocument } from '../hooks/useFirestore'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { formatReleaseDate } from '../utils/formatDate'
@@ -32,6 +32,21 @@ export default function Home() {
   const recentSingles = useMemo(() => singles.slice(0, 6), [singles])
   const recentAlbums = useMemo(() => albums.slice(0, 6), [albums])
   const recentProvided = useMemo(() => providedSongs.slice(0, 6), [providedSongs])
+
+  // 歷史上的這個月：過去發行於本月的單曲與專輯（依日期、年份排序）
+  const currentMonth = useMemo(() => new Date().getMonth() + 1, [])
+
+  const historicalSingles = useMemo(() => {
+    return singles
+      .filter(s => s.month === currentMonth)
+      .sort((a, b) => (a.day || 0) - (b.day || 0) || (b.year || 0) - (a.year || 0))
+  }, [singles, currentMonth])
+
+  const historicalAlbums = useMemo(() => {
+    return albums
+      .filter(a => a.month === currentMonth)
+      .sort((a, b) => (a.day || 0) - (b.day || 0) || (b.year || 0) - (a.year || 0))
+  }, [albums, currentMonth])
 
   // Deduplicate artists by lowercase name
   const dedupedArtists = useMemo(() => {
@@ -142,6 +157,47 @@ export default function Home() {
               <StatCard icon={Disc3} label="專輯" count={albums.length} to="/albums" color="bg-indigo-700" />
               <StatCard icon={Video} label="影像作品" count={videoWorks.length} to="/video-works" color="bg-gray-700" />
             </div>
+
+            {/* 歷史上的這個月 */}
+            {(historicalSingles.length > 0 || historicalAlbums.length > 0) && (
+              <section className="mb-10">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                    <Calendar size={18} className="text-amber-600" /> 歷史上的{currentMonth}月發行
+                  </h2>
+                </div>
+                <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+                  {historicalSingles.map(s => (
+                    <Link key={`s-${s.id}`} to={`/singles/${s.id}`}
+                      className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors">
+                      <div className="w-10 h-10 rounded bg-blue-100 flex items-center justify-center shrink-0 overflow-hidden">
+                        {s.imageUrl ? <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover" />
+                          : <Music size={16} className="text-blue-700" />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-sm text-gray-900 truncate">{s.title}</div>
+                        <div className="text-xs text-gray-400">{s.artistName} · 單曲</div>
+                      </div>
+                      <div className="text-xs text-gray-400 shrink-0">{formatReleaseDate(s.year, s.month, s.day)}</div>
+                    </Link>
+                  ))}
+                  {historicalAlbums.map(a => (
+                    <Link key={`a-${a.id}`} to={`/albums/${a.id}`}
+                      className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors">
+                      <div className="w-10 h-10 rounded bg-indigo-100 flex items-center justify-center shrink-0 overflow-hidden">
+                        {a.imageUrl ? <img src={a.imageUrl} alt={a.title} className="w-full h-full object-cover" />
+                          : <Disc3 size={16} className="text-indigo-700" />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-sm text-gray-900 truncate">{a.title}</div>
+                        <div className="text-xs text-gray-400">{a.artistName} · 專輯</div>
+                      </div>
+                      <div className="text-xs text-gray-400 shrink-0">{formatReleaseDate(a.year, a.month, a.day)}</div>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* 藝人 Section */}
             {topArtists.length > 0 && (

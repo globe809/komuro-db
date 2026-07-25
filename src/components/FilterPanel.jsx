@@ -35,7 +35,7 @@ export default function FilterPanel({
   const hasFilter = keyword || selectedArtist || selectedYear || selectedType || selectedVideoType
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+    <div className="surface p-4">
       <div className="flex flex-col sm:flex-row gap-3">
         {/* 關鍵字搜尋 */}
         <div className="flex-1 relative">
@@ -117,7 +117,7 @@ export default function FilterPanel({
         {hasFilter && (
           <button
             onClick={onReset}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors whitespace-nowrap"
+            className="flex items-center gap-1.5 px-3 py-2 text-sm text-zinc-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors whitespace-nowrap"
           >
             <X size={14} />
             清除

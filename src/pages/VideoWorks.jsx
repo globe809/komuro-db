@@ -52,10 +52,10 @@ export default function VideoWorks() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center gap-2 mb-6">
-        <Video size={22} className="text-gray-700" />
-        <h1 className="text-2xl font-bold text-gray-900">影像作品</h1>
+        <Video size={22} className="text-zinc-300" />
+        <h1 className="text-2xl font-bold text-white">影像作品</h1>
         {!loading && (
-          <span className="text-sm text-gray-400 ml-2">
+          <span className="text-sm text-zinc-500 ml-2">
             共 {filtered.length} 筆{filtered.length !== works.length && ` / ${works.length} 筆`}
           </span>
         )}
@@ -84,7 +84,7 @@ export default function VideoWorks() {
       {loading ? (
         <LoadingSpinner />
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16 text-gray-400">
+        <div className="text-center py-16 text-zinc-500">
           <Video size={48} className="mx-auto mb-3 opacity-30" />
           <p>沒有符合條件的影像作品</p>
         </div>

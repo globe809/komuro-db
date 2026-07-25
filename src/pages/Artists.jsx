@@ -60,13 +60,13 @@ export default function Artists() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center gap-2 mb-6">
-        <Users size={22} className="text-teal-700" />
-        <h1 className="text-2xl font-bold text-gray-900">藝人</h1>
-        {!la && <span className="text-sm text-gray-400 ml-2">共 {deduped.length} 位</span>}
+        <Users size={22} className="text-teal-400" />
+        <h1 className="text-2xl font-bold text-white">藝人</h1>
+        {!la && <span className="text-sm text-zinc-500 ml-2">共 {deduped.length} 位</span>}
       </div>
 
       <div className="relative mb-6">
-        <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
         <input
           className="form-input pl-9"
           placeholder="搜尋藝人名稱..."
@@ -84,7 +84,7 @@ export default function Artists() {
               <Link
                 key={artist.id}
                 to={`/artists/${encodeURIComponent(artist.name)}`}
-                className="card p-4 flex items-center gap-4 group hover:border-blue-200"
+                className="card p-4 flex items-center gap-4 group hover:border-white/20"
               >
                 {/* 頭像 */}
                 <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-blue-800 to-indigo-700 shrink-0">
@@ -97,10 +97,10 @@ export default function Artists() {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-gray-900 group-hover:text-blue-800 truncate">
+                  <div className="font-semibold text-white group-hover:text-blue-400 truncate">
                     {artist.name}
                   </div>
-                  <div className="flex gap-3 mt-0.5 text-xs text-gray-400">
+                  <div className="flex gap-3 mt-0.5 text-xs text-zinc-500">
                     {stats.singles > 0 && (
                       <span className="flex items-center gap-0.5">
                         <Music size={11} /> {stats.singles}
@@ -119,7 +119,7 @@ export default function Artists() {
                     {total === 0 && <span>尚無作品</span>}
                   </div>
                 </div>
-                <span className="text-gray-300 group-hover:text-blue-400 text-lg">›</span>
+                <span className="text-zinc-600 group-hover:text-blue-400 text-lg">›</span>
               </Link>
             )
           })}

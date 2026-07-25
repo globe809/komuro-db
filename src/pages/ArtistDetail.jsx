@@ -17,7 +17,7 @@ function Section({ icon: Icon, title, count, children, color }) {
       <h2 className={`flex items-center gap-2 text-lg font-bold mb-4 ${color}`}>
         <Icon size={20} />
         {title}
-        <span className="text-sm font-normal text-gray-400 ml-1">（{count}）</span>
+        <span className="text-sm font-normal text-zinc-500 ml-1">（{count}）</span>
       </h2>
       {children}
     </section>
@@ -159,30 +159,30 @@ export default function ArtistDetail() {
           <>
             {/* ── Bio ── */}
             {artistInfo?.bio && (
-              <div className="mb-8 p-5 bg-gray-50 rounded-xl border border-gray-200">
-                <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{artistInfo.bio}</p>
+              <div className="mb-8 p-5 bg-zinc-900/50 rounded-xl border border-white/10">
+                <p className="text-sm text-zinc-300 leading-relaxed whitespace-pre-wrap">{artistInfo.bio}</p>
               </div>
             )}
 
             {/* ── Members ── */}
             {artistInfo?.members?.length > 0 && (
               <section className="mb-10">
-                <h2 className="flex items-center gap-2 text-base font-bold text-gray-700 mb-4">
+                <h2 className="flex items-center gap-2 text-base font-bold text-zinc-300 mb-4">
                   <Users size={18} />
                   成員
                 </h2>
                 <div className="flex flex-wrap gap-4">
                   {artistInfo.members.map((member, i) => (
                     <div key={i} className="flex flex-col items-center gap-2 w-20">
-                      <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-200 ring-2 ring-white shadow-md">
+                      <div className="w-16 h-16 rounded-full overflow-hidden bg-zinc-700 ring-2 ring-white shadow-md">
                         {member.photoUrl
                           ? <img src={member.photoUrl} alt={member.name} className="w-full h-full object-cover" />
-                          : <div className="w-full h-full flex items-center justify-center text-gray-400 text-xl font-bold">
+                          : <div className="w-full h-full flex items-center justify-center text-zinc-500 text-xl font-bold">
                               {member.name?.[0] || '?'}
                             </div>
                         }
                       </div>
-                      <span className="text-xs text-center text-gray-600 font-medium leading-snug">{member.name}</span>
+                      <span className="text-xs text-center text-zinc-400 font-medium leading-snug">{member.name}</span>
                     </div>
                   ))}
                 </div>
@@ -190,19 +190,19 @@ export default function ArtistDetail() {
             )}
 
             {/* ── Works ── */}
-            <Section icon={Disc3} title="專輯" count={albums.length} color="text-indigo-700">
+            <Section icon={Disc3} title="專輯" count={albums.length} color="text-indigo-400">
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
                 {albums.map(a => <AlbumCard key={a.id} album={a} />)}
               </div>
             </Section>
 
-            <Section icon={Music} title="單曲" count={singles.length} color="text-blue-800">
+            <Section icon={Music} title="單曲" count={singles.length} color="text-blue-400">
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
                 {singles.map(s => <SingleCard key={s.id} single={s} />)}
               </div>
             </Section>
 
-            <Section icon={Video} title="影像作品" count={videoWorks.length} color="text-gray-700">
+            <Section icon={Video} title="影像作品" count={videoWorks.length} color="text-zinc-300">
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
                 {videoWorks.map(v => <VideoWorkCard key={v.id} work={v} />)}
               </div>
@@ -214,15 +214,15 @@ export default function ArtistDetail() {
                 <h2 className="flex items-center gap-2 text-lg font-bold mb-4 text-rose-700">
                   <Mic2 size={20} />
                   提供樂曲
-                  <span className="text-sm font-normal text-gray-400 ml-1">（{providedSongs.length}）</span>
+                  <span className="text-sm font-normal text-zinc-500 ml-1">（{providedSongs.length}）</span>
                 </h2>
 
                 <div className="space-y-4">
                   {providedGroups.map((group, gi) => (
-                    <div key={gi} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    <div key={gi} className="bg-zinc-900 rounded-xl border border-white/10 shadow-sm overflow-hidden">
                       {/* Group header */}
                       {group.sourceTitle && (
-                        <div className="flex items-center gap-4 px-4 py-3 bg-rose-50 border-b border-rose-100">
+                        <div className="flex items-center gap-4 px-4 py-3 bg-rose-900/20 border-b border-rose-100">
                           {group.imageUrl ? (
                             <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 shadow-sm">
                               <img src={group.imageUrl} alt={group.sourceTitle} className="w-full h-full object-cover" />
@@ -241,9 +241,9 @@ export default function ArtistDetail() {
                       )}
 
                       {/* Songs in group */}
-                      <div className="divide-y divide-gray-50">
+                      <div className="divide-y divide-white/5">
                         {group.songs.map((song, si) => (
-                          <div key={song.id || si} className="px-4 py-3 flex items-start gap-3 hover:bg-gray-50">
+                          <div key={song.id || si} className="px-4 py-3 flex items-start gap-3 hover:bg-zinc-900/50">
                             {/* Show image if no group header (songs without sourceTitle) */}
                             {!group.sourceTitle && song.imageUrl && (
                               <div className="w-8 h-8 rounded overflow-hidden shrink-0 mt-0.5">
@@ -252,28 +252,28 @@ export default function ArtistDetail() {
                             )}
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <span className="text-sm font-medium text-gray-800">{song.title}</span>
+                                <span className="text-sm font-medium text-zinc-100">{song.title}</span>
                                 {song.kind && (
-                                  <span className="text-xs bg-rose-50 text-rose-500 px-1.5 py-0.5 rounded">
+                                  <span className="text-xs bg-rose-900/20 text-rose-500 px-1.5 py-0.5 rounded">
                                     {getProvidedSongKindLabel(song.kind)}
                                   </span>
                                 )}
-                                {song.discNo && <span className="text-xs text-gray-400">D{song.discNo}</span>}
-                                {song.trackNo && <span className="text-xs text-gray-400">#{song.trackNo}</span>}
+                                {song.discNo && <span className="text-xs text-zinc-500">D{song.discNo}</span>}
+                                {song.trackNo && <span className="text-xs text-zinc-500">#{song.trackNo}</span>}
                                 {song.youtubeUrl && (
                                   <a href={song.youtubeUrl} target="_blank" rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-xs font-medium hover:bg-red-200 transition-colors">
+                                    className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-400 rounded-full text-xs font-medium hover:bg-red-200 transition-colors">
                                     <Youtube size={11} /> MV
                                   </a>
                                 )}
                               </div>
-                              <div className="text-xs text-gray-400 mt-0.5 flex flex-wrap gap-x-3">
+                              <div className="text-xs text-zinc-500 mt-0.5 flex flex-wrap gap-x-3">
                                 {song.lyrics && <span>作詞：{song.lyrics}</span>}
                                 {song.composition && <span>作曲：{song.composition}</span>}
                                 {song.arrangement && <span>編曲：{song.arrangement}</span>}
                               </div>
                             </div>
-                            <div className="text-xs text-gray-400 shrink-0 pt-0.5">
+                            <div className="text-xs text-zinc-500 shrink-0 pt-0.5">
                               {formatReleaseDate(song.year, song.month, song.day)}
                             </div>
                           </div>
@@ -286,7 +286,7 @@ export default function ArtistDetail() {
             )}
 
             {totalWorks === 0 && providedSongs.length === 0 && (
-              <div className="text-center py-16 text-gray-400">
+              <div className="text-center py-16 text-zinc-500">
                 <p>此藝人尚無作品資料</p>
               </div>
             )}

@@ -82,16 +82,16 @@ export default function Singles() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center gap-2 mb-6">
-        <Music size={22} className="text-blue-800" />
-        <h1 className="text-2xl font-bold text-gray-900">單曲</h1>
+        <Music size={22} className="text-blue-400" />
+        <h1 className="text-2xl font-bold text-white">單曲</h1>
         {!loading && (
-          <span className="text-sm text-gray-400 ml-2">
+          <span className="text-sm text-zinc-500 ml-2">
             共 {filtered.length} 筆{filtered.length !== singles.length && ` / ${singles.length} 筆`}
           </span>
         )}
         {/* 排序 */}
         <div className="ml-auto flex items-center gap-2">
-          <ArrowUpDown size={14} className="text-gray-400" />
+          <ArrowUpDown size={14} className="text-zinc-500" />
           <select
             value={sortBy}
             onChange={(e) => setParam('sort', e.target.value)}
@@ -124,7 +124,7 @@ export default function Singles() {
       {loading ? (
         <LoadingSpinner />
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16 text-gray-400">
+        <div className="text-center py-16 text-zinc-500">
           <Music size={48} className="mx-auto mb-3 opacity-30" />
           <p>沒有符合條件的單曲</p>
         </div>

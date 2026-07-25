@@ -76,19 +76,19 @@ export default function Albums() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center gap-2 mb-6">
-        <Disc3 size={22} className="text-indigo-700" />
-        <h1 className="text-2xl font-bold text-[#1d1d1f]">專輯</h1>
+        <Disc3 size={22} className="text-indigo-400" />
+        <h1 className="text-2xl font-bold text-white">專輯</h1>
         {!loading && (
-          <span className="text-sm text-[#6e6e73] ml-2">
+          <span className="text-sm text-zinc-400 ml-2">
             共 {filtered.length} 筆{filtered.length !== albums.length && ` / ${albums.length} 筆`}
           </span>
         )}
         <div className="ml-auto flex items-center gap-2">
-          <ArrowUpDown size={15} className="text-[#6e6e73]" />
+          <ArrowUpDown size={15} className="text-zinc-400" />
           <select
             value={sortBy}
             onChange={e => setParam('sort', e.target.value)}
-            className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-blue-900 text-[#1d1d1f]"
+            className="text-sm border border-white/10 rounded-lg px-3 py-1.5 bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-900 text-white"
           >
             {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
@@ -115,7 +115,7 @@ export default function Albums() {
       {loading ? (
         <LoadingSpinner />
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16 text-[#6e6e73]">
+        <div className="text-center py-16 text-zinc-400">
           <Disc3 size={48} className="mx-auto mb-3 opacity-30" />
           <p>沒有符合條件的專輯</p>
         </div>

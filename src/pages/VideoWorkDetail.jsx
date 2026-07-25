@@ -16,9 +16,9 @@ const formatBadgeColor = {
 function InfoRow({ label, value }) {
   if (!value) return null
   return (
-    <div className="flex gap-3 py-2 border-b border-gray-100 last:border-0">
-      <span className="text-sm text-gray-500 w-20 shrink-0">{label}</span>
-      <span className="text-sm text-gray-800 font-medium">{value}</span>
+    <div className="flex gap-3 py-2 border-b border-white/8 last:border-0">
+      <span className="text-sm text-zinc-500 w-20 shrink-0">{label}</span>
+      <span className="text-sm text-zinc-100 font-medium">{value}</span>
     </div>
   )
 }
@@ -38,9 +38,9 @@ export default function VideoWorkDetail() {
   if (loading) return <LoadingSpinner />
   if (!work)
     return (
-      <div className="text-center py-20 text-gray-400">
+      <div className="text-center py-20 text-zinc-500">
         <p>找不到此影像作品</p>
-        <Link to="/video-works" className="text-blue-600 text-sm mt-2 inline-block">
+        <Link to="/video-works" className="text-blue-400 text-sm mt-2 inline-block">
           回到影像作品列表
         </Link>
       </div>
@@ -68,12 +68,12 @@ export default function VideoWorkDetail() {
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center gap-3 mb-6">
-        <Link to="/video-works" className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 transition-colors">
+        <Link to="/video-works" className="p-2 rounded-lg hover:bg-zinc-800 text-zinc-500 transition-colors">
           <ArrowLeft size={18} />
         </Link>
-        <span className="text-sm text-gray-400">影像作品</span>
+        <span className="text-sm text-zinc-500">影像作品</span>
         <Link to="/admin/video-works" state={{ editId: id }}
-          className="ml-auto flex items-center gap-1 text-xs text-gray-400 hover:text-blue-700">
+          className="ml-auto flex items-center gap-1 text-xs text-zinc-500 hover:text-blue-400">
           <Edit size={13} />編輯
         </Link>
       </div>
@@ -86,7 +86,7 @@ export default function VideoWorkDetail() {
               className="w-48 h-48 sm:w-64 sm:h-64 object-cover rounded-xl shadow-2xl" />
           ) : (
             <div className="w-48 h-48 sm:w-64 sm:h-64 flex items-center justify-center">
-              <Video size={80} className="text-gray-600" />
+              <Video size={80} className="text-zinc-400" />
             </div>
           )}
         </div>
@@ -94,7 +94,7 @@ export default function VideoWorkDetail() {
         {/* 基本資訊 */}
         <div className="p-6">
           <div className="flex items-start justify-between gap-3 mb-1">
-            <h1 className="text-xl font-bold text-gray-900 leading-snug">{work.title}</h1>
+            <h1 className="text-xl font-bold text-white leading-snug">{work.title}</h1>
             {/* Format badges */}
             {formats.length > 0 && (
               <div className="flex gap-1 flex-wrap shrink-0">
@@ -104,42 +104,42 @@ export default function VideoWorkDetail() {
               </div>
             )}
           </div>
-          <p className="text-gray-500 mb-5">{work.artistName}</p>
+          <p className="text-zinc-500 mb-5">{work.artistName}</p>
 
           <InfoRow label="發行日期" value={formatReleaseDate(work.year, work.month, work.day)} />
         </div>
 
         {/* 內容列表 */}
         {contents.length > 0 && (
-          <div className="border-t border-gray-100">
-            <h2 className="px-6 py-4 font-semibold text-gray-700 text-sm">
+          <div className="border-t border-white/8">
+            <h2 className="px-6 py-4 font-semibold text-zinc-300 text-sm">
               收錄內容（{contents.length} 項）
             </h2>
 
             {hasDiscs ? (
               discNums.map(disc => (
                 <div key={disc}>
-                  <div className="px-6 py-2 bg-gray-50 border-y border-gray-100">
-                    <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">
+                  <div className="px-6 py-2 bg-zinc-900/50 border-y border-white/8">
+                    <span className="text-xs font-bold text-zinc-500 uppercase tracking-wide">
                       Disc {disc}
                     </span>
                   </div>
-                  <div className="divide-y divide-gray-50">
+                  <div className="divide-y divide-white/5">
                     {discGroups[disc].map((item, i) => (
                       <div key={i} className="px-6 py-2.5 flex gap-4">
-                        <span className="text-gray-400 text-sm font-mono w-6 shrink-0 text-right">{i + 1}</span>
-                        <span className="text-sm text-gray-800">{item.title}</span>
+                        <span className="text-zinc-500 text-sm font-mono w-6 shrink-0 text-right">{i + 1}</span>
+                        <span className="text-sm text-zinc-100">{item.title}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               ))
             ) : (
-              <div className="divide-y divide-gray-50">
+              <div className="divide-y divide-white/5">
                 {contents.map((item, i) => (
                   <div key={i} className="px-6 py-2.5 flex gap-4">
-                    <span className="text-gray-400 text-sm font-mono w-6 shrink-0 text-right">{i + 1}</span>
-                    <span className="text-sm text-gray-800">{item.title}</span>
+                    <span className="text-zinc-500 text-sm font-mono w-6 shrink-0 text-right">{i + 1}</span>
+                    <span className="text-sm text-zinc-100">{item.title}</span>
                   </div>
                 ))}
               </div>
@@ -149,9 +149,9 @@ export default function VideoWorkDetail() {
 
         {/* Credit */}
         {work.notes && (
-          <div className="border-t border-gray-100 px-6 py-5">
-            <h2 className="text-sm font-semibold text-gray-700 mb-3">Credit</h2>
-            <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">{work.notes}</p>
+          <div className="border-t border-white/8 px-6 py-5">
+            <h2 className="text-sm font-semibold text-zinc-300 mb-3">Credit</h2>
+            <p className="text-sm text-zinc-400 leading-relaxed whitespace-pre-wrap">{work.notes}</p>
           </div>
         )}
       </div>

@@ -217,17 +217,17 @@ export default function CompositionList() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
       {/* Header */}
       <div className="flex items-center gap-2 mb-6">
-        <PenLine size={22} className="text-blue-800" />
-        <h1 className="text-2xl font-bold text-[#1d1d1f]">作曲作品總覽</h1>
+        <PenLine size={22} className="text-blue-400" />
+        <h1 className="text-2xl font-bold text-white">作曲作品總覽</h1>
         {!loading && (
-          <span className="text-sm text-[#6e6e73] ml-2">共 {filtered.length} 首</span>
+          <span className="text-sm text-zinc-400 ml-2">共 {filtered.length} 首</span>
         )}
         <div className="ml-auto flex items-center gap-2">
-          <ArrowUpDown size={15} className="text-[#6e6e73]" />
+          <ArrowUpDown size={15} className="text-zinc-400" />
           <select
             value={sortBy}
             onChange={e => setParam('sort', e.target.value)}
-            className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-blue-900 text-[#1d1d1f]"
+            className="text-sm border border-white/10 rounded-lg px-3 py-1.5 bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-900 text-white"
           >
             {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
@@ -241,21 +241,21 @@ export default function CompositionList() {
           value={keyword}
           onChange={e => setParam('q', e.target.value)}
           placeholder="搜尋歌名、藝人、收錄作品..."
-          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 bg-white shadow-sm text-[#1d1d1f] placeholder-[#6e6e73]"
+          className="w-full border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 bg-zinc-900 shadow-sm text-white placeholder-[#6e6e73]"
         />
       </div>
 
       {loading ? (
         <LoadingSpinner />
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16 text-[#6e6e73]">
+        <div className="text-center py-16 text-zinc-400">
           <PenLine size={48} className="mx-auto mb-3 opacity-20" />
           <p>{keyword ? `找不到「${keyword}」相關結果` : '尚無作曲資料'}</p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
+        <div className="bg-zinc-900 rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
           {/* Table header */}
-          <div className="hidden sm:grid grid-cols-[2fr_1.5fr_2fr_1fr_auto] gap-4 px-5 py-3 border-b border-gray-100 text-xs font-semibold text-[#6e6e73]">
+          <div className="hidden sm:grid grid-cols-[2fr_1.5fr_2fr_1fr_auto] gap-4 px-5 py-3 border-b border-white/8 text-xs font-semibold text-zinc-400">
             <div>歌名</div>
             <div>演唱藝人</div>
             <div>首次收錄作品</div>
@@ -263,21 +263,21 @@ export default function CompositionList() {
             <div>種別</div>
           </div>
 
-          <div className="divide-y divide-gray-50">
+          <div className="divide-y divide-white/5">
             {filtered.map((song, i) => (
               <div
                 key={i}
                 className="grid grid-cols-1 sm:grid-cols-[2fr_1.5fr_2fr_1fr_auto] gap-1 sm:gap-4 items-start sm:items-center px-5 py-3.5 hover:bg-[#f5f5f7] transition-colors"
               >
                 {/* 歌名 */}
-                <div className="font-medium text-sm text-[#1d1d1f]">{song.title}</div>
+                <div className="font-medium text-sm text-white">{song.title}</div>
 
                 {/* 演唱藝人 */}
-                <div className="text-sm text-[#6e6e73]">
+                <div className="text-sm text-zinc-400">
                   {song.artistName ? (
                     <Link
                       to={`/artists/${encodeURIComponent(song.artistName)}`}
-                      className="hover:text-blue-700 hover:underline"
+                      className="hover:text-blue-400 hover:underline"
                     >
                       {song.artistName}
                     </Link>
@@ -285,14 +285,14 @@ export default function CompositionList() {
                 </div>
 
                 {/* 首次收錄作品 */}
-                <div className="text-sm text-[#6e6e73]">
+                <div className="text-sm text-zinc-400">
                   {song.sourceId ? (
                     <Link
                       to={`/${song.sourceType === 'single' ? 'singles' : 'albums'}/${song.sourceId}`}
-                      className="hover:text-blue-700 hover:underline flex items-center gap-1.5"
+                      className="hover:text-blue-400 hover:underline flex items-center gap-1.5"
                     >
                       {song.sourceType === 'single'
-                        ? <Music size={12} className="text-blue-600 shrink-0" />
+                        ? <Music size={12} className="text-blue-400 shrink-0" />
                         : <Disc3 size={12} className="text-indigo-600 shrink-0" />
                       }
                       <span className="truncate">{song.sourceTitle}</span>
@@ -306,7 +306,7 @@ export default function CompositionList() {
                 </div>
 
                 {/* 發行日期 */}
-                <div className="text-xs text-[#6e6e73]">
+                <div className="text-xs text-zinc-400">
                   {formatReleaseDate(song.year, song.month, song.day) || '—'}
                 </div>
 

@@ -7,13 +7,13 @@ import { formatReleaseDate } from '../utils/formatDate'
 
 function StatCard({ icon: Icon, label, count, to, color }) {
   return (
-    <Link to={to} className="card p-5 flex items-center gap-4 group hover:border-blue-200">
+    <Link to={to} className="card p-5 flex items-center gap-4 group hover:border-white/20">
       <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${color}`}>
         <Icon size={24} className="text-white" />
       </div>
       <div>
-        <div className="text-2xl font-bold text-gray-900">{count}</div>
-        <div className="text-sm text-gray-500">{label}</div>
+        <div className="text-2xl font-bold text-white">{count}</div>
+        <div className="text-sm text-zinc-500">{label}</div>
       </div>
     </Link>
   )
@@ -29,7 +29,7 @@ function ItemContainer({ viewMode, children }) {
     )
   }
   return (
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+    <div className="bg-zinc-900 rounded-xl border border-white/8 shadow-sm divide-y divide-white/5">
       {children}
     </div>
   )
@@ -69,13 +69,13 @@ function ReleaseItem({ to, title, subtitle, dateLabel, imageUrl, Icon, iconBg, i
   }
   return (
     <Wrapper {...wrapperProps}
-      className={`flex items-center gap-4 px-4 py-3 transition-colors ${isToday ? 'bg-amber-50 hover:bg-amber-100' : to ? 'hover:bg-gray-50' : ''}`}>
+      className={`flex items-center gap-4 px-4 py-3 transition-colors ${isToday ? 'bg-amber-900/20 hover:bg-amber-900/30' : to ? 'hover:bg-white/5' : ''}`}>
       <div className={`w-10 h-10 rounded flex items-center justify-center shrink-0 overflow-hidden ${iconBg}`}>
         {imageUrl ? <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
           : <Icon size={16} className={iconColor} />}
       </div>
       <div className="flex-1 min-w-0">
-        <div className="font-medium text-sm text-gray-900 truncate flex items-center gap-1.5">
+        <div className="font-medium text-sm text-white truncate flex items-center gap-1.5">
           {title}
           {isToday && (
             <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-white shrink-0">
@@ -83,9 +83,9 @@ function ReleaseItem({ to, title, subtitle, dateLabel, imageUrl, Icon, iconBg, i
             </span>
           )}
         </div>
-        <div className="text-xs text-gray-400 truncate">{subtitle}</div>
+        <div className="text-xs text-zinc-500 truncate">{subtitle}</div>
       </div>
-      <div className={`text-xs shrink-0 ${isToday ? 'text-amber-600 font-semibold' : 'text-gray-400'}`}>{dateLabel}</div>
+      <div className={`text-xs shrink-0 ${isToday ? 'text-amber-600 font-semibold' : 'text-zinc-500'}`}>{dateLabel}</div>
     </Wrapper>
   )
 }
@@ -204,7 +204,7 @@ export default function Home() {
         {/* Search bar overlay */}
         <div className="absolute bottom-0 left-0 right-0 px-4 sm:px-8 pb-4 flex justify-center">
           <div className="w-full max-w-lg relative">
-            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" />
             <input
               type="text"
               placeholder="輸入歌名、藝人名稱搜尋..."
@@ -214,7 +214,7 @@ export default function Home() {
                 if (e.key === 'Enter' && keyword.trim())
                   window.location.href = `#/search?q=${encodeURIComponent(keyword)}`
               }}
-              className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 shadow-lg bg-white"
+              className="w-full pl-11 pr-4 py-3 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/50 shadow-lg bg-zinc-900 text-white placeholder:text-zinc-500"
             />
           </div>
         </div>
@@ -234,12 +234,12 @@ export default function Home() {
 
             {/* 顯示模式切換 */}
             <div className="flex justify-end mb-4">
-              <div className="inline-flex items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm">
+              <div className="inline-flex items-center rounded-lg border border-white/10 bg-zinc-900 p-1 shadow-sm">
                 <button
                   type="button"
                   onClick={() => setViewMode('list')}
                   aria-pressed={viewMode === 'list'}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${viewMode === 'list' ? 'bg-blue-900 text-white' : 'text-gray-500 hover:text-gray-700'}`}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${viewMode === 'list' ? 'bg-zinc-700 text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
                 >
                   <List size={14} /> 列表
                 </button>
@@ -247,7 +247,7 @@ export default function Home() {
                   type="button"
                   onClick={() => setViewMode('grid')}
                   aria-pressed={viewMode === 'grid'}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${viewMode === 'grid' ? 'bg-blue-900 text-white' : 'text-gray-500 hover:text-gray-700'}`}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${viewMode === 'grid' ? 'bg-zinc-700 text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
                 >
                   <LayoutGrid size={14} /> 卡片
                 </button>
@@ -258,10 +258,10 @@ export default function Home() {
             {topArtists.length > 0 && (
               <section className="mb-10">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                    <Users size={18} className="text-teal-700" /> 藝人
+                  <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+                    <Users size={18} className="text-teal-400" /> 藝人
                   </h2>
-                  <Link to="/artists" className="text-sm text-blue-700 hover:underline">查看全部</Link>
+                  <Link to="/artists" className="text-sm text-blue-400 hover:underline">查看全部</Link>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                   {topArtists.map(artist => {
@@ -306,19 +306,19 @@ export default function Home() {
             {(historicalSingles.length > 0 || historicalAlbums.length > 0) && (
               <section className="mb-10">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                  <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
                     <Calendar size={18} className="text-amber-600" /> 歷史上的{currentMonth}月發行
                   </h2>
                 </div>
                 <div className="space-y-3">
                   {historicalSingles.length > 0 && (
-                    <details className="bg-white rounded-xl border border-gray-100 shadow-sm group" open>
+                    <details className="bg-zinc-900 rounded-xl border border-white/8 shadow-sm group" open>
                       <summary className="flex items-center justify-between px-4 py-3 cursor-pointer select-none list-none">
-                        <span className="flex items-center gap-2 font-bold text-sm text-gray-800">
-                          <Music size={16} className="text-blue-800" /> 單曲
-                          <span className="text-xs font-normal text-gray-400">({historicalSingles.length})</span>
+                        <span className="flex items-center gap-2 font-bold text-sm text-zinc-100">
+                          <Music size={16} className="text-blue-400" /> 單曲
+                          <span className="text-xs font-normal text-zinc-500">({historicalSingles.length})</span>
                         </span>
-                        <ChevronDown size={16} className="text-gray-400 transition-transform group-open:rotate-180" />
+                        <ChevronDown size={16} className="text-zinc-500 transition-transform group-open:rotate-180" />
                       </summary>
                       <div className={viewMode === 'grid' ? 'p-3 border-t border-gray-50' : 'border-t border-gray-50'}>
                         <ItemContainer viewMode={viewMode}>
@@ -331,8 +331,8 @@ export default function Home() {
                               dateLabel={formatReleaseDate(s.year, s.month, s.day)}
                               imageUrl={s.imageUrl}
                               Icon={Music}
-                              iconBg="bg-blue-100"
-                              iconColor="text-blue-700"
+                              iconBg="bg-blue-900/30"
+                              iconColor="text-blue-400"
                               isToday={s.day === currentDay}
                               viewMode={viewMode}
                             />
@@ -342,13 +342,13 @@ export default function Home() {
                     </details>
                   )}
                   {historicalAlbums.length > 0 && (
-                    <details className="bg-white rounded-xl border border-gray-100 shadow-sm group" open>
+                    <details className="bg-zinc-900 rounded-xl border border-white/8 shadow-sm group" open>
                       <summary className="flex items-center justify-between px-4 py-3 cursor-pointer select-none list-none">
-                        <span className="flex items-center gap-2 font-bold text-sm text-gray-800">
-                          <Disc3 size={16} className="text-indigo-700" /> 專輯
-                          <span className="text-xs font-normal text-gray-400">({historicalAlbums.length})</span>
+                        <span className="flex items-center gap-2 font-bold text-sm text-zinc-100">
+                          <Disc3 size={16} className="text-indigo-400" /> 專輯
+                          <span className="text-xs font-normal text-zinc-500">({historicalAlbums.length})</span>
                         </span>
-                        <ChevronDown size={16} className="text-gray-400 transition-transform group-open:rotate-180" />
+                        <ChevronDown size={16} className="text-zinc-500 transition-transform group-open:rotate-180" />
                       </summary>
                       <div className={viewMode === 'grid' ? 'p-3 border-t border-gray-50' : 'border-t border-gray-50'}>
                         <ItemContainer viewMode={viewMode}>
@@ -362,7 +362,7 @@ export default function Home() {
                               imageUrl={a.imageUrl}
                               Icon={Disc3}
                               iconBg="bg-indigo-100"
-                              iconColor="text-indigo-700"
+                              iconColor="text-indigo-400"
                               isToday={a.day === currentDay}
                               viewMode={viewMode}
                             />
@@ -379,10 +379,10 @@ export default function Home() {
             {recentSingles.length > 0 && (
               <section className="mb-8">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                    <Music size={18} className="text-blue-800" /> 最新單曲
+                  <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+                    <Music size={18} className="text-blue-400" /> 最新單曲
                   </h2>
-                  <Link to="/singles" className="text-sm text-blue-700 hover:underline">查看全部</Link>
+                  <Link to="/singles" className="text-sm text-blue-400 hover:underline">查看全部</Link>
                 </div>
                 <ItemContainer viewMode={viewMode}>
                   {recentSingles.map(s => (
@@ -394,8 +394,8 @@ export default function Home() {
                       dateLabel={s.year ? `${s.year}年` : ''}
                       imageUrl={s.imageUrl}
                       Icon={Music}
-                      iconBg="bg-blue-100"
-                      iconColor="text-blue-700"
+                      iconBg="bg-blue-900/30"
+                      iconColor="text-blue-400"
                       viewMode={viewMode}
                     />
                   ))}
@@ -407,10 +407,10 @@ export default function Home() {
             {recentAlbums.length > 0 && (
               <section className="mb-8">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                    <Disc3 size={18} className="text-indigo-700" /> 最新專輯
+                  <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+                    <Disc3 size={18} className="text-indigo-400" /> 最新專輯
                   </h2>
-                  <Link to="/albums" className="text-sm text-blue-700 hover:underline">查看全部</Link>
+                  <Link to="/albums" className="text-sm text-blue-400 hover:underline">查看全部</Link>
                 </div>
                 <ItemContainer viewMode={viewMode}>
                   {recentAlbums.map(a => (
@@ -423,7 +423,7 @@ export default function Home() {
                       imageUrl={a.imageUrl}
                       Icon={Disc3}
                       iconBg="bg-indigo-100"
-                      iconColor="text-indigo-700"
+                      iconColor="text-indigo-400"
                       viewMode={viewMode}
                     />
                   ))}
@@ -435,10 +435,10 @@ export default function Home() {
             {recentProvided.length > 0 && (
               <section>
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                    <Mic2 size={18} className="text-rose-600" /> 近期提供樂曲
+                  <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+                    <Mic2 size={18} className="text-rose-400" /> 近期提供樂曲
                   </h2>
-                  <Link to="/provided-songs" className="text-sm text-blue-700 hover:underline">查看全部</Link>
+                  <Link to="/provided-songs" className="text-sm text-blue-400 hover:underline">查看全部</Link>
                 </div>
                 <ItemContainer viewMode={viewMode}>
                   {recentProvided.map((s, i) => (
@@ -449,7 +449,7 @@ export default function Home() {
                       dateLabel={formatReleaseDate(s.year, s.month, s.day)}
                       imageUrl={s.imageUrl}
                       Icon={Mic2}
-                      iconBg="bg-rose-50"
+                      iconBg="bg-rose-900/20"
                       iconColor="text-rose-400"
                       viewMode={viewMode}
                     />

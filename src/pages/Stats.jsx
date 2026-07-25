@@ -9,9 +9,9 @@ function StatBigCard({ icon: Icon, label, value, color, sub }) {
       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${color} mb-1`}>
         <Icon size={24} className="text-white" />
       </div>
-      <div className="text-3xl font-bold text-[#1d1d1f]">{value}</div>
-      <div className="text-sm text-[#6e6e73]">{label}</div>
-      {sub && <div className="text-xs text-[#6e6e73] mt-1">{sub}</div>}
+      <div className="text-3xl font-bold text-white">{value}</div>
+      <div className="text-sm text-zinc-400">{label}</div>
+      {sub && <div className="text-xs text-zinc-400 mt-1">{sub}</div>}
     </div>
   )
 }
@@ -219,15 +219,15 @@ export default function Stats() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center gap-2 mb-8">
-        <BarChart2 size={24} className="text-blue-800" />
-        <h1 className="text-2xl font-bold text-[#1d1d1f]">銷量統計</h1>
+        <BarChart2 size={24} className="text-blue-400" />
+        <h1 className="text-2xl font-bold text-white">銷量統計</h1>
       </div>
 
       {loading ? <LoadingSpinner /> : (
         <>
           {/* ── 總計 ── */}
           <section className="mb-10">
-            <h2 className="text-base font-semibold text-[#6e6e73] mb-4 flex items-center gap-2">
+            <h2 className="text-base font-semibold text-zinc-400 mb-4 flex items-center gap-2">
               <TrendingUp size={16} /> 整體統計
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -262,12 +262,12 @@ export default function Stats() {
 
           {/* ── 藝人排行 ── */}
           <section>
-            <h2 className="text-base font-semibold text-[#6e6e73] mb-4 flex items-center gap-2">
+            <h2 className="text-base font-semibold text-zinc-400 mb-4 flex items-center gap-2">
               <Users size={16} /> 藝人銷量排行
             </h2>
 
-            <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
-              <div className="hidden sm:grid grid-cols-[auto_1fr_auto_auto_auto_auto] gap-0 text-xs font-semibold text-[#6e6e73] px-5 py-3 border-b border-gray-100">
+            <div className="bg-zinc-900 rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
+              <div className="hidden sm:grid grid-cols-[auto_1fr_auto_auto_auto_auto] gap-0 text-xs font-semibold text-zinc-400 px-5 py-3 border-b border-white/8">
                 <div className="w-8">#</div>
                 <div>藝人</div>
                 <div className="w-24 text-right">單曲銷量</div>
@@ -277,12 +277,12 @@ export default function Stats() {
               </div>
 
               {artistRanking.length === 0 ? (
-                <p className="text-center py-12 text-sm text-[#6e6e73]">尚無銷量資料</p>
+                <p className="text-center py-12 text-sm text-zinc-400">尚無銷量資料</p>
               ) : (
-                <div className="divide-y divide-gray-50">
+                <div className="divide-y divide-white/5">
                   {artistRanking.map((a, i) => (
                     <div key={a.name} className="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto_auto_auto_auto] gap-0 items-center px-5 py-3 hover:bg-[#f5f5f7] transition-colors">
-                      <div className="w-8 text-sm font-bold text-[#6e6e73]">
+                      <div className="w-8 text-sm font-bold text-zinc-400">
                         {i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}
                       </div>
                       <div className="flex items-center gap-3 min-w-0">
@@ -295,8 +295,8 @@ export default function Stats() {
                           }
                         </div>
                         <div className="min-w-0">
-                          <div className="text-sm font-semibold text-[#1d1d1f] truncate">{a.name}</div>
-                          <div className="text-xs text-[#6e6e73]">
+                          <div className="text-sm font-semibold text-white truncate">{a.name}</div>
+                          <div className="text-xs text-zinc-400">
                             {a.singleCount > 0 && `${a.singleCount} 單曲`}
                             {a.singleCount > 0 && (a.albumCount > 0 || a.providedCount > 0) && ' · '}
                             {a.albumCount > 0 && `${a.albumCount} 專輯`}
@@ -305,17 +305,17 @@ export default function Stats() {
                           </div>
                         </div>
                       </div>
-                      <div className="hidden sm:block w-24 text-right text-sm text-[#1d1d1f]">
-                        {a.singleSales > 0 ? formatSales(a.singleSales) : <span className="text-[#6e6e73]">—</span>}
+                      <div className="hidden sm:block w-24 text-right text-sm text-white">
+                        {a.singleSales > 0 ? formatSales(a.singleSales) : <span className="text-zinc-400">—</span>}
                       </div>
-                      <div className="hidden sm:block w-24 text-right text-sm text-[#1d1d1f]">
-                        {a.albumSales > 0 ? formatSales(a.albumSales) : <span className="text-[#6e6e73]">—</span>}
+                      <div className="hidden sm:block w-24 text-right text-sm text-white">
+                        {a.albumSales > 0 ? formatSales(a.albumSales) : <span className="text-zinc-400">—</span>}
                       </div>
-                      <div className="hidden sm:block w-24 text-right text-sm text-[#1d1d1f]">
-                        {a.providedSales > 0 ? formatSales(a.providedSales) : <span className="text-[#6e6e73]">—</span>}
+                      <div className="hidden sm:block w-24 text-right text-sm text-white">
+                        {a.providedSales > 0 ? formatSales(a.providedSales) : <span className="text-zinc-400">—</span>}
                       </div>
-                      <div className="hidden sm:block w-24 text-right text-sm font-bold text-[#1d1d1f]">
-                        {a.totalSales > 0 ? formatSales(a.totalSales) : <span className="font-normal text-[#6e6e73]">—</span>}
+                      <div className="hidden sm:block w-24 text-right text-sm font-bold text-white">
+                        {a.totalSales > 0 ? formatSales(a.totalSales) : <span className="font-normal text-zinc-400">—</span>}
                       </div>
                     </div>
                   ))}
@@ -327,35 +327,35 @@ export default function Stats() {
           {/* ── 銷量前 100 單曲 ── */}
           {top100Singles.length > 0 && (
             <section className="mt-10">
-              <h2 className="text-base font-semibold text-[#6e6e73] mb-4 flex items-center gap-2">
-                <Music size={16} className="text-blue-800" /> 銷量前 {top100Singles.length} 單曲
+              <h2 className="text-base font-semibold text-zinc-400 mb-4 flex items-center gap-2">
+                <Music size={16} className="text-blue-400" /> 銷量前 {top100Singles.length} 單曲
               </h2>
-              <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
-                <div className="hidden sm:grid grid-cols-[auto_auto_1fr_auto_auto] gap-0 text-xs font-semibold text-[#6e6e73] px-5 py-3 border-b border-gray-100">
+              <div className="bg-zinc-900 rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
+                <div className="hidden sm:grid grid-cols-[auto_auto_1fr_auto_auto] gap-0 text-xs font-semibold text-zinc-400 px-5 py-3 border-b border-white/8">
                   <div className="w-8">#</div>
                   <div className="w-10" />
                   <div>單曲名稱</div>
                   <div className="w-32 text-right">藝人</div>
                   <div className="w-24 text-right">銷量</div>
                 </div>
-                <div className="divide-y divide-gray-50">
+                <div className="divide-y divide-white/5">
                   {top100Singles.map((s, i) => (
                     <div key={s.id} className="grid grid-cols-[auto_auto_1fr_auto] sm:grid-cols-[auto_auto_1fr_auto_auto] items-center px-5 py-2.5 hover:bg-[#f5f5f7] transition-colors gap-0">
-                      <div className="w-8 text-sm font-bold text-[#6e6e73]">
+                      <div className="w-8 text-sm font-bold text-zinc-400">
                         {i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}
                       </div>
-                      <div className="w-10 h-10 rounded overflow-hidden bg-blue-50 shrink-0 mr-3">
+                      <div className="w-10 h-10 rounded overflow-hidden bg-blue-900/20 shrink-0 mr-3">
                         {s.imageUrl
                           ? <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover" />
                           : <div className="w-full h-full flex items-center justify-center"><Music size={14} className="text-blue-400" /></div>
                         }
                       </div>
                       <div className="min-w-0 pr-3">
-                        <div className="text-sm font-medium text-[#1d1d1f] truncate">{s.title}</div>
-                        <div className="text-xs text-[#6e6e73] sm:hidden">{s.artistName}</div>
+                        <div className="text-sm font-medium text-white truncate">{s.title}</div>
+                        <div className="text-xs text-zinc-400 sm:hidden">{s.artistName}</div>
                       </div>
-                      <div className="hidden sm:block w-32 text-right text-xs text-[#6e6e73] pr-3 truncate">{s.artistName}</div>
-                      <div className="w-24 text-right text-sm font-bold text-blue-800">{formatSales(Number(s.salesRecord))}</div>
+                      <div className="hidden sm:block w-32 text-right text-xs text-zinc-400 pr-3 truncate">{s.artistName}</div>
+                      <div className="w-24 text-right text-sm font-bold text-blue-400">{formatSales(Number(s.salesRecord))}</div>
                     </div>
                   ))}
                 </div>
@@ -366,21 +366,21 @@ export default function Stats() {
           {/* ── 銷量前 30 專輯 ── */}
           {top30Albums.length > 0 && (
             <section className="mt-10 mb-4">
-              <h2 className="text-base font-semibold text-[#6e6e73] mb-4 flex items-center gap-2">
-                <Disc3 size={16} className="text-indigo-700" /> 銷量前 {top30Albums.length} 專輯
+              <h2 className="text-base font-semibold text-zinc-400 mb-4 flex items-center gap-2">
+                <Disc3 size={16} className="text-indigo-400" /> 銷量前 {top30Albums.length} 專輯
               </h2>
-              <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
-                <div className="hidden sm:grid grid-cols-[auto_auto_1fr_auto_auto] gap-0 text-xs font-semibold text-[#6e6e73] px-5 py-3 border-b border-gray-100">
+              <div className="bg-zinc-900 rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
+                <div className="hidden sm:grid grid-cols-[auto_auto_1fr_auto_auto] gap-0 text-xs font-semibold text-zinc-400 px-5 py-3 border-b border-white/8">
                   <div className="w-8">#</div>
                   <div className="w-10" />
                   <div>專輯名稱</div>
                   <div className="w-32 text-right">藝人</div>
                   <div className="w-24 text-right">銷量</div>
                 </div>
-                <div className="divide-y divide-gray-50">
+                <div className="divide-y divide-white/5">
                   {top30Albums.map((a, i) => (
                     <div key={a.id} className="grid grid-cols-[auto_auto_1fr_auto] sm:grid-cols-[auto_auto_1fr_auto_auto] items-center px-5 py-2.5 hover:bg-[#f5f5f7] transition-colors gap-0">
-                      <div className="w-8 text-sm font-bold text-[#6e6e73]">
+                      <div className="w-8 text-sm font-bold text-zinc-400">
                         {i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}
                       </div>
                       <div className="w-10 h-10 rounded overflow-hidden bg-indigo-50 shrink-0 mr-3">
@@ -390,11 +390,11 @@ export default function Stats() {
                         }
                       </div>
                       <div className="min-w-0 pr-3">
-                        <div className="text-sm font-medium text-[#1d1d1f] truncate">{a.title}</div>
-                        <div className="text-xs text-[#6e6e73] sm:hidden">{a.artistName}</div>
+                        <div className="text-sm font-medium text-white truncate">{a.title}</div>
+                        <div className="text-xs text-zinc-400 sm:hidden">{a.artistName}</div>
                       </div>
-                      <div className="hidden sm:block w-32 text-right text-xs text-[#6e6e73] pr-3 truncate">{a.artistName}</div>
-                      <div className="w-24 text-right text-sm font-bold text-indigo-700">{formatSales(Number(a.salesRecord))}</div>
+                      <div className="hidden sm:block w-32 text-right text-xs text-zinc-400 pr-3 truncate">{a.artistName}</div>
+                      <div className="w-24 text-right text-sm font-bold text-indigo-400">{formatSales(Number(a.salesRecord))}</div>
                     </div>
                   ))}
                 </div>

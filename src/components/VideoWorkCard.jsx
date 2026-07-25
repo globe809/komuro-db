@@ -57,11 +57,11 @@ export default function VideoWorkCard({ work }) {
 
       {/* 資訊 */}
       <div className="p-3">
-        <h3 className="font-semibold text-[#1d1d1f] text-sm leading-snug group-hover:text-blue-800 line-clamp-2">
+        <h3 className="font-semibold text-white text-sm leading-snug group-hover:text-rose-400 line-clamp-2">
           {title}
         </h3>
-        <p className="text-xs text-[#6e6e73] mt-1">{artistName}</p>
-        <p className="text-xs text-[#6e6e73]/70 mt-0.5">
+        <p className="text-xs text-zinc-400 mt-1">{artistName}</p>
+        <p className="text-xs text-zinc-400/70 mt-0.5">
           {formatReleaseDate(year, month, day)}
         </p>
       </div>

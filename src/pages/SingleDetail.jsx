@@ -10,9 +10,9 @@ import LoadingSpinner from '../components/LoadingSpinner'
 function InfoRow({ label, value }) {
   if (!value) return null
   return (
-    <div className="flex gap-3 py-2 border-b border-gray-100 last:border-0">
-      <span className="text-sm text-gray-500 w-24 shrink-0">{label}</span>
-      <span className="text-sm text-gray-800 font-medium">{value}</span>
+    <div className="flex gap-3 py-2 border-b border-white/8 last:border-0">
+      <span className="text-sm text-zinc-500 w-24 shrink-0">{label}</span>
+      <span className="text-sm text-zinc-100 font-medium">{value}</span>
     </div>
   )
 }
@@ -39,9 +39,9 @@ export default function SingleDetail() {
   if (loading) return <LoadingSpinner />
   if (!single)
     return (
-      <div className="text-center py-20 text-gray-400">
+      <div className="text-center py-20 text-zinc-500">
         <p>找不到此單曲</p>
-        <Link to="/singles" className="text-blue-600 text-sm mt-2 inline-block">回到單曲列表</Link>
+        <Link to="/singles" className="text-blue-400 text-sm mt-2 inline-block">回到單曲列表</Link>
       </div>
     )
 
@@ -59,11 +59,11 @@ export default function SingleDetail() {
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center gap-3 mb-6">
-        <Link to="/singles" className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 transition-colors">
+        <Link to="/singles" className="p-2 rounded-lg hover:bg-zinc-800 text-zinc-500 transition-colors">
           <ArrowLeft size={18} />
         </Link>
-        <span className="text-sm text-gray-400">單曲</span>
-        <Link to="/admin/singles" className="ml-auto flex items-center gap-1 text-xs text-gray-400 hover:text-blue-700">
+        <span className="text-sm text-zinc-500">單曲</span>
+        <Link to="/admin/singles" className="ml-auto flex items-center gap-1 text-xs text-zinc-500 hover:text-blue-400">
           <Edit size={13} />編輯
         </Link>
       </div>
@@ -76,7 +76,7 @@ export default function SingleDetail() {
               className="w-48 h-48 sm:w-64 sm:h-64 object-cover rounded-xl shadow-2xl" />
           ) : (
             <div className="w-48 h-48 sm:w-64 sm:h-64 flex items-center justify-center">
-              <Music size={80} className="text-blue-700" />
+              <Music size={80} className="text-blue-400" />
             </div>
           )}
         </div>
@@ -84,14 +84,14 @@ export default function SingleDetail() {
         {/* 基本資訊 */}
         <div className="p-6">
           <div className="flex items-start justify-between gap-3 mb-1">
-            <h1 className="text-xl font-bold text-gray-900 leading-snug">{single.title}</h1>
+            <h1 className="text-xl font-bold text-white leading-snug">{single.title}</h1>
             {single.type && (
               <span className={`badge shrink-0 ${single.type === 'digital' ? 'badge-green' : 'badge-blue'}`}>
                 {getSingleTypeLabel(single.type)}
               </span>
             )}
           </div>
-          <p className="text-gray-500 mb-5">{single.artistName}</p>
+          <p className="text-zinc-500 mb-5">{single.artistName}</p>
 
           <InfoRow label="發行日期" value={formatReleaseDate(single.year, single.month, single.day)} />
           <InfoRow label="製作人" value={single.producer} />
@@ -102,42 +102,42 @@ export default function SingleDetail() {
 
         {/* 曲目列表 */}
         {tracks.length > 0 && (
-          <div className="border-t border-gray-100">
-            <h2 className="px-6 py-4 font-semibold text-gray-700 text-sm">
+          <div className="border-t border-white/8">
+            <h2 className="px-6 py-4 font-semibold text-zinc-300 text-sm">
               收錄曲目（{tracks.length} 首）
             </h2>
 
             {discNumbers.map(disc => (
               <div key={disc}>
                 {hasMultipleDiscs && (
-                  <div className="px-6 py-2 bg-blue-50 border-y border-blue-100">
-                    <span className="text-xs font-bold text-blue-600 uppercase tracking-wide flex items-center gap-1.5">
+                  <div className="px-6 py-2 bg-blue-900/20 border-y border-blue-500/20">
+                    <span className="text-xs font-bold text-blue-400 uppercase tracking-wide flex items-center gap-1.5">
                       <Music size={12} /> Disc {disc}
                     </span>
                   </div>
                 )}
-                <div className="divide-y divide-gray-50">
+                <div className="divide-y divide-white/5">
                   {discs[disc].map((track, i) => {
                     const embedUrl = getYoutubeEmbedUrl(track.youtubeUrl)
                     const isOpen = expandedMv === `${disc}-${i}`
                     return (
                       <div key={i}>
-                        <div className="px-6 py-3 flex gap-4 hover:bg-gray-50">
-                          <span className="text-gray-400 text-sm font-mono w-6 shrink-0 text-right mt-1">{i + 1}</span>
+                        <div className="px-6 py-3 flex gap-4 hover:bg-zinc-900/50">
+                          <span className="text-zinc-500 text-sm font-mono w-6 shrink-0 text-right mt-1">{i + 1}</span>
                           <div className="flex-1">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-sm font-medium text-gray-800">{track.title}</span>
+                              <span className="text-sm font-medium text-zinc-100">{track.title}</span>
                               {track.youtubeUrl && (
                                 <button
                                   type="button"
                                   onClick={() => setExpandedMv(isOpen ? null : `${disc}-${i}`)}
-                                  className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-xs font-medium hover:bg-red-200 transition-colors"
+                                  className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-400 rounded-full text-xs font-medium hover:bg-red-200 transition-colors"
                                 >
                                   <Youtube size={11} /> MV
                                 </button>
                               )}
                             </div>
-                            <div className="text-xs text-gray-400 mt-0.5 flex flex-wrap gap-x-3">
+                            <div className="text-xs text-zinc-500 mt-0.5 flex flex-wrap gap-x-3">
                               {track.lyrics && <span>作詞：{track.lyrics}</span>}
                               {track.composition && <span>作曲：{track.composition}</span>}
                               {track.arrangement && <span>編曲：{track.arrangement}</span>}
@@ -168,9 +168,9 @@ export default function SingleDetail() {
 
         {/* Credit */}
         {single.notes && (
-          <div className="border-t border-gray-100 px-6 py-5">
-            <h2 className="text-sm font-semibold text-gray-700 mb-3">Credit</h2>
-            <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">{single.notes}</p>
+          <div className="border-t border-white/8 px-6 py-5">
+            <h2 className="text-sm font-semibold text-zinc-300 mb-3">Credit</h2>
+            <p className="text-sm text-zinc-400 leading-relaxed whitespace-pre-wrap">{single.notes}</p>
           </div>
         )}
       </div>

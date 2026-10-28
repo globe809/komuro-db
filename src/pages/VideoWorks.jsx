@@ -4,6 +4,7 @@ import { useCollection } from '../hooks/useFirestore'
 import FilterPanel from '../components/FilterPanel'
 import VideoWorkCard from '../components/VideoWorkCard'
 import LoadingSpinner from '../components/LoadingSpinner'
+import YearTimeline from '../components/YearTimeline'
 import { VIDEO_FORMATS, VIDEO_TYPES } from '../utils/constants'
 
 export default function VideoWorks() {
@@ -88,11 +89,10 @@ export default function VideoWorks() {
           <p>沒有符合條件的影像作品</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-[30px]">
-          {filtered.map((work) => (
-            <VideoWorkCard key={work.id} work={work} />
-          ))}
-        </div>
+        <YearTimeline
+          items={filtered}
+          renderItem={(work) => <VideoWorkCard key={work.id} work={work} />}
+        />
       )}
     </div>
   )

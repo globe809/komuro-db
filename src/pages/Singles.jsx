@@ -5,14 +5,15 @@ import { useCollection } from '../hooks/useFirestore'
 import FilterPanel from '../components/FilterPanel'
 import SingleCard from '../components/SingleCard'
 import LoadingSpinner from '../components/LoadingSpinner'
+import YearTimeline from '../components/YearTimeline'
 import { SINGLE_TYPES } from '../utils/constants'
 import { toSortableDate } from '../utils/formatDate'
 
 const SORT_OPTIONS = [
   { value: 'date_desc', label: '發行日期：新→舊' },
   { value: 'date_asc', label: '發行日期：舊→新' },
-  { value: 'sales_desc', label: '銷售量：高→低' },
-  { value: 'sales_asc', label: '銷售量：低→高' },
+  { value: 'sales_desc', label: '同年份銷售量：高→低' },
+  { value: 'sales_asc', label: '同年份銷售量：低→高' },
 ]
 
 export default function Singles() {
@@ -132,11 +133,11 @@ export default function Singles() {
           <p>沒有符合條件的單曲</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-[30px]">
-          {filtered.map((single) => (
-            <SingleCard key={single.id} single={single} />
-          ))}
-        </div>
+        <YearTimeline
+          items={filtered}
+          direction={sortBy === 'date_asc' ? 'asc' : 'desc'}
+          renderItem={(single) => <SingleCard key={single.id} single={single} />}
+        />
       )}
     </div>
   )

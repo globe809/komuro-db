@@ -30,6 +30,7 @@ PR 與 main 會執行測試、設定驗證、正式建置，保留 7 天建置�
 - Pool/provider: `tkworks-github/github`
 - Service account: `tkworks-hosting-deploy@komuro-db.iam.gserviceaccount.com`
 - Google role: `roles/firebasehosting.admin`，僅 Hosting 管理，不提供 Firestore、Storage 資料權限。
+- 自訂唯讀角色：`projects/komuro-db/roles/tkworksHostingApiCheck`，僅包含 `serviceusage.services.get`，供 Firebase CLI 讀取 API 啟用狀態；無啟停 API 或資料讀寫權限。此項也經擁有者另外明確核准。
 - 信任條件同時限制 repository ID `1203812792`、owner ID `273897484`、`refs/heads/main`、`globe809/komuro-db/.github/workflows/deploy.yml@refs/heads/main`。
 - Service account 的 `roles/iam.workloadIdentityUser` 只授予上述 repository ID 的 principalSet。
 

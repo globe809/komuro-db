@@ -114,7 +114,7 @@ export default function ImportAdmin() {
   const handleImportAll = async () => {
     const review = await inspectImportSets([['singles', '單曲', seedSingles], ['albums', '專輯', seedAlbums], ['providedSongs', '提供樂曲', seedProvidedSongs]])
     if (review === null) return
-    if (!window.confirm(review + 
+    if (!window.confirm(review +
       `確定要匯入所有資料嗎？\n` +
       `• 單曲：${seedSingles.length} 筆\n` +
       `• 專輯：${seedAlbums.length} 筆\n` +

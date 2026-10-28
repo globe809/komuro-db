@@ -24,16 +24,16 @@ npm run deploy
 
 PR 與 main 會執行測試、設定驗證、正式建置，保留 7 天建置產物。只有 main 且 repository variable `HOSTING_DEPLOY_ENABLED` 設為 `true` 時，才會嘗試發布。
 
-目前自動發布保持停用，等待擁有者核准新增的部署身分與 IAM 授權。流程檔已準備好使用以下無長期金鑰的身分聯盟：
+自動發布已於 2026-10-28 經擁有者明確核准後啟用，使用以下無長期金鑰的身分聯盟：
 
 - Project number: `836275864567`
 - Pool/provider: `tkworks-github/github`
 - Service account: `tkworks-hosting-deploy@komuro-db.iam.gserviceaccount.com`
 - Google role: `roles/firebasehosting.admin`，僅 Hosting 管理，不提供 Firestore、Storage 資料權限。
-- 信任條件必須同時限制 repository 的數字 ID、owner 數字 ID、`refs/heads/main`、`globe809/komuro-db/.github/workflows/deploy.yml@refs/heads/main`。
+- 信任條件同時限制 repository ID `1203812792`、owner ID `273897484`、`refs/heads/main`、`globe809/komuro-db/.github/workflows/deploy.yml@refs/heads/main`。
 - Service account 的 `roles/iam.workloadIdentityUser` 只授予上述 repository ID 的 principalSet。
 
-Google 部署帳號、pool/provider 和 IAM 授權尚未建立；自動核准審查要求使用者明確批准後才能進行。完成並確認權限後，才啟用 `HOSTING_DEPLOY_ENABLED` 並驗證實際發布。不要將個人 Firebase refresh token 或 service account 私鑰寫入 Git。
+Google 部署帳號、pool/provider 和 IAM 授權已依核准範圍建立，`HOSTING_DEPLOY_ENABLED=true`。推送或合併至 main 後會先通過測試與建置，再以短期身分發布至 tk56。可在 GitHub Actions 查看每次發布結果；將此 repository variable 改為 `false` 可暫停自動發布。個人 Firebase refresh token 與 service account 私鑰不存入 Git；本流程不建立長期私鑰。
 
 ## 瀏覽與資料檢查
 

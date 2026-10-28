@@ -1,26 +1,58 @@
-name: Deploy to Firebase Hosting
+name: Test and deploy TK WORKS
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tkworks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - run: npm install
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run validate:config
       - run: npm run build
-        env:
-          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
-          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
-          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
-          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
-          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
-      - name: Deploy to Firebase Hosting
-        run: npx firebase-tools@latest deploy --only hosting --token ${{ secrets.FIREBASE_TOKEN }} --project tk56
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hosting-dist
+          path: dist
+          retention-days: 7
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.HOSTING_DEPLOY_ENABLED == 'true'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          name: hosting-dist
+          path: dist
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: komuro-db
+          workload_identity_provider: projects/836275864567/locations/global/workloadIdentityPools/tkworks-github/providers/github
+          service_account: tkworks-hosting-deploy@komuro-db.iam.gserviceaccount.com
+      - name: Deploy Hosting only
+        run: npx --yes --package=firebase-tools@15.34.1 firebase deploy --only hosting:tk56 --project komuro-db --non-interactive

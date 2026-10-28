@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Upload, CheckCircle, AlertCircle, Loader, RefreshCw } from 'lucide-react'
 import { collection, writeBatch, doc, getDocs, updateDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
+import { deduplicateImport, duplicateGroups, findDuplicateCandidates } from '../../utils/dataQuality'
 import seedSingles from '../../utils/seedSingles.json'
 import seedAlbums from '../../utils/seedAlbums.json'
 import seedProvidedSongs from '../../utils/seedProvidedSongs.json'
@@ -21,6 +22,7 @@ async function clearCollection(name) {
 }
 
 async function importInBatches(colName, items, onProgress) {
+  items = deduplicateImport(items).unique
   const BATCH_SIZE = 400
   let done = 0
   for (let i = 0; i < items.length; i += BATCH_SIZE) {
@@ -40,26 +42,36 @@ async function importInBatches(colName, items, onProgress) {
 const normKey = (s) => (s || '').replace(/[\s　]/g, '').toLowerCase()
 
 async function patchTracksOnly(colName, seedItems, onProgress) {
+  seedItems = deduplicateImport(seedItems).unique
+  const seedVersionKey = item => [normKey(item.artistName), normKey(item.title), Number(item.year) || '', Number(item.month) || '', Number(item.day) || ''].join('\u0000')
+  const seedVersionCounts = new Map()
+  for (const seed of seedItems) seedVersionCounts.set(seedVersionKey(seed), (seedVersionCounts.get(seedVersionKey(seed)) || 0) + 1)
   // 1. 讀取 Firestore 現有文件
   const snap = await getDocs(collection(db, colName))
   const fsDocs = snap.docs.map(d => ({ ref: d.ref, data: d.data() }))
 
-  let updated = 0, skipped = 0, notFound = 0
+  let updated = 0, skipped = 0, notFound = 0, ambiguous = 0
   const missed = []
 
   for (let i = 0; i < seedItems.length; i++) {
     const seed = seedItems[i]
+    if (seedVersionCounts.get(seedVersionKey(seed)) > 1) { ambiguous++; onProgress(Math.round(((i+1)/seedItems.length)*100)); continue }
     // 沒有 tracks 資料就略過
     if (!seed.tracks || seed.tracks.length === 0) { skipped++; onProgress(Math.round(((i+1)/seedItems.length)*100)); continue }
 
     const seedArtist = normKey(seed.artistName)
     const seedTitle  = normKey(seed.title)
 
-    const match = fsDocs.find(d =>
+    const matches = fsDocs.filter(d =>
       normKey(d.data.artistName) === seedArtist &&
-      normKey(d.data.title) === seedTitle
+      normKey(d.data.title) === seedTitle &&
+      ['year', 'month', 'day'].every(key => !seed[key] || Number(d.data[key]) === Number(seed[key]))
     )
 
+    if (matches.length > 1) {
+      ambiguous++; onProgress(Math.round(((i+1)/seedItems.length)*100)); continue
+    }
+    const match = matches[0]
     if (match) {
       await updateDoc(match.ref, { tracks: seed.tracks })
       updated++
@@ -69,7 +81,7 @@ async function patchTracksOnly(colName, seedItems, onProgress) {
     }
     onProgress(Math.round(((i+1)/seedItems.length)*100))
   }
-  return { updated, skipped, notFound, missed }
+  return { updated, skipped, notFound, missed, ambiguous }
 }
 
 export default function ImportAdmin() {
@@ -77,11 +89,32 @@ export default function ImportAdmin() {
   const [log, setLog] = useState([])
   const [progress, setProgress] = useState(0)
   const [importing, setImporting] = useState('')
+  const [preflight, setPreflight] = useState([])
 
   const addLog = (msg) => setLog(l => [...l, msg])
 
+  const inspectImportSets = async (sets) => {
+    setStatus('checking')
+    try {
+      const reports = await Promise.all(sets.map(async ([name, label, items]) => {
+        const existing = (await getDocs(collection(db, name))).docs.map(item => ({ id: item.id, ...item.data() }))
+        const { unique, duplicates } = deduplicateImport(items)
+        const versions = duplicateGroups(unique)
+        const existingMatches = unique.filter(item => findDuplicateCandidates(item, existing).length).length
+        return { name, label, total: items.length, unique: unique.length, duplicates: duplicates.length, versions: versions.length, existingMatches, examples: versions.slice(0, 5).map(group => `${group[0].artistName} / ${group[0].title}（${group.length} 版本）`) }
+      }))
+      setPreflight(reports)
+      setStatus('idle')
+      return '匯入前檢查：\n' + reports.map(report => `${report.label}：${report.unique} 筆；略過 ${report.duplicates} 筆完全重複；${report.versions} 組同名版本保留；${report.existingMatches} 筆與現有資料同名。`).join('\n') + '\n\n'
+    } catch (error) {
+      setStatus('error'); addLog(`檢查失敗，尚未寫入：${error.message}`); return null
+    }
+  }
+
   const handleImportAll = async () => {
-    if (!window.confirm(
+    const review = await inspectImportSets([['singles', '單曲', seedSingles], ['albums', '專輯', seedAlbums], ['providedSongs', '提供樂曲', seedProvidedSongs]])
+    if (review === null) return
+    if (!window.confirm(review +
       `確定要匯入所有資料嗎？\n` +
       `• 單曲：${seedSingles.length} 筆\n` +
       `• 專輯：${seedAlbums.length} 筆\n` +
@@ -140,7 +173,9 @@ export default function ImportAdmin() {
   }
 
   const handleImportSingles = async () => {
-    if (!window.confirm(`匯入 ${seedSingles.length} 筆單曲？（現有單曲資料將被清除）`)) return
+    const review = await inspectImportSets([['singles', '單曲', seedSingles]])
+    if (review === null) return
+    if (!window.confirm(review + `匯入 ${seedSingles.length} 筆單曲？（現有單曲資料將被清除）`)) return
     setStatus('running'); setLog([]); setProgress(0); setImporting('singles')
     try {
       addLog('🗑️ 清除現有單曲...')
@@ -154,7 +189,9 @@ export default function ImportAdmin() {
   }
 
   const handleImportAlbums = async () => {
-    if (!window.confirm(`匯入 ${seedAlbums.length} 筆專輯？（現有專輯資料將被清除）`)) return
+    const review = await inspectImportSets([['albums', '專輯', seedAlbums]])
+    if (review === null) return
+    if (!window.confirm(review + `匯入 ${seedAlbums.length} 筆專輯？（現有專輯資料將被清除）`)) return
     setStatus('running'); setLog([]); setProgress(0); setImporting('albums')
     try {
       addLog('🗑️ 清除現有專輯...')
@@ -168,7 +205,9 @@ export default function ImportAdmin() {
   }
 
   const handleImportProvidedSongs = async () => {
-    if (!window.confirm(`匯入 ${seedProvidedSongs.length} 筆提供樂曲？（現有資料將被清除）`)) return
+    const review = await inspectImportSets([['providedSongs', '提供樂曲', seedProvidedSongs]])
+    if (review === null) return
+    if (!window.confirm(review + `匯入 ${seedProvidedSongs.length} 筆提供樂曲？（現有資料將被清除）`)) return
     setStatus('running'); setLog([]); setProgress(0); setImporting('providedSongs')
     try {
       addLog('🗑️ 清除現有提供樂曲...')
@@ -190,13 +229,13 @@ export default function ImportAdmin() {
     try {
       addLog('🎵 比對並更新單曲曲目...')
       const r1 = await patchTracksOnly('singles', seedSingles, setProgress)
-      addLog(`✅ 單曲：更新 ${r1.updated}、略過（無曲目）${r1.skipped}、找不到 ${r1.notFound}`)
+      addLog(`✅ 單曲：更新 ${r1.updated}、略過（無曲目）${r1.skipped}、找不到 ${r1.notFound}、同名多版本略過 ${r1.ambiguous}`)
       if (r1.missed.length) addLog(`   找不到：${r1.missed.slice(0,5).join('、')}${r1.missed.length>5?'…':''}`)
 
       setProgress(0)
       addLog('💿 比對並更新專輯曲目...')
       const r2 = await patchTracksOnly('albums', seedAlbums, setProgress)
-      addLog(`✅ 專輯：更新 ${r2.updated}、略過（無曲目）${r2.skipped}、找不到 ${r2.notFound}`)
+      addLog(`✅ 專輯：更新 ${r2.updated}、略過（無曲目）${r2.skipped}、找不到 ${r2.notFound}、同名多版本略過 ${r2.ambiguous}`)
 
       addLog('🎉 曲目更新完成！其他欄位未受影響。')
       setStatus('done')
@@ -204,13 +243,20 @@ export default function ImportAdmin() {
     finally { setImporting('') }
   }
 
-  const isRunning = status === 'running'
+  const isRunning = status === 'running' || status === 'checking'
 
   return (
     <div>
       <div className="flex items-center gap-2 mb-6">
-        <Upload size={20} className="text-amber-600" />
-        <h1 className="text-xl font-bold text-gray-900">資料匯入</h1>
+        <Upload size={20} className="text-gray-400" />
+        <h1 className="text-xl text-gray-900" style={{ fontWeight: 400 }}>資料匯入</h1>
+      </div>
+
+      <div className="card p-5 mb-5">
+        <h2 className="text-sm text-gray-900 mb-2">匯入前重複檢查</h2>
+        <p className="text-xs text-gray-500 mb-3">先檢查 seed 與現有資料。完全相同的重複記錄只匯入一次；日期、格式或內容不同的版本會保留。</p>
+        <button type="button" disabled={isRunning} className="btn-secondary disabled:opacity-50" onClick={() => inspectImportSets([['singles', '單曲', seedSingles], ['albums', '專輯', seedAlbums], ['providedSongs', '提供樂曲', seedProvidedSongs]])}>{status === 'checking' ? '檢查中…' : '只檢查，不匯入'}</button>
+        {preflight.map(report => <div key={report.name} className="text-xs text-gray-600 mt-4"><p className="font-medium">{report.label}：{report.total} 筆 → 實際匯入 {report.unique} 筆</p><p>完全重複 {report.duplicates} 筆 · 同名版本 {report.versions} 組 · 與現有資料同名 {report.existingMatches} 筆</p>{report.examples.map(example => <p key={example} className="mt-1 text-amber-800">{example}</p>)}</div>)}
       </div>
 
       {/* ── 安全：只更新曲目 ── */}

@@ -27,8 +27,8 @@ export default function SiteConfigAdmin() {
   return (
     <div>
       <div className="flex items-center gap-2 mb-6">
-        <Settings size={20} className="text-gray-600" />
-        <h1 className="text-xl font-bold text-gray-900">網站設定</h1>
+        <Settings size={20} className="text-gray-400" />
+        <h1 className="text-xl text-gray-900" style={{ fontWeight: 400 }}>網站設定</h1>
       </div>
 
       {loading ? (

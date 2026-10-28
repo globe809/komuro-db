@@ -1,8 +1,12 @@
-import { useState, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import DuplicateNotice from '../../components/DuplicateNotice'
+import { confirmDuplicateSave } from '../../utils/duplicateReview'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { Music, Plus, Trash2, Edit2, X, Search } from 'lucide-react'
 import { useCollection, addDocument, updateDocument, deleteDocument } from '../../hooks/useFirestore'
 import TrackListEditor from '../../components/TrackListEditor'
 import LoadingSpinner from '../../components/LoadingSpinner'
+import ImageUpload from '../../components/ImageUpload'
 import { SINGLE_TYPES, MONTHS } from '../../utils/constants'
 import { formatReleaseDate } from '../../utils/formatDate'
 
@@ -16,7 +20,10 @@ const EMPTY_FORM = {
 }
 
 export default function SinglesAdmin() {
-  const { data: singles, loading } = useCollection('singles', 'year', 'desc')
+  const [params, setParams] = useSearchParams()
+  const openedId = useRef('')
+  const [saveError, setSaveError] = useState('')
+  const { data: singles, loading } = useCollection('singles', null)
   const { data: artists } = useCollection('artists', 'name', 'asc')
 
   const [showForm, setShowForm] = useState(false)
@@ -26,14 +33,14 @@ export default function SinglesAdmin() {
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    if (!search) return singles
+    if (!search) return [...singles].sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0))
     const kw = search.toLowerCase()
     return singles.filter(s => s.title?.toLowerCase().includes(kw) || s.artistName?.toLowerCase().includes(kw))
   }, [singles, search])
 
-  const openNew = () => { setForm(EMPTY_FORM); setEditId(null); setShowForm(true) }
+  const openNew = () => { setSaveError(''); setForm(EMPTY_FORM); setEditId(null); setShowForm(true) }
   const openEdit = (s) => { setForm({ ...EMPTY_FORM, ...s, tracks: s.tracks || [] }); setEditId(s.id); setShowForm(true) }
-  const closeForm = () => { setShowForm(false); setEditId(null); setForm(EMPTY_FORM) }
+  const closeForm = () => { setSaveError(''); setParams(previous => { const next = new URLSearchParams(previous); next.delete('edit'); return next }, { replace: true }); setShowForm(false); setEditId(null); setForm(EMPTY_FORM) }
   const setField = (field, value) => setForm(f => ({ ...f, [field]: value }))
 
   const handleTitleChange = (value) => {
@@ -42,9 +49,18 @@ export default function SinglesAdmin() {
     setForm(f => ({ ...f, ...updates }))
   }
 
+  useEffect(() => {
+    const id = params.get('edit')
+    if (!id) { openedId.current = ''; return }
+    if (openedId.current === id) return
+    const record = singles.find(item => item.id === id)
+    if (record) { openEdit(record); openedId.current = id }
+  }, [params, singles])
+
   const handleSave = async (e) => {
     e.preventDefault()
     if (!form.title.trim()) return
+    setSaveError('')
     setSaving(true)
     try {
       const data = {
@@ -56,9 +72,12 @@ export default function SinglesAdmin() {
         salesRecord: form.salesRecord !== '' ? Number(form.salesRecord) : null,
         tracks: form.tracks.filter(t => t.title?.trim()),
       }
+      if (!await confirmDuplicateSave('singles', data, editId)) return
       if (editId) await updateDocument('singles', editId, data)
       else await addDocument('singles', data)
       closeForm()
+    } catch (error) {
+      setSaveError(`儲存失敗：${error.message}`)
     } finally { setSaving(false) }
   }
 
@@ -74,8 +93,8 @@ export default function SinglesAdmin() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <Music size={20} className="text-blue-800" />
-          <h1 className="text-xl font-bold text-gray-900">單曲管理</h1>
+          <Music size={20} className="text-gray-400" />
+          <h1 className="text-xl text-gray-900" style={{ fontWeight: 400 }}>單曲管理</h1>
           <span className="text-sm text-gray-400">（{singles.length}）</span>
         </div>
         <button onClick={openNew} className="btn-primary flex items-center gap-1.5">
@@ -97,21 +116,17 @@ export default function SinglesAdmin() {
               <button onClick={closeForm} className="p-1 rounded hover:bg-gray-100"><X size={18} /></button>
             </div>
             <form onSubmit={handleSave} className="px-6 py-5 space-y-4">
+              <DuplicateNotice item={form} existing={singles} excludeId={editId} />
+              {saveError && <p role="alert" className="text-sm text-red-600">{saveError}</p>}
               {/* 封面 */}
               <div>
-                <label className="form-label">封面圖片 URL</label>
-                <input
-                  className="form-input"
-                  value={form.imageUrl}
-                  onChange={e => setField('imageUrl', e.target.value)}
-                  placeholder="https://..."
+                <label className="form-label">封面圖片</label>
+                <ImageUpload
+                  folder="singles"
+                  currentUrl={form.imageUrl}
+                  onUpload={({ url, path }) => { setField('imageUrl', url); setField('imagePath', path) }}
+                  onRemove={() => { setField('imageUrl', ''); setField('imagePath', '') }}
                 />
-                {form.imageUrl && (
-                  <div className="mt-2 w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
-                    <img src={form.imageUrl} alt="preview" className="w-full h-full object-cover"
-                      onError={e => e.target.style.display='none'} />
-                  </div>
-                )}
               </div>
 
               {/* 歌名 */}
@@ -236,7 +251,7 @@ export default function SinglesAdmin() {
           <div className="divide-y divide-gray-50">
             {filtered.map(s => (
               <div key={s.id} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
-                <div className="w-10 h-10 rounded bg-blue-100 overflow-hidden shrink-0">
+                <div className="w-10 h-10 rounded bg-gray-100 overflow-hidden shrink-0">
                   {s.imageUrl
                     ? <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover" />
                     : <div className="w-full h-full flex items-center justify-center"><Music size={16} className="text-blue-400" /></div>}
@@ -249,7 +264,7 @@ export default function SinglesAdmin() {
                   </div>
                 </div>
                 <div className="flex gap-1 shrink-0">
-                  <button onClick={() => openEdit(s)} className="p-1.5 text-gray-400 hover:text-blue-700 hover:bg-blue-50 rounded"><Edit2 size={15} /></button>
+                  <button onClick={() => openEdit(s)} className="p-1.5 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded"><Edit2 size={15} /></button>
                   <button onClick={() => handleDelete(s.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"><Trash2 size={15} /></button>
                 </div>
               </div>

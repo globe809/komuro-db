@@ -61,6 +61,20 @@ export const MONTHS = [
 export const getAlbumTypeLabel = (value) =>
   ALBUM_TYPES.find((t) => t.value === value)?.label ?? value
 
+// 專輯類型英文標籤（用於前台作品卡片 tag）
+export const ALBUM_TYPE_LABEL_EN = {
+  studio: 'Original',
+  remix: 'Remix',
+  best: 'Best',
+  project: 'Project',
+  soundtrack: 'OST',
+  live: 'Live',
+  instrumental: 'Instrumental',
+  box: 'BOX',
+  other: 'Other',
+}
+export const getAlbumTypeLabelEn = (value) => ALBUM_TYPE_LABEL_EN[value] ?? value
+
 export const getSingleTypeLabel = (value) =>
   SINGLE_TYPES.find((t) => t.value === value)?.label ?? value
 

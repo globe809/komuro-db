@@ -44,6 +44,9 @@ export default function Artists() {
     return deduped.filter(a => a.name?.toLowerCase().includes(keyword.toLowerCase()))
   }, [deduped, keyword])
 
+  const featuredArtists = useMemo(() => filtered.filter(a => a.featured), [filtered])
+  const normalArtists = useMemo(() => filtered.filter(a => !a.featured), [filtered])
+
   // Merge stats for case variants (TRF + trf → same bucket)
   const mergedStats = useMemo(() => {
     const merged = {}
@@ -58,73 +61,77 @@ export default function Artists() {
   }, [artistStats])
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-      <div className="flex items-center gap-2 mb-6">
-        <Users size={22} className="text-teal-400" />
-        <h1 className="text-2xl font-bold text-white">藝人</h1>
-        {!la && <span className="text-sm text-zinc-500 ml-2">共 {deduped.length} 位</span>}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="flex items-baseline gap-3 mb-6">
+        <h1 className="text-3xl sm:text-4xl text-gray-900" style={{ fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Artists</h1>
+        {!la && <span className="text-sm text-gray-400">{deduped.length}</span>}
       </div>
 
-      <div className="relative mb-6">
-        <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
+      <div className="relative mb-8">
+        <Search size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
         <input
-          className="form-input pl-9"
-          placeholder="搜尋藝人名稱..."
+          className="w-full pl-11 pr-4 py-2.5 rounded-full text-sm bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 text-gray-900 placeholder:text-gray-400"
+          placeholder="Search artists..."
           value={keyword}
           onChange={e => setKeyword(e.target.value)}
         />
       </div>
 
       {la ? <LoadingSpinner /> : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {filtered.map(artist => {
-            const stats = mergedStats[artist.name?.toLowerCase()] || {}
-            const total = (stats.singles || 0) + (stats.albums || 0) + (stats.videoWorks || 0)
-            return (
-              <Link
-                key={artist.id}
-                to={`/artists/${encodeURIComponent(artist.name)}`}
-                className="card p-4 flex items-center gap-4 group hover:border-white/20"
-              >
-                {/* 頭像 */}
-                <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-blue-800 to-indigo-700 shrink-0">
-                  {artist.visualArtUrl ? (
-                    <img src={artist.visualArtUrl} alt={artist.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
-                      {artist.name?.[0]?.toUpperCase() || '?'}
-                    </div>
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-white group-hover:text-blue-400 truncate">
-                    {artist.name}
-                  </div>
-                  <div className="flex gap-3 mt-0.5 text-xs text-zinc-500">
-                    {stats.singles > 0 && (
-                      <span className="flex items-center gap-0.5">
-                        <Music size={11} /> {stats.singles}
-                      </span>
-                    )}
-                    {stats.albums > 0 && (
-                      <span className="flex items-center gap-0.5">
-                        <Disc3 size={11} /> {stats.albums}
-                      </span>
-                    )}
-                    {stats.videoWorks > 0 && (
-                      <span className="flex items-center gap-0.5">
-                        <Video size={11} /> {stats.videoWorks}
-                      </span>
-                    )}
-                    {total === 0 && <span>尚無作品</span>}
-                  </div>
-                </div>
-                <span className="text-zinc-600 group-hover:text-blue-400 text-lg">›</span>
-              </Link>
-            )
-          })}
-        </div>
+        <>
+          {/* 重要藝人（置頂、放大） */}
+          {featuredArtists.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-5 gap-y-9 mb-12">
+              {featuredArtists.map(artist => (
+                <ArtistGridCard key={artist.id} artist={artist} stats={mergedStats[artist.name?.toLowerCase()] || {}} large />
+              ))}
+            </div>
+          )}
+
+          {/* 一般藝人 */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
+            {normalArtists.map(artist => (
+              <ArtistGridCard key={artist.id} artist={artist} stats={mergedStats[artist.name?.toLowerCase()] || {}} />
+            ))}
+          </div>
+        </>
       )}
     </div>
+  )
+}
+
+/* 藝人卡片（寬3:高2，含毛玻璃光暈；large 為重要藝人放大版） */
+function ArtistGridCard({ artist, stats, large = false }) {
+  const total = (stats.singles || 0) + (stats.albums || 0) + (stats.videoWorks || 0)
+  return (
+    <Link to={`/artists/${encodeURIComponent(artist.name)}`} className="group block">
+      <div className="relative">
+        {artist.visualArtUrl && (
+          <img src={artist.visualArtUrl} alt="" aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover rounded-xl pointer-events-none"
+            style={{ filter: 'blur(26px) saturate(1.5)', transform: 'translateY(9%) scale(0.92)', opacity: 0.5 }} />
+        )}
+        <div className="relative aspect-[3/2] rounded-xl overflow-hidden bg-gray-100">
+          {artist.visualArtUrl ? (
+            <img src={artist.visualArtUrl} alt={artist.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          ) : (
+            <div className={`w-full h-full flex items-center justify-center text-gray-300 ${large ? 'text-6xl' : 'text-3xl'}`} style={{ fontWeight: 300 }}>
+              {artist.name?.[0]?.toUpperCase() || '?'}
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="mt-3 px-0.5">
+        <div className={`text-gray-900 group-hover:text-gray-500 transition-colors truncate ${large ? 'text-lg' : 'text-sm'}`} style={{ fontWeight: 400 }}>
+          {artist.name}
+        </div>
+        <div className="flex gap-3 mt-1 text-xs text-gray-400">
+          {stats.singles > 0 && <span className="flex items-center gap-0.5"><Music size={11} /> {stats.singles}</span>}
+          {stats.albums > 0 && <span className="flex items-center gap-0.5"><Disc3 size={11} /> {stats.albums}</span>}
+          {stats.videoWorks > 0 && <span className="flex items-center gap-0.5"><Video size={11} /> {stats.videoWorks}</span>}
+          {total === 0 && <span>—</span>}
+        </div>
+      </div>
+    </Link>
   )
 }

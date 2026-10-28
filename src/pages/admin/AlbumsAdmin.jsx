@@ -1,4 +1,7 @@
-import { useState, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import DuplicateNotice from '../../components/DuplicateNotice'
+import { confirmDuplicateSave } from '../../utils/duplicateReview'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { Disc3, Plus, Trash2, Edit2, X, Search } from 'lucide-react'
 import {
   useCollection,
@@ -8,6 +11,7 @@ import {
 } from '../../hooks/useFirestore'
 import TrackListEditor from '../../components/TrackListEditor'
 import LoadingSpinner from '../../components/LoadingSpinner'
+import ImageUpload from '../../components/ImageUpload'
 import { ALBUM_TYPES, MONTHS, getAlbumTypeLabel } from '../../utils/constants'
 import { formatReleaseDate } from '../../utils/formatDate'
 
@@ -30,7 +34,10 @@ const EMPTY_FORM = {
 }
 
 export default function AlbumsAdmin() {
-  const { data: albums, loading } = useCollection('albums', 'year', 'desc')
+  const [params, setParams] = useSearchParams()
+  const openedId = useRef('')
+  const [saveError, setSaveError] = useState('')
+  const { data: albums, loading } = useCollection('albums', null)
   const { data: artists } = useCollection('artists', 'name', 'asc')
 
   const [showForm, setShowForm] = useState(false)
@@ -40,7 +47,7 @@ export default function AlbumsAdmin() {
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    if (!search) return albums
+    if (!search) return [...albums].sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0))
     const kw = search.toLowerCase()
     return albums.filter(
       (a) =>
@@ -49,7 +56,7 @@ export default function AlbumsAdmin() {
     )
   }, [albums, search])
 
-  const openNew = () => {
+  const openNew = () => { setSaveError('');
     setForm(EMPTY_FORM)
     setEditId(null)
     setShowForm(true)
@@ -61,7 +68,7 @@ export default function AlbumsAdmin() {
     setShowForm(true)
   }
 
-  const closeForm = () => {
+  const closeForm = () => { setSaveError(''); setParams(previous => { const next = new URLSearchParams(previous); next.delete('edit'); return next }, { replace: true });
     setShowForm(false)
     setEditId(null)
     setForm(EMPTY_FORM)
@@ -69,9 +76,18 @@ export default function AlbumsAdmin() {
 
   const setField = (field, value) => setForm((f) => ({ ...f, [field]: value }))
 
+  useEffect(() => {
+    const id = params.get('edit')
+    if (!id) { openedId.current = ''; return }
+    if (openedId.current === id) return
+    const record = albums.find(item => item.id === id)
+    if (record) { openEdit(record); openedId.current = id }
+  }, [params, albums])
+
   const handleSave = async (e) => {
     e.preventDefault()
     if (!form.title.trim()) return
+    setSaveError('')
     setSaving(true)
     try {
       const data = {
@@ -83,12 +99,15 @@ export default function AlbumsAdmin() {
         salesRecord: form.salesRecord !== '' ? Number(form.salesRecord) : null,
         tracks: form.tracks.filter((t) => t.title?.trim()),
       }
+      if (!await confirmDuplicateSave('albums', data, editId)) return
       if (editId) {
         await updateDocument('albums', editId, data)
       } else {
         await addDocument('albums', data)
       }
       closeForm()
+    } catch (error) {
+      setSaveError(`儲存失敗：${error.message}`)
     } finally {
       setSaving(false)
     }
@@ -106,8 +125,8 @@ export default function AlbumsAdmin() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <Disc3 size={20} className="text-indigo-700" />
-          <h1 className="text-xl font-bold text-gray-900">專輯管理</h1>
+          <Disc3 size={20} className="text-gray-400" />
+          <h1 className="text-xl text-gray-900" style={{ fontWeight: 400 }}>專輯管理</h1>
           <span className="text-sm text-gray-400">（{albums.length}）</span>
         </div>
         <button onClick={openNew} className="btn-primary flex items-center gap-1.5">
@@ -141,21 +160,17 @@ export default function AlbumsAdmin() {
             </div>
 
             <form onSubmit={handleSave} className="px-6 py-5 space-y-5">
+              <DuplicateNotice item={form} existing={albums} excludeId={editId} />
+              {saveError && <p role="alert" className="text-sm text-red-600">{saveError}</p>}
               {/* 封面圖 */}
               <div>
-                <label className="form-label">封面圖片 URL</label>
-                <input
-                  className="form-input"
-                  value={form.imageUrl}
-                  onChange={e => setField('imageUrl', e.target.value)}
-                  placeholder="https://..."
+                <label className="form-label">封面圖片</label>
+                <ImageUpload
+                  folder="albums"
+                  currentUrl={form.imageUrl}
+                  onUpload={({ url, path }) => { setField('imageUrl', url); setField('imagePath', path) }}
+                  onRemove={() => { setField('imageUrl', ''); setField('imagePath', '') }}
                 />
-                {form.imageUrl && (
-                  <div className="mt-2 w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
-                    <img src={form.imageUrl} alt="preview" className="w-full h-full object-cover"
-                      onError={e => e.target.style.display='none'} />
-                  </div>
-                )}
               </div>
 
               {/* 專輯名稱 */}
@@ -318,12 +333,12 @@ export default function AlbumsAdmin() {
           <div className="divide-y divide-gray-50">
             {filtered.map((a) => (
               <div key={a.id} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
-                <div className="w-10 h-10 rounded bg-indigo-100 overflow-hidden shrink-0">
+                <div className="w-10 h-10 rounded bg-gray-100 overflow-hidden shrink-0">
                   {a.imageUrl ? (
                     <img src={a.imageUrl} alt={a.title} className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <Disc3 size={16} className="text-indigo-400" />
+                      <Disc3 size={16} className="text-gray-300" />
                     </div>
                   )}
                 </div>
@@ -338,7 +353,7 @@ export default function AlbumsAdmin() {
                 <div className="flex gap-1 shrink-0">
                   <button
                     onClick={() => openEdit(a)}
-                    className="p-1.5 text-gray-400 hover:text-blue-700 hover:bg-blue-50 rounded"
+                    className="p-1.5 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded"
                   >
                     <Edit2 size={15} />
                   </button>

@@ -1,69 +1,43 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Video } from 'lucide-react'
 import { formatReleaseDate } from '../utils/formatDate'
 import { getVideoTypeLabel } from '../utils/constants'
-
-const formatColors = {
-  DVD: 'badge-blue',
-  'Blu-ray': 'badge-purple',
-  VHS: 'badge-amber',
-  LD: 'badge-green',
-}
-
-const typeColors = {
-  concert: 'bg-rose-600',
-  mv: 'bg-blue-700',
-  documentary: 'bg-teal-700',
-  box: 'bg-amber-600',
-}
+import CoverArt from './CoverArt'
+import { track } from '../utils/analytics'
 
 export default function VideoWorkCard({ work }) {
+  const location = useLocation()
   const { id, title, artistName, year, month, day, imageUrl, videoType } = work
-  // Backward-compat: support both formats[] array and legacy format string
   const formats = Array.isArray(work.formats) ? work.formats : work.format ? [work.format] : []
 
   return (
-    <Link to={`/video-works/${id}`} className="card group block">
-      {/* 封面圖片 */}
-      <div className="aspect-square bg-gradient-to-br from-gray-800 to-gray-950 relative overflow-hidden">
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <Video size={40} className="text-gray-600" />
-          </div>
-        )}
-        {/* 類型標籤（左上角） */}
+    <Link
+      state={{ fromList: location.pathname + location.search }}
+      to={`/video-works/${id}`}
+      className="group block"
+      onClick={() => track('select_content', { content_type: 'video', item_id: id, content_title: title, artist: artistName })}
+    >
+      <div className="relative">
+        <CoverArt src={imageUrl} alt={title} icon={Video} iconSize={36} />
         {videoType && (
-          <div className="absolute top-2 left-2">
-            <span className={`text-xs text-white font-semibold px-2 py-0.5 rounded-full ${typeColors[videoType] || 'bg-gray-600'}`}>
-              {getVideoTypeLabel(videoType)}
-            </span>
-          </div>
+          <span className="absolute top-2 left-2 z-10 tag-overlay">
+            {getVideoTypeLabel(videoType)}
+          </span>
         )}
-        {/* 格式標籤（右上角） */}
         {formats.length > 0 && (
-          <div className="absolute top-2 right-2 flex flex-col gap-1 items-end">
+          <div className="absolute top-2 right-2 z-10 flex flex-col gap-1 items-end">
             {formats.map(f => (
-              <span key={f} className={`badge ${formatColors[f] || 'badge-gray'}`}>{f}</span>
+              <span key={f} className="tag-overlay">{f}</span>
             ))}
           </div>
         )}
       </div>
-
-      {/* 資訊 */}
-      <div className="p-3">
-        <h3 className="font-semibold text-white text-sm leading-snug group-hover:text-rose-400 line-clamp-2">
+      <div className="mt-3 px-0.5">
+        <h3 className="text-gray-900 text-sm leading-snug group-hover:text-gray-500 line-clamp-2 transition-colors" style={{ fontWeight: 400 }}>
           {title}
         </h3>
-        <p className="text-xs text-zinc-400 mt-1">{artistName}</p>
-        <p className="text-xs text-zinc-400/70 mt-0.5">
-          {formatReleaseDate(year, month, day)}
-        </p>
+        <p className="text-xs text-gray-400 mt-1 truncate" style={{ fontWeight: 400 }}>{artistName}</p>
+        <p className="text-xs text-gray-300 mt-0.5" style={{ fontWeight: 400 }}>{formatReleaseDate(year, month, day)}</p>
       </div>
     </Link>
   )

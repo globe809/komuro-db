@@ -1,14 +1,17 @@
 import { useState } from 'react'
-import { Users, Plus, Trash2, Edit2, X, UserPlus, Image } from 'lucide-react'
+import { Users, Plus, Trash2, Edit2, X, UserPlus, Image as ImageIcon } from 'lucide-react'
 import { useCollection, addDocument, updateDocument, deleteDocument } from '../../hooks/useFirestore'
 import LoadingSpinner from '../../components/LoadingSpinner'
+import ImageUpload from '../../components/ImageUpload'
 
 const EMPTY_MEMBER = { name: '', photoUrl: '' }
 
 const EMPTY_FORM = {
   name: '',
   visualArtUrl: '',
+  visualArtPath: '',
   bio: '',
+  featured: false,
   members: [],
 }
 
@@ -62,8 +65,8 @@ export default function ArtistsAdmin() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <Users size={20} className="text-teal-700" />
-          <h1 className="text-xl font-bold text-gray-900">藝人管理</h1>
+          <Users size={20} className="text-gray-400" />
+          <h1 className="text-xl text-gray-900" style={{ fontWeight: 400 }}>藝人管理</h1>
           <span className="text-sm text-gray-400">（{artists.length}）</span>
         </div>
         <button onClick={openNew} className="btn-primary flex items-center gap-1.5">
@@ -95,21 +98,26 @@ export default function ArtistsAdmin() {
 
               {/* Visual Art 圖片 URL */}
               <div>
-                <label className="form-label flex items-center gap-1.5">
-                  <Image size={13} />
-                  藝人 Visual Art 圖片（URL）
-                </label>
-                <input
-                  className="form-input"
-                  value={form.visualArtUrl}
-                  onChange={e => setField('visualArtUrl', e.target.value)}
-                  placeholder="https://..."
+                <label className="form-label">藝人 Visual Art 圖片</label>
+                <ImageUpload
+                  folder="artists"
+                  currentUrl={form.visualArtUrl}
+                  onUpload={({ url, path }) => { setField('visualArtUrl', url); setField('visualArtPath', path) }}
+                  onRemove={() => { setField('visualArtUrl', ''); setField('visualArtPath', '') }}
                 />
-                {form.visualArtUrl && (
-                  <div className="mt-2 rounded-lg overflow-hidden h-28 bg-gray-100">
-                    <img src={form.visualArtUrl} alt="preview" className="w-full h-full object-cover" />
-                  </div>
-                )}
+              </div>
+
+              {/* 重要藝人 */}
+              <div>
+                <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 accent-rose-500"
+                    checked={!!form.featured}
+                    onChange={e => setField('featured', e.target.checked)}
+                  />
+                  <span className="text-sm text-gray-700">設為重要藝人（會置頂並放大顯示於前台）</span>
+                </label>
               </div>
 
               {/* 藝人簡介 */}
@@ -130,7 +138,7 @@ export default function ArtistsAdmin() {
                   <button
                     type="button"
                     onClick={addMember}
-                    className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800"
+                    className="flex items-center gap-1 text-xs text-gray-500 hover:text-gray-900"
                   >
                     <UserPlus size={13} />新增成員
                   </button>
@@ -203,7 +211,7 @@ export default function ArtistsAdmin() {
                 <div className="w-12 h-8 rounded overflow-hidden bg-gray-100 shrink-0">
                   {artist.visualArtUrl
                     ? <img src={artist.visualArtUrl} alt={artist.name} className="w-full h-full object-cover" />
-                    : <div className="w-full h-full flex items-center justify-center"><Image size={14} className="text-gray-300" /></div>
+                    : <div className="w-full h-full flex items-center justify-center"><ImageIcon size={14} className="text-gray-300" /></div>
                   }
                 </div>
                 <div className="flex-1 min-w-0">
@@ -214,7 +222,7 @@ export default function ArtistsAdmin() {
                   </div>
                 </div>
                 <div className="flex gap-1 shrink-0">
-                  <button onClick={() => openEdit(artist)} className="p-1.5 text-gray-400 hover:text-blue-700 hover:bg-blue-50 rounded">
+                  <button onClick={() => openEdit(artist)} className="p-1.5 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded">
                     <Edit2 size={15} />
                   </button>
                   <button onClick={() => handleDelete(artist.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded">

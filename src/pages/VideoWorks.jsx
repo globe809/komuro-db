@@ -1,17 +1,18 @@
-import { useState, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { useMemo } from 'react'
 import { Video } from 'lucide-react'
 import { useCollection } from '../hooks/useFirestore'
 import FilterPanel from '../components/FilterPanel'
 import VideoWorkCard from '../components/VideoWorkCard'
 import LoadingSpinner from '../components/LoadingSpinner'
+import YearTimeline from '../components/YearTimeline'
 import { VIDEO_FORMATS, VIDEO_TYPES } from '../utils/constants'
 
 export default function VideoWorks() {
-  const [keyword, setKeyword] = useState('')
-  const [selectedArtist, setSelectedArtist] = useState('')
-  const [selectedYear, setSelectedYear] = useState('')
-  const [selectedFormat, setSelectedFormat] = useState('')
-  const [selectedVideoType, setSelectedVideoType] = useState('')
+  const [params, setParams] = useSearchParams()
+  const keyword = params.get('q') || '', selectedArtist = params.get('artist') || '', selectedYear = params.get('year') || '', selectedFormat = params.get('type') || '', selectedVideoType = params.get('videoType') || ''
+  const setParam = (key, value) => setParams(previous => { const next = new URLSearchParams(previous); if (value) next.set(key, value); else next.delete(key); return next }, { replace: true })
+  const setKeyword = value => setParam('q', value), setSelectedArtist = value => setParam('artist', value), setSelectedYear = value => setParam('year', value), setSelectedFormat = value => setParam('type', value), setSelectedVideoType = value => setParam('videoType', value)
 
   const { data: works, loading } = useCollection('videoWorks', 'year', 'desc')
 
@@ -41,22 +42,15 @@ export default function VideoWorks() {
     })
   }, [works, keyword, selectedArtist, selectedYear, selectedFormat, selectedVideoType])
 
-  const resetFilters = () => {
-    setKeyword('')
-    setSelectedArtist('')
-    setSelectedYear('')
-    setSelectedFormat('')
-    setSelectedVideoType('')
-  }
+  const resetFilters = () => setParams({}, { replace: true })
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      <div className="flex items-center gap-2 mb-6">
-        <Video size={22} className="text-zinc-300" />
-        <h1 className="text-2xl font-bold text-white">影像作品</h1>
+      <div className="flex items-center gap-3 mb-6">
+        <h1 className="text-3xl sm:text-4xl text-gray-900" style={{ fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Video Works</h1>
         {!loading && (
-          <span className="text-sm text-zinc-500 ml-2">
-            共 {filtered.length} 筆{filtered.length !== works.length && ` / ${works.length} 筆`}
+          <span className="text-sm text-gray-400">
+            {filtered.length}{filtered.length !== works.length && ` / ${works.length}`}
           </span>
         )}
       </div>
@@ -84,16 +78,16 @@ export default function VideoWorks() {
       {loading ? (
         <LoadingSpinner />
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16 text-zinc-500">
+        <div className="text-center py-16 text-gray-400">
           <Video size={48} className="mx-auto mb-3 opacity-30" />
           <p>沒有符合條件的影像作品</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-          {filtered.map((work) => (
-            <VideoWorkCard key={work.id} work={work} />
-          ))}
-        </div>
+        <YearTimeline
+          kind="video"
+          items={filtered}
+          renderItem={(work) => <VideoWorkCard key={work.id} work={work} />}
+        />
       )}
     </div>
   )

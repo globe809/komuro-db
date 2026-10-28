@@ -1,53 +1,35 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Disc3 } from 'lucide-react'
 import { formatReleaseDate } from '../utils/formatDate'
-import { getAlbumTypeLabel } from '../utils/constants'
-
-const typeColors = {
-  studio: 'badge-blue',
-  remix: 'badge-purple',
-  best: 'badge-amber',
-  project: 'badge-green',
-  box: 'badge-red',
-  other: 'badge-gray',
-}
+import { getAlbumTypeLabelEn } from '../utils/constants'
+import CoverArt from './CoverArt'
+import { track } from '../utils/analytics'
 
 export default function AlbumCard({ album }) {
+  const location = useLocation()
   const { id, title, artistName, year, month, day, albumType, imageUrl } = album
 
   return (
-    <Link to={`/albums/${id}`} className="card group block">
-      {/* 封面圖片 */}
-      <div className="aspect-square bg-gradient-to-br from-indigo-900 to-purple-950 relative overflow-hidden">
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <Disc3 size={40} className="text-zinc-600" />
-          </div>
-        )}
+    <Link
+      state={{ fromList: location.pathname + location.search }}
+      to={`/albums/${id}`}
+      className="group block"
+      onClick={() => track('select_content', { content_type: 'album', item_id: id, content_title: title, artist: artistName })}
+    >
+      <div className="relative">
+        <CoverArt src={imageUrl} alt={title} icon={Disc3} iconSize={36} />
         {albumType && (
-          <div className="absolute top-2 right-2">
-            <span className={`badge ${typeColors[albumType] || 'badge-gray'}`}>
-              {getAlbumTypeLabel(albumType)}
-            </span>
-          </div>
+          <span className="absolute top-2 right-2 z-10 tag-overlay">
+            {getAlbumTypeLabelEn(albumType)}
+          </span>
         )}
       </div>
-
-      {/* 資訊 */}
-      <div className="p-3">
-        <h3 className="font-semibold text-white text-sm leading-snug group-hover:text-rose-400 line-clamp-2">
+      <div className="mt-3 px-0.5">
+        <h3 className="text-gray-900 text-sm leading-snug group-hover:text-gray-500 line-clamp-2 transition-colors" style={{ fontWeight: 400 }}>
           {title}
         </h3>
-        <p className="text-xs text-zinc-400 mt-1">{artistName}</p>
-        <p className="text-xs text-zinc-400/70 mt-0.5">
-          {formatReleaseDate(year, month, day)}
-        </p>
+        <p className="text-xs text-gray-400 mt-1 truncate" style={{ fontWeight: 400 }}>{artistName}</p>
+        <p className="text-xs text-gray-300 mt-0.5" style={{ fontWeight: 400 }}>{formatReleaseDate(year, month, day)}</p>
       </div>
     </Link>
   )

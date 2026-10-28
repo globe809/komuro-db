@@ -53,4 +53,14 @@ npx vite build --config tests/qa.vite.config.js
 python3 -m http.server 8768 --directory ../improvements-qa
 ```
 
-開啟 `http://127.0.0.1:8768/tests/admin-qa.html#/admin/data-quality`。僅使用 fixture，所有寫入均拋出測試錯誤；QA 檔案不包含於正式站建置產物。
+開啟 `http://127.0.0.1:8768/tests/admin-qa.html#/admin/data-quality`。僅使用 fixture；收藏紀錄只模擬儲存在此本機來源的 localStorage，其他寫入均拋出測試錯誤。QA 檔案不包含於正式站建置產物。
+
+## 收藏／缺片
+
+入口：`https://tk56.web.app/#/admin/collection`。管理單曲、專輯與影像作品的 CD、Blu-ray、DVD、VHS、數位版本收藏。每次勾選自動儲存；可依類別、藝人、年份、追蹤格式、收藏狀態篩選，40 筆一頁。
+
+專輯預設追蹤 CD，單曲依 physical/digital，影像依現有格式；「調整格式」可改成自己想收藏的版本，這不修改作品的發行資料。不認識的格式列為未設定，避免把未發行或不想收藏的版本算成缺片。
+
+紀錄另存在 `collectionInventory/{kind}__{workId}`，欄位含 schemaVersion、kind、workId、owned、trackedFormats 與 updatedAt。owned 是各格式的布林 map；使用 merge 寫入個別格式，勾選數位不會覆蓋已收藏 CD。保留不同類別、不同作品 ID 的獨立收藏。
+
+Firestore 規則將此 collection 排除於公開 catalogue catch-all 之外，僅既有管理員可讀寫；寫入驗證身份、格式及布林型別。其他 catalogue 的原公開讀取與管理員寫入行為保留。首次發布本功能須以管理員執行 `firebase deploy --only firestore:rules --project komuro-db`；GitHub 專用發布帳號仍只部署 Hosting，未新增 Firestore IAM 權限。

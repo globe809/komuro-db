@@ -1,10 +1,11 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter, Routes, Route, Link } from 'react-router-dom'
+import CollectionInventory from '../../src/pages/admin/CollectionInventory'
 import DataQuality from '../../src/pages/admin/DataQuality'
 import SinglesAdmin from '../../src/pages/admin/SinglesAdmin'
 import AlbumsAdmin from '../../src/pages/admin/AlbumsAdmin'
 import VideoWorksAdmin from '../../src/pages/admin/VideoWorksAdmin'
 import ImportAdmin from '../../src/pages/admin/ImportAdmin'
 import '../../src/index.css'
-createRoot(document.getElementById('root')).render(<HashRouter><div className="max-w-5xl mx-auto p-6"><p className="mb-4 text-xs text-amber-800">本機 QA：僅使用測試資料，所有寫入均停用</p><nav className="flex gap-4 mb-6 text-sm">{[['data-quality', '資料檢查'], ['singles', '單曲'], ['albums', '專輯'], ['video-works', '影像'], ['import', '匯入']].map(([path, label]) => <Link key={path} to={`/admin/${path}`}>{label}</Link>)}</nav><Routes><Route path="/admin/data-quality" element={<DataQuality />} /><Route path="/admin/singles" element={<SinglesAdmin />} /><Route path="/admin/albums" element={<AlbumsAdmin />} /><Route path="/admin/video-works" element={<VideoWorksAdmin />} /><Route path="/admin/import" element={<ImportAdmin />} /></Routes></div></HashRouter>)
+createRoot(document.getElementById('root')).render(<HashRouter><div className="max-w-5xl mx-auto p-6"><p className="mb-4 text-xs text-amber-800">本機 QA：僅使用測試資料；收藏勾選只存本機，其他寫入停用</p><nav className="flex gap-4 mb-6 text-sm">{[['collection', '收藏／缺片'], ['data-quality', '資料檢查'], ['singles', '單曲'], ['albums', '專輯'], ['video-works', '影像'], ['import', '匯入']].map(([path, label]) => <Link key={path} to={`/admin/${path}`}>{label}</Link>)}</nav><Routes><Route path="/admin/collection" element={<CollectionInventory />} /><Route path="/admin/data-quality" element={<DataQuality />} /><Route path="/admin/singles" element={<SinglesAdmin />} /><Route path="/admin/albums" element={<AlbumsAdmin />} /><Route path="/admin/video-works" element={<VideoWorksAdmin />} /><Route path="/admin/import" element={<ImportAdmin />} /></Routes></div></HashRouter>)

@@ -2,12 +2,42 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // 所有人可讀取（前台公開）
-    // 僅限管理員帳號可寫入
-    match /{document=**} {
-      allow read: if true;
-      allow write: if request.auth != null
-                   && request.auth.token.email == 'elvis814@gmail.com';
+    function isAdmin() {
+      return request.auth != null
+          && request.auth.token.email == 'elvis814@gmail.com';
+    }
+
+    function validInventory(recordId) {
+      let data = request.resource.data;
+      let owned = data.get('owned', {});
+      let tracked = data.get('trackedFormats', []);
+      return data.keys().hasOnly(['schemaVersion', 'kind', 'workId', 'owned', 'trackedFormats', 'updatedAt'])
+          && data.schemaVersion == 1
+          && data.kind in ['singles', 'albums', 'videoWorks']
+          && data.workId is string
+          && recordId == data.kind + '__' + data.workId
+          && owned is map
+          && owned.keys().hasOnly(['cd', 'bluray', 'dvd', 'vhs', 'digital'])
+          && owned.get('cd', false) is bool
+          && owned.get('bluray', false) is bool
+          && owned.get('dvd', false) is bool
+          && owned.get('vhs', false) is bool
+          && owned.get('digital', false) is bool
+          && tracked is list
+          && tracked.size() <= 5
+          && tracked.hasOnly(['cd', 'bluray', 'dvd', 'vhs', 'digital']);
+    }
+
+    // Personal collection records are visible only to the existing administrator.
+    match /collectionInventory/{recordId} {
+      allow read, delete: if isAdmin();
+      allow create, update: if isAdmin() && validInventory(recordId);
+    }
+
+    // Preserve the existing public catalogue behavior, excluding personal records.
+    match /{collectionId}/{document=**} {
+      allow read: if collectionId != 'collectionInventory';
+      allow write: if collectionId != 'collectionInventory' && isAdmin();
     }
   }
 }

@@ -10,6 +10,7 @@ const sideLinks = [
   { to: '/admin/albums', label: '專輯管理', icon: Disc3 },
   { to: '/admin/video-works', label: '影像作品', icon: Video },
   { to: '/admin/provided-songs', label: '提供樂曲', icon: Mic2 },
+  { to: '/admin/collection', label: '收藏／缺片', icon: Disc3 },
   { to: '/admin/data-quality', label: '資料檢查', icon: ListChecks },
   { to: '/admin/import', label: '資料匯入', icon: Upload },
   { to: '/admin/site-config', label: '網站設定', icon: Settings },

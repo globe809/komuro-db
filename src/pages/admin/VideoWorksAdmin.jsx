@@ -258,7 +258,7 @@ export default function VideoWorksAdmin() {
                         onClick={() => toggleFormat(f.value)}
                         className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${
                           checked
-                            ? 'bg-gray-900 border-gray-900 text-white'
+                            ? 'control-selected'
                             : 'bg-white border-gray-300 text-gray-600 hover:border-gray-400 hover:text-gray-900'
                         }`}
                       >

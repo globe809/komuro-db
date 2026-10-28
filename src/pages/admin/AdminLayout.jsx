@@ -91,7 +91,7 @@ export default function AdminLayout() {
                 className={({ isActive }) =>
                   `flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${
                     isActive
-                      ? 'bg-gray-900 text-white'
+                      ? 'control-selected'
                       : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
                   }`
                 }

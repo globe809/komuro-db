@@ -449,7 +449,7 @@ function FeaturedHero({ item }) {
             <div className="text-xl sm:text-2xl mb-4" style={{ fontWeight: 400 }}>{item.title}</div>
             {item.notes && <p className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-7 max-w-md">{item.notes}</p>}
             <Link to={`/${item._path}/${item.id}`}
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gray-900 text-white text-sm hover:bg-gray-700 transition-colors" style={{ letterSpacing: '0.08em' }}>
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full btn-primary transition-colors" style={{ letterSpacing: '0.08em' }}>
               View Details <ArrowRight size={16} />
             </Link>
           </div>

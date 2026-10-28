@@ -68,7 +68,7 @@ export default function YearTimeline({ items, renderItem, direction = 'desc', ki
       <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
         <div className="inline-flex rounded-lg border border-gray-200 p-1 bg-white" role="group" aria-label="清單檢視方式">
           {[['cards', '卡片', Grid], ['table', '表格', Table]].map(([value, label, Icon]) => (
-            <button key={value} type="button" aria-pressed={mode === value} onClick={() => setMode(value)} className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs ${mode === value ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-50'}`}><Icon size={14} />{label}</button>
+            <button key={value} type="button" aria-pressed={mode === value} onClick={() => setMode(value)} className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs ${mode === value ? 'control-selected' : 'text-gray-500 hover:bg-gray-50'}`}><Icon size={14} />{label}</button>
           ))}
         </div>
         <div className="flex gap-3 text-xs text-gray-500">
@@ -98,9 +98,9 @@ export default function YearTimeline({ items, renderItem, direction = 'desc', ki
                     type="button"
                     onClick={() => jumpToYear(year)}
                     aria-current={activeYear === year ? 'location' : undefined}
-                    className={`relative flex w-full items-center justify-between gap-3 py-2 pl-5 pr-2 text-sm rounded-r-lg transition-colors ${activeYear === year ? 'bg-gray-100 text-gray-900' : 'text-gray-400 hover:bg-gray-50 hover:text-gray-800'}`}
+                    className={`relative flex w-full items-center justify-between gap-3 py-2 pl-5 pr-2 text-sm rounded-r-lg transition-colors ${activeYear === year ? 'control-selected' : 'text-gray-400 hover:bg-gray-50 hover:text-gray-800'}`}
                   >
-                    <span aria-hidden="true" className={`absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${activeYear === year ? 'bg-gray-800' : 'bg-gray-300'}`} />
+                    <span aria-hidden="true" className={`absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${activeYear === year ? 'bg-stone-400' : 'bg-gray-300'}`} />
                     <span>{year === 'unknown' ? '年份未詳' : year}</span>
                     <span className="text-xs text-gray-400">{releases.length}</span>
                   </button>

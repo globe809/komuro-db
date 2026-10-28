@@ -271,7 +271,7 @@ export default function ImportAdmin() {
           封面圖、YouTube 連結、手動編輯的欄位<strong>完全不受影響</strong>。
         </p>
         <button onClick={handlePatchTracks} disabled={isRunning}
-          className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg disabled:opacity-50 transition-colors">
+          className="flex items-center gap-2 px-4 py-2 border border-green-200 bg-green-50 hover:bg-green-100 text-green-800 text-sm font-medium rounded-lg disabled:opacity-50 transition-colors">
           {isRunning && importing === 'patch' ? <Loader size={15} className="animate-spin" /> : <RefreshCw size={15} />}
           只更新曲目
         </button>

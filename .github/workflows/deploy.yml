@@ -34,7 +34,7 @@ jobs:
           retention-days: 7
 
   deploy:
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.HOSTING_DEPLOY_ENABLED == 'true'
     needs: build
     runs-on: ubuntu-latest
     permissions:

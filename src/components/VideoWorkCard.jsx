@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Video } from 'lucide-react'
 import { formatReleaseDate } from '../utils/formatDate'
 import { getVideoTypeLabel } from '../utils/constants'
@@ -6,11 +6,13 @@ import CoverArt from './CoverArt'
 import { track } from '../utils/analytics'
 
 export default function VideoWorkCard({ work }) {
+  const location = useLocation()
   const { id, title, artistName, year, month, day, imageUrl, videoType } = work
   const formats = Array.isArray(work.formats) ? work.formats : work.format ? [work.format] : []
 
   return (
     <Link
+      state={{ fromList: location.pathname + location.search }}
       to={`/video-works/${id}`}
       className="group block"
       onClick={() => track('select_content', { content_type: 'video', item_id: id, content_title: title, artist: artistName })}

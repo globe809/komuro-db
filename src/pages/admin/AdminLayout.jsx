@@ -1,5 +1,5 @@
 import { NavLink, Outlet, Link } from 'react-router-dom'
-import { LayoutDashboard, Music, Disc3, Video, Users, ArrowLeft, Upload, Mic2, Settings, LogOut, Lock } from 'lucide-react'
+import { LayoutDashboard, Music, Disc3, Video, Users, ArrowLeft, Upload, Mic2, Settings, LogOut, Lock, ListChecks } from 'lucide-react'
 import { useAuth, ADMIN_EMAIL } from '../../hooks/useAuth'
 import LoadingSpinner from '../../components/LoadingSpinner'
 
@@ -10,6 +10,7 @@ const sideLinks = [
   { to: '/admin/albums', label: '專輯管理', icon: Disc3 },
   { to: '/admin/video-works', label: '影像作品', icon: Video },
   { to: '/admin/provided-songs', label: '提供樂曲', icon: Mic2 },
+  { to: '/admin/data-quality', label: '資料檢查', icon: ListChecks },
   { to: '/admin/import', label: '資料匯入', icon: Upload },
   { to: '/admin/site-config', label: '網站設定', icon: Settings },
 ]

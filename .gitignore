@@ -20,5 +20,8 @@ npm-debug.log*
 .vscode/
 .idea/
 
-# Firebase local deployment cache
+# Local Firebase cache
 .firebase/
+
+# Ephemeral credentials produced by GitHub OIDC auth
+gha-creds-*.json

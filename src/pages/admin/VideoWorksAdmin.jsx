@@ -1,4 +1,7 @@
-import { useState, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import DuplicateNotice from '../../components/DuplicateNotice'
+import { confirmDuplicateSave } from '../../utils/duplicateReview'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { Video, Plus, Trash2, Edit2, X, Search } from 'lucide-react'
 import {
   useCollection,
@@ -27,7 +30,10 @@ const EMPTY_FORM = {
 }
 
 export default function VideoWorksAdmin() {
-  const { data: works, loading } = useCollection('videoWorks', 'year', 'desc')
+  const [params, setParams] = useSearchParams()
+  const openedId = useRef('')
+  const [saveError, setSaveError] = useState('')
+  const { data: works, loading } = useCollection('videoWorks', null)
   const { data: artists } = useCollection('artists', 'name', 'asc')
 
   const [showForm, setShowForm] = useState(false)
@@ -37,7 +43,7 @@ export default function VideoWorksAdmin() {
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    if (!search) return works
+    if (!search) return [...works].sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0))
     const kw = search.toLowerCase()
     return works.filter(
       (w) =>
@@ -46,7 +52,7 @@ export default function VideoWorksAdmin() {
     )
   }, [works, search])
 
-  const openNew = () => {
+  const openNew = () => { setSaveError('');
     setForm(EMPTY_FORM)
     setEditId(null)
     setShowForm(true)
@@ -64,7 +70,7 @@ export default function VideoWorksAdmin() {
     setShowForm(true)
   }
 
-  const closeForm = () => {
+  const closeForm = () => { setSaveError(''); setParams(previous => { const next = new URLSearchParams(previous); next.delete('edit'); return next }, { replace: true });
     setShowForm(false)
     setEditId(null)
     setForm(EMPTY_FORM)
@@ -79,9 +85,18 @@ export default function VideoWorksAdmin() {
     })
   }
 
+  useEffect(() => {
+    const id = params.get('edit')
+    if (!id) { openedId.current = ''; return }
+    if (openedId.current === id) return
+    const record = works.find(item => item.id === id)
+    if (record) { openEdit(record); openedId.current = id }
+  }, [params, works])
+
   const handleSave = async (e) => {
     e.preventDefault()
     if (!form.title.trim()) return
+    setSaveError('')
     setSaving(true)
     try {
       const data = {
@@ -91,12 +106,15 @@ export default function VideoWorksAdmin() {
         day: form.day ? Number(form.day) : null,
         contents: form.contents.filter((c) => c.title?.trim()),
       }
+      if (!await confirmDuplicateSave('videoWorks', data, editId)) return
       if (editId) {
         await updateDocument('videoWorks', editId, data)
       } else {
         await addDocument('videoWorks', data)
       }
       closeForm()
+    } catch (error) {
+      setSaveError(`儲存失敗：${error.message}`)
     } finally {
       setSaving(false)
     }
@@ -155,6 +173,8 @@ export default function VideoWorksAdmin() {
             </div>
 
             <form onSubmit={handleSave} className="px-6 py-5 space-y-5">
+              <DuplicateNotice item={form} existing={works} excludeId={editId} />
+              {saveError && <p role="alert" className="text-sm text-red-600">{saveError}</p>}
               {/* 封面圖 */}
               <div>
                 <label className="form-label">封面圖片</label>

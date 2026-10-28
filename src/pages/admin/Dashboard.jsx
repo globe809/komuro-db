@@ -40,6 +40,7 @@ export default function Dashboard() {
         <StatBox icon={Users} label="藝人" count={artists.length} to="/admin/artists" addTo="/admin/artists" />
       </div>
 
+      <Link to="/admin/data-quality" className="block card p-5 mb-6 text-gray-800 hover:bg-gray-50"><span className="text-sm">資料檢查 →</span><p className="text-xs text-gray-500 mt-2">檢查缺封面、日期、曲目，以及同名待確認的版本。</p></Link>
       {/* 快速入口 */}
       <div className="card p-5">
         <h2 className="text-sm text-gray-500 mb-4" style={{ fontWeight: 400, letterSpacing: '0.05em' }}>快速操作</h2>

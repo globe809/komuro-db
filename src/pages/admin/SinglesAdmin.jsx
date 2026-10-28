@@ -1,4 +1,7 @@
-import { useState, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import DuplicateNotice from '../../components/DuplicateNotice'
+import { confirmDuplicateSave } from '../../utils/duplicateReview'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { Music, Plus, Trash2, Edit2, X, Search } from 'lucide-react'
 import { useCollection, addDocument, updateDocument, deleteDocument } from '../../hooks/useFirestore'
 import TrackListEditor from '../../components/TrackListEditor'
@@ -17,7 +20,10 @@ const EMPTY_FORM = {
 }
 
 export default function SinglesAdmin() {
-  const { data: singles, loading } = useCollection('singles', 'year', 'desc')
+  const [params, setParams] = useSearchParams()
+  const openedId = useRef('')
+  const [saveError, setSaveError] = useState('')
+  const { data: singles, loading } = useCollection('singles', null)
   const { data: artists } = useCollection('artists', 'name', 'asc')
 
   const [showForm, setShowForm] = useState(false)
@@ -27,14 +33,14 @@ export default function SinglesAdmin() {
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    if (!search) return singles
+    if (!search) return [...singles].sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0))
     const kw = search.toLowerCase()
     return singles.filter(s => s.title?.toLowerCase().includes(kw) || s.artistName?.toLowerCase().includes(kw))
   }, [singles, search])
 
-  const openNew = () => { setForm(EMPTY_FORM); setEditId(null); setShowForm(true) }
+  const openNew = () => { setSaveError(''); setForm(EMPTY_FORM); setEditId(null); setShowForm(true) }
   const openEdit = (s) => { setForm({ ...EMPTY_FORM, ...s, tracks: s.tracks || [] }); setEditId(s.id); setShowForm(true) }
-  const closeForm = () => { setShowForm(false); setEditId(null); setForm(EMPTY_FORM) }
+  const closeForm = () => { setSaveError(''); setParams(previous => { const next = new URLSearchParams(previous); next.delete('edit'); return next }, { replace: true }); setShowForm(false); setEditId(null); setForm(EMPTY_FORM) }
   const setField = (field, value) => setForm(f => ({ ...f, [field]: value }))
 
   const handleTitleChange = (value) => {
@@ -43,9 +49,18 @@ export default function SinglesAdmin() {
     setForm(f => ({ ...f, ...updates }))
   }
 
+  useEffect(() => {
+    const id = params.get('edit')
+    if (!id) { openedId.current = ''; return }
+    if (openedId.current === id) return
+    const record = singles.find(item => item.id === id)
+    if (record) { openEdit(record); openedId.current = id }
+  }, [params, singles])
+
   const handleSave = async (e) => {
     e.preventDefault()
     if (!form.title.trim()) return
+    setSaveError('')
     setSaving(true)
     try {
       const data = {
@@ -57,9 +72,12 @@ export default function SinglesAdmin() {
         salesRecord: form.salesRecord !== '' ? Number(form.salesRecord) : null,
         tracks: form.tracks.filter(t => t.title?.trim()),
       }
+      if (!await confirmDuplicateSave('singles', data, editId)) return
       if (editId) await updateDocument('singles', editId, data)
       else await addDocument('singles', data)
       closeForm()
+    } catch (error) {
+      setSaveError(`儲存失敗：${error.message}`)
     } finally { setSaving(false) }
   }
 
@@ -98,6 +116,8 @@ export default function SinglesAdmin() {
               <button onClick={closeForm} className="p-1 rounded hover:bg-gray-100"><X size={18} /></button>
             </div>
             <form onSubmit={handleSave} className="px-6 py-5 space-y-4">
+              <DuplicateNotice item={form} existing={singles} excludeId={editId} />
+              {saveError && <p role="alert" className="text-sm text-red-600">{saveError}</p>}
               {/* 封面 */}
               <div>
                 <label className="form-label">封面圖片</label>

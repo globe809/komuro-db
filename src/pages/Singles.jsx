@@ -134,6 +134,7 @@ export default function Singles() {
         </div>
       ) : (
         <YearTimeline
+          kind="singles"
           items={filtered}
           direction={sortBy === 'date_asc' ? 'asc' : 'desc'}
           renderItem={(single) => <SingleCard key={single.id} single={single} />}

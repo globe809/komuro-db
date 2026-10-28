@@ -2,6 +2,7 @@ import { Routes, Route, Outlet } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Analytics from './components/Analytics'
+import BrowseScroll from './components/BrowseScroll'
 
 import Home from './pages/Home'
 import Artists from './pages/Artists'
@@ -19,6 +20,7 @@ import CompositionList from './pages/CompositionList'
 
 import AdminLayout from './pages/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
+import DataQuality from './pages/admin/DataQuality'
 import ArtistsAdmin from './pages/admin/ArtistsAdmin'
 import SinglesAdmin from './pages/admin/SinglesAdmin'
 import AlbumsAdmin from './pages/admin/AlbumsAdmin'
@@ -43,6 +45,7 @@ export default function App() {
   return (
     <>
     <Analytics />
+    <BrowseScroll />
     <Routes>
       {/* 前台公開頁面 */}
       <Route element={<PublicLayout />}>
@@ -64,6 +67,7 @@ export default function App() {
       {/* 後台管理頁面 */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
+        <Route path="data-quality" element={<DataQuality />} />
         <Route path="artists" element={<ArtistsAdmin />} />
         <Route path="singles" element={<SinglesAdmin />} />
         <Route path="albums" element={<AlbumsAdmin />} />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link , useLocation } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import { Video, ArrowLeft, Edit } from 'lucide-react'
@@ -24,6 +24,8 @@ function InfoRow({ label, value }) {
 }
 
 export default function VideoWorkDetail() {
+  const location = useLocation()
+  const backTo = location.state?.fromList?.startsWith('/video-works?') || location.state?.fromList === '/video-works' ? location.state.fromList : '/video-works'
   const { id } = useParams()
   const [work, setWork] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -40,7 +42,7 @@ export default function VideoWorkDetail() {
     return (
       <div className="text-center py-20 text-gray-400">
         <p>找不到此影像作品</p>
-        <Link to="/video-works" className="text-gray-400 text-sm mt-2 inline-block">
+        <Link to={backTo} className="text-gray-400 text-sm mt-2 inline-block">
           回到影像作品列表
         </Link>
       </div>
@@ -68,7 +70,7 @@ export default function VideoWorkDetail() {
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center gap-3 mb-6">
-        <Link to="/video-works" className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 transition-colors">
+        <Link to={backTo} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 transition-colors">
           <ArrowLeft size={18} />
         </Link>
         <span className="text-sm text-gray-400">影像作品</span>

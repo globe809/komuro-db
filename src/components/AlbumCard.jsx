@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Disc3 } from 'lucide-react'
 import { formatReleaseDate } from '../utils/formatDate'
 import { getAlbumTypeLabelEn } from '../utils/constants'
@@ -6,10 +6,12 @@ import CoverArt from './CoverArt'
 import { track } from '../utils/analytics'
 
 export default function AlbumCard({ album }) {
+  const location = useLocation()
   const { id, title, artistName, year, month, day, albumType, imageUrl } = album
 
   return (
     <Link
+      state={{ fromList: location.pathname + location.search }}
       to={`/albums/${id}`}
       className="group block"
       onClick={() => track('select_content', { content_type: 'album', item_id: id, content_title: title, artist: artistName })}

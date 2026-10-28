@@ -125,6 +125,7 @@ export default function Albums() {
         </div>
       ) : (
         <YearTimeline
+          kind="albums"
           items={filtered}
           direction={sortBy === 'date_asc' ? 'asc' : 'desc'}
           renderItem={(album) => <AlbumCard key={album.id} album={album} />}

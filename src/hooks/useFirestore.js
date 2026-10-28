@@ -24,10 +24,7 @@ export function useCollection(collectionName, orderByField = 'year', orderDir = 
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const q = query(
-      collection(db, collectionName),
-      orderBy(orderByField, orderDir)
-    )
+    const q = orderByField ? query(collection(db, collectionName), orderBy(orderByField, orderDir)) : collection(db, collectionName)
     const unsub = onSnapshot(
       q,
       (snapshot) => {

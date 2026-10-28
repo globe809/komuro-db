@@ -1,4 +1,7 @@
-import { useState, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import DuplicateNotice from '../../components/DuplicateNotice'
+import { confirmDuplicateSave } from '../../utils/duplicateReview'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { Disc3, Plus, Trash2, Edit2, X, Search } from 'lucide-react'
 import {
   useCollection,
@@ -31,7 +34,10 @@ const EMPTY_FORM = {
 }
 
 export default function AlbumsAdmin() {
-  const { data: albums, loading } = useCollection('albums', 'year', 'desc')
+  const [params, setParams] = useSearchParams()
+  const openedId = useRef('')
+  const [saveError, setSaveError] = useState('')
+  const { data: albums, loading } = useCollection('albums', null)
   const { data: artists } = useCollection('artists', 'name', 'asc')
 
   const [showForm, setShowForm] = useState(false)
@@ -41,7 +47,7 @@ export default function AlbumsAdmin() {
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    if (!search) return albums
+    if (!search) return [...albums].sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0))
     const kw = search.toLowerCase()
     return albums.filter(
       (a) =>
@@ -50,7 +56,7 @@ export default function AlbumsAdmin() {
     )
   }, [albums, search])
 
-  const openNew = () => {
+  const openNew = () => { setSaveError('');
     setForm(EMPTY_FORM)
     setEditId(null)
     setShowForm(true)
@@ -62,7 +68,7 @@ export default function AlbumsAdmin() {
     setShowForm(true)
   }
 
-  const closeForm = () => {
+  const closeForm = () => { setSaveError(''); setParams(previous => { const next = new URLSearchParams(previous); next.delete('edit'); return next }, { replace: true });
     setShowForm(false)
     setEditId(null)
     setForm(EMPTY_FORM)
@@ -70,9 +76,18 @@ export default function AlbumsAdmin() {
 
   const setField = (field, value) => setForm((f) => ({ ...f, [field]: value }))
 
+  useEffect(() => {
+    const id = params.get('edit')
+    if (!id) { openedId.current = ''; return }
+    if (openedId.current === id) return
+    const record = albums.find(item => item.id === id)
+    if (record) { openEdit(record); openedId.current = id }
+  }, [params, albums])
+
   const handleSave = async (e) => {
     e.preventDefault()
     if (!form.title.trim()) return
+    setSaveError('')
     setSaving(true)
     try {
       const data = {
@@ -84,12 +99,15 @@ export default function AlbumsAdmin() {
         salesRecord: form.salesRecord !== '' ? Number(form.salesRecord) : null,
         tracks: form.tracks.filter((t) => t.title?.trim()),
       }
+      if (!await confirmDuplicateSave('albums', data, editId)) return
       if (editId) {
         await updateDocument('albums', editId, data)
       } else {
         await addDocument('albums', data)
       }
       closeForm()
+    } catch (error) {
+      setSaveError(`儲存失敗：${error.message}`)
     } finally {
       setSaving(false)
     }
@@ -142,6 +160,8 @@ export default function AlbumsAdmin() {
             </div>
 
             <form onSubmit={handleSave} className="px-6 py-5 space-y-5">
+              <DuplicateNotice item={form} existing={albums} excludeId={editId} />
+              {saveError && <p role="alert" className="text-sm text-red-600">{saveError}</p>}
               {/* 封面圖 */}
               <div>
                 <label className="form-label">封面圖片</label>

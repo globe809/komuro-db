@@ -1,14 +1,16 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Music } from 'lucide-react'
 import { formatReleaseDate } from '../utils/formatDate'
 import CoverArt from './CoverArt'
 import { track } from '../utils/analytics'
 
 export default function SingleCard({ single }) {
+  const location = useLocation()
   const { id, title, artistName, year, month, day, type, imageUrl } = single
 
   return (
     <Link
+      state={{ fromList: location.pathname + location.search }}
       to={`/singles/${id}`}
       className="group block"
       onClick={() => track('select_content', { content_type: 'single', item_id: id, content_title: title, artist: artistName })}

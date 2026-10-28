@@ -19,3 +19,6 @@ npm-debug.log*
 # editor
 .vscode/
 .idea/
+
+# Firebase local deployment cache
+.firebase/

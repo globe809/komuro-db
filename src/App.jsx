@@ -1,6 +1,7 @@
 import { Routes, Route, Outlet } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import Analytics from './components/Analytics'
 
 import Home from './pages/Home'
 import Artists from './pages/Artists'
@@ -40,6 +41,8 @@ function PublicLayout() {
 
 export default function App() {
   return (
+    <>
+    <Analytics />
     <Routes>
       {/* 前台公開頁面 */}
       <Route element={<PublicLayout />}>
@@ -70,5 +73,6 @@ export default function App() {
         <Route path="site-config" element={<SiteConfigAdmin />} />
       </Route>
     </Routes>
+    </>
   )
 }

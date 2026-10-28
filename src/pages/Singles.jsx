@@ -20,6 +20,7 @@ export default function Singles() {
   const keyword = searchParams.get('q') || ''
   const selectedArtist = searchParams.get('artist') || ''
   const selectedYear = searchParams.get('year') || ''
+  const selectedMonth = searchParams.get('month') || ''
   const selectedType = searchParams.get('type') || ''
   const sortBy = searchParams.get('sort') || 'date_desc'
 
@@ -55,8 +56,9 @@ export default function Singles() {
         s.composition?.toLowerCase().includes(kw)
       const matchArtist = !selectedArtist || s.artistName === selectedArtist
       const matchYear = !selectedYear || String(s.year) === String(selectedYear)
+      const matchMonth = !selectedMonth || Number(s.month) === Number(selectedMonth)
       const matchType = !selectedType || s.type === selectedType
-      return matchKeyword && matchArtist && matchYear && matchType
+      return matchKeyword && matchArtist && matchYear && matchMonth && matchType
     })
 
     result = [...result].sort((a, b) => {
@@ -75,23 +77,22 @@ export default function Singles() {
     })
 
     return result
-  }, [singles, keyword, selectedArtist, selectedYear, selectedType, sortBy])
+  }, [singles, keyword, selectedArtist, selectedYear, selectedMonth, selectedType, sortBy])
 
   const resetFilters = () => setSearchParams({}, { replace: true })
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      <div className="flex items-center gap-2 mb-6">
-        <Music size={22} className="text-blue-400" />
-        <h1 className="text-2xl font-bold text-white">單曲</h1>
+      <div className="flex items-center gap-3 mb-6">
+        <h1 className="text-3xl sm:text-4xl text-gray-900" style={{ fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Singles</h1>
         {!loading && (
-          <span className="text-sm text-zinc-500 ml-2">
-            共 {filtered.length} 筆{filtered.length !== singles.length && ` / ${singles.length} 筆`}
+          <span className="text-sm text-gray-400">
+            {filtered.length}{filtered.length !== singles.length && ` / ${singles.length}`}
           </span>
         )}
         {/* 排序 */}
         <div className="ml-auto flex items-center gap-2">
-          <ArrowUpDown size={14} className="text-zinc-500" />
+          <ArrowUpDown size={14} className="text-gray-400" />
           <select
             value={sortBy}
             onChange={(e) => setParam('sort', e.target.value)}
@@ -112,6 +113,8 @@ export default function Singles() {
           onArtistChange={(v) => setParam('artist', v)}
           selectedYear={selectedYear}
           onYearChange={(v) => setParam('year', v)}
+          selectedMonth={selectedMonth}
+          onMonthChange={(v) => setParam('month', v)}
           selectedType={selectedType}
           onTypeChange={(v) => setParam('type', v)}
           artists={artists}
@@ -124,12 +127,12 @@ export default function Singles() {
       {loading ? (
         <LoadingSpinner />
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16 text-zinc-500">
+        <div className="text-center py-16 text-gray-400">
           <Music size={48} className="mx-auto mb-3 opacity-30" />
           <p>沒有符合條件的單曲</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-[30px]">
           {filtered.map((single) => (
             <SingleCard key={single.id} single={single} />
           ))}

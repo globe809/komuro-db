@@ -79,8 +79,8 @@ export default function ProvidedSongsAdmin() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <Mic2 size={20} className="text-rose-600" />
-          <h1 className="text-xl font-bold text-gray-900">提供樂曲管理</h1>
+          <Mic2 size={20} className="text-gray-400" />
+          <h1 className="text-xl text-gray-900" style={{ fontWeight: 400 }}>提供樂曲管理</h1>
           <span className="text-sm text-gray-400">（{songs.length}）</span>
         </div>
         <button onClick={openNew} className="btn-primary flex items-center gap-1.5">
@@ -280,7 +280,7 @@ export default function ProvidedSongsAdmin() {
                   </div>
                 </div>
                 <div className="flex gap-1 shrink-0">
-                  <button onClick={() => openEdit(s)} className="p-1.5 text-gray-400 hover:text-blue-700 hover:bg-blue-50 rounded"><Edit2 size={15} /></button>
+                  <button onClick={() => openEdit(s)} className="p-1.5 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded"><Edit2 size={15} /></button>
                   <button onClick={() => handleDelete(s.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"><Trash2 size={15} /></button>
                 </div>
               </div>

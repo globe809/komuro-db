@@ -58,7 +58,7 @@ export default function ImageUpload({ folder, currentUrl, onUpload, onRemove }) 
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="flex flex-col items-center justify-center w-40 h-40 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors text-gray-400 hover:text-blue-500"
+          className="flex flex-col items-center justify-center w-40 h-40 border-2 border-dashed border-zinc-600 rounded-lg hover:border-rose-500 hover:bg-rose-500/5 transition-colors text-gray-400 hover:text-rose-400"
         >
           <ImageIcon size={32} className="mb-2" />
           <span className="text-xs">點擊上傳封面</span>
@@ -81,7 +81,7 @@ export default function ImageUpload({ folder, currentUrl, onUpload, onRemove }) 
           </div>
           <div className="w-40 h-1.5 bg-gray-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-blue-600 transition-all"
+              className="h-full bg-rose-500 transition-all"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -94,7 +94,7 @@ export default function ImageUpload({ folder, currentUrl, onUpload, onRemove }) 
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="mt-2 flex items-center gap-1 text-xs text-blue-700 hover:underline"
+          className="mt-2 flex items-center gap-1 text-xs text-rose-400 hover:underline"
           disabled={uploading}
         >
           <Upload size={12} />

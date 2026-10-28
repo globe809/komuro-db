@@ -8,6 +8,7 @@ import {
 } from '../../hooks/useFirestore'
 import ContentListEditor from '../../components/ContentListEditor'
 import LoadingSpinner from '../../components/LoadingSpinner'
+import ImageUpload from '../../components/ImageUpload'
 import { VIDEO_FORMATS, VIDEO_TYPES, getVideoTypeLabel, MONTHS } from '../../utils/constants'
 import { formatReleaseDate } from '../../utils/formatDate'
 
@@ -119,8 +120,8 @@ export default function VideoWorksAdmin() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <Video size={20} className="text-gray-700" />
-          <h1 className="text-xl font-bold text-gray-900">影像作品管理</h1>
+          <Video size={20} className="text-gray-400" />
+          <h1 className="text-xl text-gray-900" style={{ fontWeight: 400 }}>影像作品管理</h1>
           <span className="text-sm text-gray-400">（{works.length}）</span>
         </div>
         <button onClick={openNew} className="btn-primary flex items-center gap-1.5">
@@ -154,21 +155,15 @@ export default function VideoWorksAdmin() {
             </div>
 
             <form onSubmit={handleSave} className="px-6 py-5 space-y-5">
-              {/* 封面圖 URL */}
+              {/* 封面圖 */}
               <div>
-                <label className="form-label">封面圖片 URL</label>
-                <input
-                  className="form-input"
-                  value={form.imageUrl}
-                  onChange={e => setField('imageUrl', e.target.value)}
-                  placeholder="https://..."
+                <label className="form-label">封面圖片</label>
+                <ImageUpload
+                  folder="video-works"
+                  currentUrl={form.imageUrl}
+                  onUpload={({ url, path }) => { setField('imageUrl', url); setField('imagePath', path) }}
+                  onRemove={() => { setField('imageUrl', ''); setField('imagePath', '') }}
                 />
-                {form.imageUrl && (
-                  <div className="mt-2 w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
-                    <img src={form.imageUrl} alt="preview" className="w-full h-full object-cover"
-                      onError={e => e.target.style.display='none'} />
-                  </div>
-                )}
               </div>
 
               {/* 名稱 */}
@@ -243,8 +238,8 @@ export default function VideoWorksAdmin() {
                         onClick={() => toggleFormat(f.value)}
                         className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${
                           checked
-                            ? 'bg-blue-800 border-blue-800 text-white'
-                            : 'bg-white border-gray-300 text-gray-600 hover:border-blue-400 hover:text-blue-700'
+                            ? 'bg-gray-900 border-gray-900 text-white'
+                            : 'bg-white border-gray-300 text-gray-600 hover:border-gray-400 hover:text-gray-900'
                         }`}
                       >
                         {f.label}
@@ -315,7 +310,7 @@ export default function VideoWorksAdmin() {
                   </div>
                 </div>
                 <div className="flex gap-1 shrink-0">
-                  <button onClick={() => openEdit(w)} className="p-1.5 text-gray-400 hover:text-blue-700 hover:bg-blue-50 rounded">
+                  <button onClick={() => openEdit(w)} className="p-1.5 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded">
                     <Edit2 size={15} />
                   </button>
                   <button onClick={() => handleDelete(w.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded">

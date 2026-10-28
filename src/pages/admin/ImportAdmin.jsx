@@ -209,8 +209,8 @@ export default function ImportAdmin() {
   return (
     <div>
       <div className="flex items-center gap-2 mb-6">
-        <Upload size={20} className="text-amber-600" />
-        <h1 className="text-xl font-bold text-gray-900">資料匯入</h1>
+        <Upload size={20} className="text-gray-400" />
+        <h1 className="text-xl text-gray-900" style={{ fontWeight: 400 }}>資料匯入</h1>
       </div>
 
       {/* ── 安全：只更新曲目 ── */}

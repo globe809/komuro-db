@@ -19,6 +19,7 @@ import Stats from './pages/Stats'
 import CompositionList from './pages/CompositionList'
 
 import AdminLayout from './pages/admin/AdminLayout'
+import AnalyticsDashboard from './pages/admin/AnalyticsDashboard'
 import Dashboard from './pages/admin/Dashboard'
 import DataQuality from './pages/admin/DataQuality'
 import CollectionInventory from './pages/admin/CollectionInventory'
@@ -69,6 +70,7 @@ export default function App() {
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="data-quality" element={<DataQuality />} />
+        <Route path="analytics" element={<AnalyticsDashboard />} />
         <Route path="collection" element={<CollectionInventory />} />
         <Route path="artists" element={<ArtistsAdmin />} />
         <Route path="singles" element={<SinglesAdmin />} />

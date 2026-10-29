@@ -38,3 +38,10 @@ test('unchecking the final owned format restores unowned status without mutation
   assert.equal(collectionProgress(work, 'albums', { ...entry, owned: { cd: false } }).status, 'unowned')
   assert.equal(entry.owned.cd, true)
 })
+
+test('provided songs track private digital ownership independently', () => {
+  assert.deepEqual(defaultTrackedFormats({}, 'providedSongs'), ['digital'])
+  assert.equal(collectionProgress({}, 'providedSongs').status, 'unowned')
+  assert.equal(collectionProgress({}, 'providedSongs', { owned: { digital: true } }).status, 'complete')
+  assert.notEqual(inventoryId('providedSongs', 'same'), inventoryId('singles', 'same'))
+})

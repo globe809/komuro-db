@@ -13,6 +13,7 @@ export default function CollectionInventory() {
   const singles = useCollection('singles', null)
   const albums = useCollection('albums', null)
   const videos = useCollection('videoWorks', null)
+  const providedSongs = useCollection('providedSongs', null)
   const inventory = useCollection('collectionInventory', null)
   const [params, setParams] = useSearchParams()
   const [page, setPage] = useState(1)
@@ -28,19 +29,19 @@ export default function CollectionInventory() {
   }
   const records = useMemo(() => new Map(inventory.data.map(entry => [entry.id, entry])), [inventory.data])
   const rows = useMemo(() => COLLECTION_KINDS.flatMap(type => {
-    const data = ({ singles, albums, videoWorks: videos })[type.key].data
+    const data = ({ singles, albums, videoWorks: videos, providedSongs })[type.key].data
     return data.map(work => {
       const id = inventoryId(type.key, work.id)
       return { ...work, key: id, kind: type.key, kindLabel: type.label, path: type.path, progress: collectionProgress(work, type.key, records.get(id)) }
     })
-  }).sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0) || (Number(b.month) || 0) - (Number(a.month) || 0) || (Number(b.day) || 0) - (Number(a.day) || 0) || String(a.title || '').localeCompare(String(b.title || ''))), [singles.data, albums.data, videos.data, records])
+  }).sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0) || (Number(b.month) || 0) - (Number(a.month) || 0) || (Number(b.day) || 0) - (Number(a.day) || 0) || String(a.title || '').localeCompare(String(b.title || ''))), [singles.data, albums.data, videos.data, providedSongs.data, records])
   const artists = useMemo(() => [...new Set(rows.map(row => row.artistName).filter(Boolean))].sort(), [rows])
   const years = useMemo(() => [...new Set(rows.map(row => row.year).filter(Boolean))].sort((a, b) => b - a), [rows])
   const matching = rows.filter(row => (!kind || row.kind === kind) && (!artist || row.artistName === artist) && (!year || String(row.year) === year) && (!format || row.progress.tracked.includes(format)) && `${row.title || ''} ${row.artistName || ''}`.toLowerCase().includes(keyword.toLowerCase()))
   const filtered = matching.filter(row => !status || (status === 'missing' ? row.progress.missingFormats.some(key => !format || key === format) : status === 'owned' ? row.progress.ownedFormats.some(key => !format || key === format) : row.progress.status === status))
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE)), currentPage = Math.min(page, pageCount)
   const visible = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
-  const errors = [singles.error, albums.error, videos.error, inventory.error].filter(Boolean)
+  const errors = [singles.error, albums.error, videos.error, providedSongs.error, inventory.error].filter(Boolean)
   const unavailable = errors.length > 0
 
   const save = async (row, values) => {
@@ -58,11 +59,11 @@ export default function CollectionInventory() {
     save(row, { trackedFormats })
   }
 
-  if ([singles, albums, videos, inventory].some(result => result.loading)) return <LoadingSpinner />
+  if ([singles, albums, videos, providedSongs, inventory].some(result => result.loading)) return <LoadingSpinner />
   return <div>
     <h1 className="text-2xl text-gray-900 mb-2">收藏／缺片清單</h1>
     <p className="text-sm text-gray-500 mb-2">勾選你已收藏的版本，找出還缺哪些作品或格式。每次勾選都會自動儲存。</p>
-    <p className="text-xs text-gray-400 mb-6">專輯預設追蹤 CD；單曲與影像作品依現有發行格式設定。可逐筆「調整格式」，選擇你想收藏的版本。</p>
+    <p className="text-xs text-gray-400 mb-6">提供樂曲預設追蹤數位檔案；專輯預設追蹤 CD；單曲與影像作品依現有發行格式設定。可逐筆「調整格式」，選擇你想收藏的版本。</p>
     {unavailable && <p role="alert" className="rounded-lg bg-red-50 text-red-700 p-3 mb-4 text-sm">無法完整讀取資料，暫停勾選以避免誤判收藏狀態：{errors.join('；')}</p>}
     {saveError && <p role="alert" className="text-sm text-red-600 mb-4">{saveError}</p>}
     <p role="status" aria-live="polite" className="text-xs text-green-700 min-h-[1.25rem] mb-3">{notice}</p>
@@ -98,7 +99,7 @@ export default function CollectionInventory() {
 function CollectionRow({ row, editing, saving, disabled, onEdit, onOwned, onTracked }) {
   return <>
     <tr className="hover:bg-gray-50">
-      <th scope="row" className="p-3 font-normal min-w-[13rem] max-w-xs whitespace-normal"><Link to={`/${row.path}/${row.id}`} className="text-gray-900 hover:underline">{row.title || '未命名'}</Link><p className="text-xs text-gray-400 mt-1">{row.kindLabel} · {row.artistName || '未填藝人'}</p></th>
+      <th scope="row" className="p-3 font-normal min-w-[13rem] max-w-xs whitespace-normal"><Link to={row.kind === 'providedSongs' ? `/admin/provided-songs` : `/${row.path}/${row.id}`} className="text-gray-900 hover:underline">{row.title || '未命名'}</Link><p className="text-xs text-gray-400 mt-1">{row.kindLabel} · {row.artistName || '未填藝人'}</p></th>
       <td className="p-3 text-xs text-gray-500">{formatReleaseDate(row.year, row.month, row.day)}</td>
       {COLLECTION_FORMATS.map(type => <td key={type.key} className="p-3 text-center">{row.progress.tracked.includes(type.key) ? <input type="checkbox" aria-label={`${row.title}（${row.artistName || row.kindLabel}，${formatReleaseDate(row.year, row.month, row.day)}）：已收藏 ${type.label}`} checked={row.progress.owned[type.key]} disabled={saving || disabled} onChange={event => onOwned(type.key, event.target.checked)} className="w-4 h-4 collection-check cursor-pointer disabled:opacity-40" /> : <span className="text-gray-300">—</span>}</td>)}
       <td className="p-3"><span className={`inline-flex gap-1 items-center text-xs rounded px-2 py-1 ${row.progress.status === 'complete' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-600'}`}>{row.progress.status === 'complete' && <Check size={12} />}{saving ? '儲存中…' : statusLabels[row.progress.status]}</span>{row.progress.missingFormats.length > 0 && <p className="text-xs text-gray-400 mt-1">缺 {COLLECTION_FORMATS.filter(type => row.progress.missingFormats.includes(type.key)).map(type => type.label).join('、')}</p>}</td>

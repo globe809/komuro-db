@@ -13,7 +13,7 @@ service cloud.firestore {
       let tracked = data.get('trackedFormats', []);
       return data.keys().hasOnly(['schemaVersion', 'kind', 'workId', 'owned', 'trackedFormats', 'updatedAt'])
           && data.schemaVersion == 1
-          && data.kind in ['singles', 'albums', 'videoWorks']
+          && data.kind in ['singles', 'albums', 'videoWorks', 'providedSongs']
           && data.workId is string
           && recordId == data.kind + '__' + data.workId
           && owned is map

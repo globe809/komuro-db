@@ -6,6 +6,7 @@ export const COLLECTION_FORMATS = [
   { key: 'digital', label: '數位' },
 ]
 export const COLLECTION_KINDS = [
+  { key: 'providedSongs', label: '提供樂曲', path: 'provided-songs' },
   { key: 'singles', label: '單曲', path: 'singles' },
   { key: 'albums', label: '專輯', path: 'albums' },
   { key: 'videoWorks', label: '影像作品', path: 'video-works' },
@@ -13,6 +14,7 @@ export const COLLECTION_KINDS = [
 const formatKeys = COLLECTION_FORMATS.map(format => format.key)
 export const inventoryId = (kind, id) => `${kind}__${id}`
 export function defaultTrackedFormats(work, kind) {
+  if (kind === 'providedSongs') return ['digital']
   const raw = Array.isArray(work.formats) ? work.formats : work.format ? [work.format] : []
   const mapped = raw.map(value => {
     const format = String(value).normalize('NFKC').toLowerCase().replace(/[\s_-]/g, '')

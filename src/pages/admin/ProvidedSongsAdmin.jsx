@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Mic2, Plus, Trash2, Edit2, X, Search, Image, Youtube } from 'lucide-react'
-import { useCollection, addDocument, updateDocument, deleteDocument } from '../../hooks/useFirestore'
+import { useCollection, addDocument, updateDocument, deleteDocument, setDocument } from '../../hooks/useFirestore'
+import { inventoryId } from '../../utils/collectionInventory'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import { MONTHS, PROVIDED_SONG_KINDS, getProvidedSongKindLabel } from '../../utils/constants'
 import { formatReleaseDate } from '../../utils/formatDate'
@@ -26,6 +27,24 @@ const EMPTY_FORM = {
 export default function ProvidedSongsAdmin() {
   const { data: songs, loading } = useCollection('providedSongs', 'year', 'asc')
 
+  const inventory = useCollection('collectionInventory', null)
+  const records = useMemo(() => new Map(inventory.data.map(entry => [entry.id, entry])), [inventory.data])
+  const [digitalFilter, setDigitalFilter] = useState('')
+  const [digitalSaving, setDigitalSaving] = useState({})
+  const [digitalNotice, setDigitalNotice] = useState('')
+  const [digitalError, setDigitalError] = useState('')
+  const hasDigital = song => records.get(inventoryId('providedSongs', song.id))?.owned?.digital === true
+  const saveDigital = async (song, checked) => {
+    if (digitalSaving[song.id] || inventory.loading || inventory.error) return
+    setDigitalSaving(previous => ({ ...previous, [song.id]: true }))
+    setDigitalError(''); setDigitalNotice('')
+    try {
+      await setDocument('collectionInventory', inventoryId('providedSongs', song.id), { schemaVersion: 1, kind: 'providedSongs', workId: song.id, owned: { digital: checked } })
+      setDigitalNotice(`已儲存「${song.title}」的數位檔案紀錄`)
+    } catch (error) { setDigitalError(`儲存失敗：${error.message}，請重新勾選重試。`) }
+    finally { setDigitalSaving(previous => ({ ...previous, [song.id]: false })) }
+  }
+
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState(EMPTY_FORM)
   const [editId, setEditId] = useState(null)
@@ -33,13 +52,12 @@ export default function ProvidedSongsAdmin() {
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    if (!search) return songs
     const kw = search.toLowerCase()
     return songs.filter(s =>
-      s.title?.toLowerCase().includes(kw) ||
-      s.artistName?.toLowerCase().includes(kw)
+      (!kw || s.title?.toLowerCase().includes(kw) || s.artistName?.toLowerCase().includes(kw)) &&
+      (!digitalFilter || (digitalFilter === 'owned' ? hasDigital(s) : !hasDigital(s)))
     )
-  }, [songs, search])
+  }, [songs, search, digitalFilter, records])
 
   const openNew = () => { setForm(EMPTY_FORM); setEditId(null); setShowForm(true) }
   const openEdit = (s) => { setForm({ ...EMPTY_FORM, ...s }); setEditId(s.id); setShowForm(true) }
@@ -98,6 +116,16 @@ export default function ProvidedSongsAdmin() {
         />
       </div>
 
+      <div className="flex flex-wrap items-center gap-3 mb-4">
+        <select aria-label="數位檔案狀態" className="form-select sm:w-48" value={digitalFilter} disabled={inventory.loading || !!inventory.error} onChange={e => setDigitalFilter(e.target.value)}>
+          <option value="">全部數位檔案狀態</option><option value="owned">已有數位檔案</option><option value="missing">尚缺數位檔案</option>
+        </select>
+        <span className="text-xs text-gray-500">{inventory.loading || inventory.error ? '收藏紀錄讀取中或無法讀取' : `${filtered.length} 首・已有數位檔案 ${filtered.filter(hasDigital).length} 首・尚缺 ${filtered.filter(song => !hasDigital(song)).length} 首`}</span>
+      </div>
+      <p className="text-xs text-gray-400 mb-3">勾選代表你已擁有數位檔案，會自動儲存；僅管理員可查看收藏紀錄。</p>
+      {inventory.error && <p role="alert" className="text-sm text-red-600 mb-3">收藏紀錄讀取失敗，暫停勾選：{inventory.error}</p>}
+      {digitalError && <p role="alert" className="text-sm text-red-600 mb-3">{digitalError}</p>}
+      <p role="status" className="text-xs text-green-700 mb-3">{digitalNotice}</p>
       {/* 表單 Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-8 px-4 pb-4 overflow-y-auto">
@@ -256,7 +284,7 @@ export default function ProvidedSongsAdmin() {
         ) : (
           <div className="divide-y divide-gray-50">
             {filtered.map(s => (
-              <div key={s.id} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
+              <div key={s.id} className="flex flex-wrap items-center gap-3 px-4 py-3 hover:bg-gray-50">
                 {/* 封面縮圖 */}
                 <div className="w-10 h-10 rounded bg-rose-50 overflow-hidden shrink-0">
                   {s.imageUrl
@@ -279,6 +307,10 @@ export default function ProvidedSongsAdmin() {
                     <span>· {formatReleaseDate(s.year, s.month, s.day)}</span>
                   </div>
                 </div>
+                <label className="flex items-center gap-2 text-xs text-gray-600 shrink-0">
+                  <input type="checkbox" className="collection-check w-4 h-4" aria-label={`${s.title}（${s.artistName || '未填藝人'}）：已有數位檔案`} checked={hasDigital(s)} disabled={inventory.loading || !!inventory.error || !!digitalSaving[s.id]} onChange={e => saveDigital(s, e.target.checked)} />
+                  {digitalSaving[s.id] ? '儲存中…' : '已有數位檔案'}
+                </label>
                 <div className="flex gap-1 shrink-0">
                   <button onClick={() => openEdit(s)} className="p-1.5 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded"><Edit2 size={15} /></button>
                   <button onClick={() => handleDelete(s.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"><Trash2 size={15} /></button>

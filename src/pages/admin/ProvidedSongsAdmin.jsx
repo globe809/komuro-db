@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Mic2, Plus, Trash2, Edit2, X, Search, Image, Youtube } from 'lucide-react'
 import { useCollection, addDocument, updateDocument, deleteDocument, setDocument } from '../../hooks/useFirestore'
+import { compareReleaseDate } from '../../utils/sortReleaseDate'
 import { inventoryId } from '../../utils/collectionInventory'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import { MONTHS, PROVIDED_SONG_KINDS, getProvidedSongKindLabel } from '../../utils/constants'
@@ -25,7 +26,7 @@ const EMPTY_FORM = {
 }
 
 export default function ProvidedSongsAdmin() {
-  const { data: songs, loading } = useCollection('providedSongs', 'year', 'asc')
+  const { data: songs, loading } = useCollection('providedSongs', null)
 
   const inventory = useCollection('collectionInventory', null)
   const records = useMemo(() => new Map(inventory.data.map(entry => [entry.id, entry])), [inventory.data])
@@ -49,6 +50,7 @@ export default function ProvidedSongsAdmin() {
   const [form, setForm] = useState(EMPTY_FORM)
   const [editId, setEditId] = useState(null)
   const [saving, setSaving] = useState(false)
+  const [sortOrder, setSortOrder] = useState('asc')
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
@@ -56,8 +58,8 @@ export default function ProvidedSongsAdmin() {
     return songs.filter(s =>
       (!kw || s.title?.toLowerCase().includes(kw) || s.artistName?.toLowerCase().includes(kw)) &&
       (!digitalFilter || (digitalFilter === 'owned' ? hasDigital(s) : !hasDigital(s)))
-    )
-  }, [songs, search, digitalFilter, records])
+    ).sort((a, b) => compareReleaseDate(a, b, sortOrder))
+  }, [songs, search, digitalFilter, records, sortOrder])
 
   const openNew = () => { setForm(EMPTY_FORM); setEditId(null); setShowForm(true) }
   const openEdit = (s) => { setForm({ ...EMPTY_FORM, ...s }); setEditId(s.id); setShowForm(true) }
@@ -117,6 +119,7 @@ export default function ProvidedSongsAdmin() {
       </div>
 
       <div className="flex flex-wrap items-center gap-3 mb-4">
+        <select aria-label="發行日期排序" className="form-select sm:w-48" value={sortOrder} onChange={e => setSortOrder(e.target.value)}><option value="asc">發行日期：舊到新</option><option value="desc">發行日期：新到舊</option></select>
         <select aria-label="數位檔案狀態" className="form-select sm:w-48" value={digitalFilter} disabled={inventory.loading || !!inventory.error} onChange={e => setDigitalFilter(e.target.value)}>
           <option value="">全部數位檔案狀態</option><option value="owned">已有數位檔案</option><option value="missing">尚缺數位檔案</option>
         </select>

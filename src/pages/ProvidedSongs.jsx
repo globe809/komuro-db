@@ -1,6 +1,8 @@
 import { useMemo, useState, useRef } from 'react'
 import { Mic2, Search, X, ChevronRight, Disc3, Youtube } from 'lucide-react'
 import { useCollection } from '../hooks/useFirestore'
+import YearTimeline from '../components/YearTimeline'
+import { compareReleaseDate } from '../utils/sortReleaseDate'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { formatReleaseDate } from '../utils/formatDate'
 import { getProvidedSongKindLabel } from '../utils/constants'
@@ -14,7 +16,7 @@ const KIND_COLOR = {
 }
 
 export default function ProvidedSongs() {
-  const { data: songs, loading } = useCollection('providedSongs', 'year', 'asc')
+  const { data: songs, loading } = useCollection('providedSongs', null)
   const { data: artistsData } = useCollection('artists', 'name', 'asc')
   const [search, setSearch] = useState('')
   const [filterKind, setFilterKind] = useState('')
@@ -67,13 +69,7 @@ export default function ProvidedSongs() {
     if (filterKind) list = list.filter(s => s.kind === filterKind)
     if (filterArtist) list = list.filter(s => s.artistName === filterArtist)
 
-    list.sort((a, b) => {
-      const ay = a.year ?? 0, by = b.year ?? 0
-      const am = a.month ?? 0, bm = b.month ?? 0
-      const ad = a.day ?? 0, bd = b.day ?? 0
-      const cmp = ay !== by ? ay - by : am !== bm ? am - bm : ad - bd
-      return sortOrder === 'asc' ? cmp : -cmp
-    })
+    list.sort((a, b) => compareReleaseDate(a, b, sortOrder))
     return list
   }, [songs, search, filterKind, filterArtist, sortOrder])
 
@@ -212,12 +208,13 @@ export default function ProvidedSongs() {
           </select>
         )}
         <select
+          aria-label="發行日期排序"
           className="form-select sm:w-36"
           value={sortOrder}
           onChange={e => setSortOrder(e.target.value)}
         >
-          <option value="asc">年份：舊到新</option>
-          <option value="desc">年份：新到舊</option>
+          <option value="asc">發行日期：舊到新</option>
+          <option value="desc">發行日期：新到舊</option>
         </select>
       </div>
 
@@ -233,8 +230,7 @@ export default function ProvidedSongs() {
             沒有符合條件的結果
           </p>
         ) : (
-          <div className="bg-white rounded-2xl overflow-hidden divide-y divide-gray-100" style={{ boxShadow: '0 0 0 1px rgba(0,0,0,0.07)' }}>
-            {filtered.map((song, i) => (
+          <YearTimeline items={filtered} direction={sortOrder} layout="list" renderItem={(song, i) => (
               <div key={song.id || i} className="flex items-center gap-3 px-4 py-3.5 hover:bg-gray-50 transition-colors">
                 <div className="w-11 h-11 rounded overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
                   {song.imageUrl
@@ -272,8 +268,7 @@ export default function ProvidedSongs() {
                   {formatReleaseDate(song.year, song.month, song.day)}
                 </div>
               </div>
-            ))}
-          </div>
+            )} />
         )
       )}
     </div>

@@ -6,7 +6,7 @@ import useBrowseState from '../hooks/useBrowseState'
 import { readBrowseState, writeBrowseState } from '../utils/browseStorage'
 import ReleaseTable from './ReleaseTable'
 
-export default function YearTimeline({ items, renderItem, direction = 'desc', kind }) {
+export default function YearTimeline({ items, renderItem, direction = 'desc', kind, layout = 'cards' }) {
   const location = useLocation()
   const storageKey = location.pathname
   const positionKey = `position:${location.pathname}${location.search}`
@@ -66,11 +66,11 @@ export default function YearTimeline({ items, renderItem, direction = 'desc', ki
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
-        <div className="inline-flex rounded-lg border border-gray-200 p-1 bg-white" role="group" aria-label="清單檢視方式">
+        {layout !== 'list' && <div className="inline-flex rounded-lg border border-gray-200 p-1 bg-white" role="group" aria-label="清單檢視方式">
           {[['cards', '卡片', Grid], ['table', '表格', Table]].map(([value, label, Icon]) => (
             <button key={value} type="button" aria-pressed={mode === value} onClick={() => setMode(value)} className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs ${mode === value ? 'control-selected' : 'text-gray-500 hover:bg-gray-50'}`}><Icon size={14} />{label}</button>
           ))}
-        </div>
+        </div>}
         <div className="flex gap-3 text-xs text-gray-500">
           <button type="button" onClick={() => setCollapsed({})} className="hover:text-gray-900">全部展開</button>
           <button type="button" onClick={() => setCollapsed(Object.fromEntries(groups.map(group => [group.year, true])))} className="hover:text-gray-900">全部收合</button>
@@ -126,7 +126,7 @@ export default function YearTimeline({ items, renderItem, direction = 'desc', ki
               </h2>
               <span className="text-xs text-gray-400">{releases.length} 筆</span>
             </div>
-            {!collapsed[year] && (mode === 'table' ? <ReleaseTable items={releases} kind={kind} /> : <div className={`grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-[30px] ${open ? 'lg:grid-cols-4 xl:grid-cols-5' : 'md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'}`}>
+            {!collapsed[year] && (layout === 'list' ? <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 divide-y divide-gray-100">{releases.map(renderItem)}</div> : mode === 'table' ? <ReleaseTable items={releases} kind={kind} /> : <div className={`grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-[30px] ${open ? 'lg:grid-cols-4 xl:grid-cols-5' : 'md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'}`}>
               {releases.map(renderItem)}
             </div>)}
           </section>

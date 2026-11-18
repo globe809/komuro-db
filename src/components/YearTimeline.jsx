@@ -6,7 +6,7 @@ import useBrowseState from '../hooks/useBrowseState'
 import { readBrowseState, writeBrowseState } from '../utils/browseStorage'
 import ReleaseTable from './ReleaseTable'
 
-export default function YearTimeline({ items, renderItem, direction = 'desc', kind, layout = 'cards' }) {
+export default function YearTimeline({ items, renderItem, direction = 'desc', kind, layout = 'cards', renderGroup }) {
   const location = useLocation()
   const storageKey = location.pathname
   const positionKey = `position:${location.pathname}${location.search}`
@@ -126,7 +126,7 @@ export default function YearTimeline({ items, renderItem, direction = 'desc', ki
               </h2>
               <span className="text-xs text-gray-400">{releases.length} 筆</span>
             </div>
-            {!collapsed[year] && (layout === 'list' ? <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 divide-y divide-gray-100">{releases.map(renderItem)}</div> : mode === 'table' ? <ReleaseTable items={releases} kind={kind} /> : <div className={`grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-[30px] ${open ? 'lg:grid-cols-4 xl:grid-cols-5' : 'md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'}`}>
+            {!collapsed[year] && (renderGroup ? renderGroup(releases, year) : layout === 'list' ? <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 divide-y divide-gray-100">{releases.map(renderItem)}</div> : mode === 'table' ? <ReleaseTable items={releases} kind={kind} /> : <div className={`grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-[30px] ${open ? 'lg:grid-cols-4 xl:grid-cols-5' : 'md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'}`}>
               {releases.map(renderItem)}
             </div>)}
           </section>

@@ -1,7 +1,10 @@
 import { useMemo } from 'react'
-import { useSearchParams, Link } from 'react-router-dom'
-import { PenLine, ArrowUpDown, Music, Disc3 } from 'lucide-react'
+import { useSearchParams } from 'react-router-dom'
+import { PenLine, ArrowUpDown } from 'lucide-react'
 import { useCollection } from '../hooks/useFirestore'
+import YearTimeline from '../components/YearTimeline'
+import CompositionTable, { COMPOSITION_TYPES } from '../components/CompositionTable'
+import { compareReleaseDate } from '../utils/sortReleaseDate'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { formatReleaseDate, toSortableDate } from '../utils/formatDate'
 
@@ -10,8 +13,8 @@ const COMPOSER = '小室哲哉'
 const SORT_OPTIONS = [
   { value: 'date_desc', label: '發行日期：新→舊' },
   { value: 'date_asc', label: '發行日期：舊→新' },
-  { value: 'title_asc', label: '歌名：A → Z' },
-  { value: 'title_desc', label: '歌名：Z → A' },
+  { value: 'title_asc', label: '各年歌名：A → Z' },
+  { value: 'title_desc', label: '各年歌名：Z → A' },
 ]
 
 /**
@@ -82,6 +85,7 @@ function isTitleToSkip(title) {
 export default function CompositionList() {
   const [searchParams, setSearchParams] = useSearchParams()
   const sortBy = searchParams.get('sort') || 'date_desc'
+  const sourceType = COMPOSITION_TYPES.some(type => type.value === searchParams.get('type')) ? searchParams.get('type') : ''
   const keyword = searchParams.get('q') || ''
 
   const setParam = (key, value) => {
@@ -93,9 +97,9 @@ export default function CompositionList() {
     }, { replace: true })
   }
 
-  const { data: singles, loading: ls } = useCollection('singles', 'year', 'desc')
-  const { data: albums, loading: la } = useCollection('albums', 'year', 'desc')
-  const { data: providedSongs, loading: lp } = useCollection('providedSongs', 'year', 'desc')
+  const { data: singles, loading: ls } = useCollection('singles', null)
+  const { data: albums, loading: la } = useCollection('albums', null)
+  const { data: providedSongs, loading: lp } = useCollection('providedSongs', null)
 
   const loading = ls || la || lp
 
@@ -181,13 +185,13 @@ export default function CompositionList() {
       const key = `${song.artistName.toLowerCase()}__${normalizeTitle(song.title)}`
       const date = toSortableDate(song.year, song.month, song.day)
       if (!grouped.has(key)) {
-        grouped.set(key, { ...song, _date: date })
+        grouped.set(key, { ...song, _key: key, _date: date })
       } else {
         const existing = grouped.get(key)
         // Keep earliest (smallest date, but 0 = unknown → prefer known)
         const existingDate = existing._date
         if (date > 0 && (existingDate === 0 || date < existingDate)) {
-          grouped.set(key, { ...song, _date: date })
+          grouped.set(key, { ...song, _key: key, _date: date })
         }
       }
     })
@@ -195,7 +199,7 @@ export default function CompositionList() {
     return [...grouped.values()]
   }, [singles, albums, providedSongs, loading])
 
-  const filtered = useMemo(() => {
+  const searched = useMemo(() => {
     let list = allSongs
     if (keyword) {
       const kw = keyword.toLowerCase()
@@ -205,18 +209,22 @@ export default function CompositionList() {
         s.sourceTitle?.toLowerCase().includes(kw)
       )
     }
+    return list
+  }, [allSongs, keyword])
+
+  const filtered = useMemo(() => {
+    const list = sourceType ? searched.filter(song => song.sourceType === sourceType) : searched
     return [...list].sort((a, b) => {
-      if (sortBy === 'date_asc') return a._date - b._date
       if (sortBy === 'title_asc') return (a.title || '').localeCompare(b.title || '', 'ja')
       if (sortBy === 'title_desc') return (b.title || '').localeCompare(a.title || '', 'ja')
-      return b._date - a._date
+      return compareReleaseDate(a, b, sortBy === 'date_asc' ? 'asc' : 'desc')
     })
-  }, [allSongs, keyword, sortBy])
+  }, [searched, sourceType, sortBy])
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex flex-wrap items-center gap-3 mb-6">
         <h1 className="text-3xl sm:text-4xl text-gray-900" style={{ fontWeight: 300, letterSpacing: "0.1em", textTransform: "uppercase" }}>Works</h1>
         {!loading && (
           <span className="text-sm text-gray-400">{filtered.length}</span>
@@ -224,6 +232,7 @@ export default function CompositionList() {
         <div className="ml-auto flex items-center gap-2">
           <ArrowUpDown size={15} className="text-gray-500" />
           <select
+            aria-label="作品排序"
             value={sortBy}
             onChange={e => setParam('sort', e.target.value)}
             className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-gray-300 text-gray-900"
@@ -244,87 +253,23 @@ export default function CompositionList() {
         />
       </div>
 
+      <div className="flex flex-wrap gap-2 mb-3" role="group" aria-label="作品種別篩選">
+        {[{ value: '', label: '全部' }, ...COMPOSITION_TYPES].map(type => (
+          <button key={type.value} type="button" aria-pressed={sourceType === type.value} onClick={() => setParam('type', type.value)} className={`rounded-full border px-4 py-2 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-300 ${sourceType === type.value ? 'control-selected' : 'border-gray-200 bg-white text-gray-500 hover:bg-stone-100'}`}>
+            {type.label}<span className="ml-2 text-xs text-gray-400">{type.value ? searched.filter(song => song.sourceType === type.value).length : searched.length}</span>
+          </button>
+        ))}
+      </div>
+      <p className="text-xs text-gray-500 mb-6">依首次收錄作品分類並按首次發行年份分組；歌名排序套用於各年份內。窄螢幕可左右捲動表格查看所有欄位。</p>
       {loading ? (
         <LoadingSpinner />
       ) : filtered.length === 0 ? (
         <div className="text-center py-16 text-gray-500">
           <PenLine size={48} className="mx-auto mb-3 opacity-20" />
-          <p>{keyword ? `找不到「${keyword}」相關結果` : '尚無作曲資料'}</p>
+          <p>{keyword ? `找不到「${keyword}」相關結果` : '沒有符合種別的作曲資料'}</p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] overflow-hidden">
-          {/* Table header */}
-          <div className="hidden sm:grid grid-cols-[2fr_1.5fr_2fr_1fr_auto] gap-4 px-5 py-3 border-b border-gray-100 text-xs text-gray-400">
-            <div>歌名</div>
-            <div>演唱藝人</div>
-            <div>首次收錄作品</div>
-            <div>發行日期</div>
-            <div>種別</div>
-          </div>
-
-          <div className="divide-y divide-gray-100">
-            {filtered.map((song, i) => (
-              <div
-                key={i}
-                className="grid grid-cols-1 sm:grid-cols-[2fr_1.5fr_2fr_1fr_auto] gap-1 sm:gap-4 items-start sm:items-center px-5 py-3.5 hover:bg-[#f5f5f7] transition-colors"
-              >
-                {/* 歌名 */}
-                <div className="text-sm text-gray-900">{song.title}</div>
-
-                {/* 演唱藝人 */}
-                <div className="text-sm text-gray-500">
-                  {song.artistName ? (
-                    <Link
-                      to={`/artists/${encodeURIComponent(song.artistName)}`}
-                      className="hover:text-gray-700 hover:underline"
-                    >
-                      {song.artistName}
-                    </Link>
-                  ) : '—'}
-                </div>
-
-                {/* 首次收錄作品 */}
-                <div className="text-sm text-gray-500">
-                  {song.sourceId ? (
-                    <Link
-                      to={`/${song.sourceType === 'single' ? 'singles' : 'albums'}/${song.sourceId}`}
-                      className="hover:text-gray-700 hover:underline flex items-center gap-1.5"
-                    >
-                      {song.sourceType === 'single'
-                        ? <Music size={12} className="text-gray-400 shrink-0" />
-                        : <Disc3 size={12} className="text-indigo-600 shrink-0" />
-                      }
-                      <span className="truncate">{song.sourceTitle}</span>
-                    </Link>
-                  ) : (
-                    <span className="flex items-center gap-1.5">
-                      <Music size={12} className="text-rose-400 shrink-0" />
-                      <span className="truncate">{song.sourceTitle || '—'}</span>
-                    </span>
-                  )}
-                </div>
-
-                {/* 發行日期 */}
-                <div className="text-xs text-gray-500">
-                  {formatReleaseDate(song.year, song.month, song.day) || '—'}
-                </div>
-
-                {/* 種別 */}
-                <div>
-                  {song.sourceType === 'single' && (
-                    <span className="badge badge-blue">單曲</span>
-                  )}
-                  {song.sourceType === 'album' && (
-                    <span className="badge badge-indigo">專輯曲</span>
-                  )}
-                  {song.sourceType === 'provided' && (
-                    <span className="badge badge-gray">提供樂曲</span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <YearTimeline items={filtered} direction={sortBy === 'date_asc' ? 'asc' : 'desc'} layout="list" renderGroup={(songs, year) => <CompositionTable songs={songs} year={year} />} />
       )}
     </div>
   )

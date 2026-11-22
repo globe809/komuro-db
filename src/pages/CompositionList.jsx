@@ -6,7 +6,7 @@ import YearTimeline from '../components/YearTimeline'
 import CompositionTable, { COMPOSITION_TYPES } from '../components/CompositionTable'
 import { compareReleaseDate } from '../utils/sortReleaseDate'
 import LoadingSpinner from '../components/LoadingSpinner'
-import { formatReleaseDate, toSortableDate } from '../utils/formatDate'
+import { dedupeCompositions } from '../utils/compositionVersions'
 
 const COMPOSER = '小室哲哉'
 
@@ -16,54 +16,6 @@ const SORT_OPTIONS = [
   { value: 'title_asc', label: '各年歌名：A → Z' },
   { value: 'title_desc', label: '各年歌名：Z → A' },
 ]
-
-/**
- * Returns true if the text inside brackets/dashes describes a variant
- * (remix, version, mix, edit, instrumental, etc.)
- */
-function isVariantContent(inner) {
-  // Matches any string that contains these keywords as whole words / boundary matches
-  return /\b(?:mix(?:es)?|remix|re-?mix|version|ver\.?|edit|instrumental|inst\.?|orchestral|acoustic|piano|mixture|extended|straight)\b/i.test(inner)
-    || /カラオケ/.test(inner)
-    || /\boff\s*vocal\b/i.test(inner)
-    || /\bbacking\b/i.test(inner)
-}
-
-/**
- * Normalize a song title for deduplication:
- * - Strip parenthetical / bracket content that describes a variant
- *   e.g. (album mix), (tk remix), (SPACE GROOVE MIX), (united states mix),
- *        (UK DANCE VERSION), (Expanded Version), (LA Session Version),
- *        (-Version. 2023-), (manhattan b.mix), (bob brockman mix), etc.
- * - Strip dash-bounded variant tags e.g. -Mixture with Canon in D-
- * - Exception: if title still contains " / " after stripping, the remaining
- *   text (e.g. "/ a-nation's party") keeps it distinct, so it won't collapse
- *   with plain versions of the main title.
- */
-function normalizeTitle(title) {
-  if (!title) return ''
-
-  let s = title
-
-  // 1. Strip anything inside ( ), （ ）, [ ], 【 】 when content is a variant
-  s = s.replace(/\s*[\(（\[【]([^\)）\]】]*)[\)）\]】]/g, (match, inner) => {
-    return isVariantContent(inner) ? '' : match
-  })
-
-  // 2. Strip dash-bounded tags when content is a variant, e.g. -Mixture with Canon in D-
-  s = s.replace(/\s+-([^-]+)-/g, (match, inner) => {
-    return isVariantContent(inner) ? '' : match
-  })
-
-  // 3. Strip known variant keywords at the end of title without brackets
-  //    e.g. "SONG tk remix" / "SONG REMIX-VERSION" / "SONG SEQ OVER DUB MIX"
-  s = s.replace(
-    /\s+(?:tk\s+remix|album\s+mix|seq\s+over\s+dub\s+mix|remix-version|re-?mix|remix)\s*$/gi,
-    ''
-  )
-
-  return s.trim().toLowerCase()
-}
 
 function includesComposer(str) {
   return str && str.includes(COMPOSER)
@@ -178,25 +130,9 @@ export default function CompositionList() {
       }
     })
 
-    // Dedup: group by artistName (lowercase) + normalizedTitle
-    // Keep earliest release per group
-    const grouped = new Map()
-    raw.forEach(song => {
-      const key = `${song.artistName.toLowerCase()}__${normalizeTitle(song.title)}`
-      const date = toSortableDate(song.year, song.month, song.day)
-      if (!grouped.has(key)) {
-        grouped.set(key, { ...song, _key: key, _date: date })
-      } else {
-        const existing = grouped.get(key)
-        // Keep earliest (smallest date, but 0 = unknown → prefer known)
-        const existingDate = existing._date
-        if (date > 0 && (existingDate === 0 || date < existingDate)) {
-          grouped.set(key, { ...song, _key: key, _date: date })
-        }
-      }
-    })
+    // Keep named mixes/versions distinct; repeated appearances of the same version share one entry.
+    return dedupeCompositions(raw)
 
-    return [...grouped.values()]
   }, [singles, albums, providedSongs, loading])
 
   const searched = useMemo(() => {
@@ -260,7 +196,7 @@ export default function CompositionList() {
           </button>
         ))}
       </div>
-      <p className="text-xs text-gray-500 mb-6">依首次收錄作品分類並按首次發行年份分組；歌名排序套用於各年份內。窄螢幕可左右捲動表格查看所有欄位。</p>
+      <p className="text-xs text-gray-500 mb-6">不同 Mix／Remix／Version 分別列出，同版本重複收錄保留最早一筆。依首次收錄作品分類並按首次發行年份分組；歌名排序套用於各年份內。窄螢幕可左右捲動表格查看所有欄位。</p>
       {loading ? (
         <LoadingSpinner />
       ) : filtered.length === 0 ? (

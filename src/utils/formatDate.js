@@ -12,8 +12,9 @@ export function formatReleaseDate(year, month, day) {
  * 產生排序用的數值（YYYYMMDD 格式數字）
  */
 export function toSortableDate(year, month, day) {
-  const y = year ?? 0
-  const m = month ?? 0
-  const d = day ?? 0
+  const y = Number(year) || 0
+  const m = Number(month) || 0
+  const d = Number(day) || 0
+  if (!y) return 0
   return y * 10000 + m * 100 + d
 }
